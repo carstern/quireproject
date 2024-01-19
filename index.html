@@ -3,12 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./main.css">
+    <!-- meta data here -->
+    <!-- google font links here -->
+    <!-- Här länkar vi vår css eva.css, jason.css....-->
+    <title>Quire</title>
 </head>
 <body>
-    
+    <!-- behövs en header? -->
+    <section class="nav-container">
+        <nav>
+            <!-- img = quire logo -->
+            <img src="" alt="quire-logo"> 
+            <a href="" class="nav-link">Search</a>
+            <a href="" class="nav-link">Stared</a>
+            <a href="" class="nav-link">Statistics</a>
+            <a href="" class="nav-link">Templates</a>
+            <a href="" class="nav-link">Settings</a>
+            
+        </nav>
+    </section>
 
-    <script src="./main.js"></script>
+   
+    <main>
+        <div class="nav-output-container">
+            <!-- innehåll skapas dynamiskt i js? beronde på default view = alla anteckingar -->
+            <!-- stared view = alla stjärnmarkerade anteckningar -->
+            <!-- search result view = alla sökresultat -->
+
+            <!-- card (section) skapas dynamiskt av knapptryck -->
+            <!-- exempel:
+                <section class="card">
+                <h3>title</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores vero velit ea repellendus id, vel corrupti, accusamus aperiam explicabo minima cupiditate perferendis illum totam nisi. Sequi nam veniam cupiditate nobis.</p>
+                + 2 buttons - delete | star ==> vid hover
+                || ... i mobile view ==> statiska knappar tilll en början - sen swipe funktion
+            </section> -->
+        </div>
+        <div class="main-output-container">
+            <button class="more-button">More</button>
+            <!-- information hur amn änvänder sidan - visas först ==> ens senaste anteckning-->
+            <!-- skapa-anteckning ==> en notepad med titel + text area? -->
+            <!-- tool bar skapas dynamiskt? -->
+            <button class="floating-control-menu">*Jumis fina bild*</button>
+            <!--  -->
+        </div>
+    </main>
+    <!-- scripts here 
+    eva.js, jumi.js, jason.js....-->
 </body>
-</html>
+</html>                   
