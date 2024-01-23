@@ -13,7 +13,6 @@
 const mainOutputContainer = document.getElementById('main-output-container');
 const createNoteBtn = document.getElementById('new-note-button');
 createNoteBtn.addEventListener('click', function () {
-    //skapar en basic 'mall' en input för rubrik, en textarea för brödtext 
     // Create a new Date object
     const today = new Date();
     // Get the current date components
@@ -23,9 +22,20 @@ createNoteBtn.addEventListener('click', function () {
     // Format the date as a string (e.g., "YYYY-MM-DD")
     const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
     mainOutputContainer.innerHTML += `
-    <input placeholder="Add your title">
+    <input placeholder="Add your title" id="notesTitle">
     <p> Date created: ${formattedDate} </p>
-    <textarea id="userInput" name="userInput" placeholder="Type your notes here"></textarea>`;
+    <textarea id="noteInput" name="userInput" placeholder="Type your notes here"></textarea>
+    <button id="save-note-button">Save</button>`;
+    // Get the dynamically created saveBtn element
+    const saveBtn = document.getElementById('save-note-button');
+    // Attach event listener to the dynamically created saveBtn
+    saveBtn.addEventListener('click', function () {
+        const titleInput = document.getElementById('notesTitle');
+        const noteTextArea = document.getElementById('noteInput');
+        const savedTitle = titleInput.value;
+        const savedNote = noteTextArea.value;
+        console.log(savedNote + savedTitle);
+    });
 });
 // key-event för input + textarea (tab) --> inputen sparas till savedNotesArray
 /*************************

@@ -55,6 +55,10 @@ button {
     width: 70px;
 }
 
+
+input {
+    width: 90%;
+}
 textarea {
     width: 90%;
     height: 90%;
