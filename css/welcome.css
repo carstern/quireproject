@@ -14,9 +14,9 @@
   background-color: #00B6FF;
   padding: 1rem;
   border-radius: 10px;
-  width: 30%;
-  clip-path: circle(0% at 5% 5%);
-  transition: clip-path 1s;
+  width: 60%;
+  clip-path: circle(0% at 95% 5%);
+  transition: clip-path 2s;
   position: relative;
 }
 
@@ -24,12 +24,12 @@
   clip-path: circle(75%);
 }
 
-.welcome-inner>h4 {
+.welcome-container>h4 {
   padding: 0;
   color: white;
 }
 
-.welcome-inner>p {
+.welcome-container>p {
   font-size: 0.8rem;
   color: white;
 }
