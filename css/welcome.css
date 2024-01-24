@@ -11,13 +11,26 @@
 }
 
 .welcome-container {
-  background-color: #00B6FF;
+  background-color: #375F80;
   padding: 1rem;
   border-radius: 10px;
   width: 60%;
   clip-path: circle(0% at 95% 5%);
   transition: clip-path 2s;
   position: relative;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.7);
+}
+
+.welcome-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+  transition: color .5s ease;
+}
+
+.welcome-close:hover {
+  color: white;
 }
 
 .animate {
@@ -26,6 +39,7 @@
 
 .welcome-container>h4 {
   padding: 0;
+  margin-top: 0;
   color: white;
 }
 

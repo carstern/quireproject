@@ -7,13 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
     welcome_overlay.classList.add("welcome-overlay");
     const welcome_container = document.createElement("div");
     welcome_container.classList.add("welcome-container");
+    const welcome_close = document.createElement("span");
+    welcome_close.classList.add("welcome-close");
+    welcome_close.innerHTML = "&#x2715;";
     const body = document.querySelector("body");
-    // If welcome variable does not already exist, append everything
+    /* If welcome variable does not already exist, append everything
+    and show the info-modal to the user */
     if (!localStorage.getItem("welcome")) {
         welcome_container.innerHTML += content;
+        welcome_container.append(welcome_close);
         welcome_overlay.append(welcome_container);
         // Append it to the beginning of body
         body.prepend(welcome_overlay);
+        // Modal closable by clicking outside or by "X"
+        welcome_overlay.addEventListener("click", () => welcome_overlay.remove());
+        welcome_close.addEventListener("click", () => welcome_overlay.remove());
         // Add the localstorage variable so info-box can't show again
         localStorage.setItem("welcome", "true");
         // Add the animation with some delay to make it more visible
