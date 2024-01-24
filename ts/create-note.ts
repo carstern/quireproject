@@ -89,19 +89,34 @@ function onWindowLoad() {
 
             // Add a click event listener to each note-card
             card.addEventListener('click', function () {
+                // Check if mainOutputContainer has the child with ID 'view-note-card'
+                const existingViewNoteCard: HTMLDivElement | null = document.getElementById('view-note-card') as HTMLDivElement | null;
+            
+                if (existingViewNoteCard) {
+                    // Remove the existing viewNoteCard
+                    mainOutputContainer.removeChild(existingViewNoteCard);
+                }
+            
                 const dataIndex = card.getAttribute('data-index');
                 console.log('Note-card clicked! Index:', dataIndex);
-
+            
                 // Retrieve the clicked note from savedNotes
                 const clickedNote = savedNotes[parseInt(dataIndex || '0', 10)];
-
-                // Update the mainOutputContainer with the clicked note
-                mainOutputContainer.innerHTML += `
+            
+                // Create and append the new viewNoteCard
+                const viewNoteCard: HTMLDivElement = document.createElement('div');
+                viewNoteCard.id = 'view-note-card'; // Add an id for easier reference
+            
+                // Update the viewNoteCard with the clicked note
+                viewNoteCard.innerHTML = `
                     <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                     <p> Date created: ${clickedNote.date} </p>
                     <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
                     <button id="save-note-button">Save</button>`;
+            
+                mainOutputContainer.appendChild(viewNoteCard);
             });
+            
 
             navOutputContainer.appendChild(card);
         });
