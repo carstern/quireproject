@@ -20,11 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
         // Append it to the beginning of body
         body.prepend(welcome_overlay);
         // Modal closable by clicking outside or by "X"
-        welcome_overlay.addEventListener("click", () => welcome_overlay.remove());
-        welcome_close.addEventListener("click", () => welcome_overlay.remove());
+        welcome_overlay.addEventListener("click", () => {
+            welcome_container.classList.remove("animate");
+            setTimeout(() => welcome_overlay.remove(), 1500);
+        });
+        welcome_close.addEventListener("click", () => {
+            welcome_container.classList.remove("animate");
+            setTimeout(() => welcome_overlay.remove(), 1500);
+        });
         // Add the localstorage variable so info-box can't show again
         localStorage.setItem("welcome", "true");
-        // Add the animation with some delay to make it more visible
+        // Start the transition with some delay to make it more visible
         setTimeout(() => {
             welcome_container.classList.add("animate");
         }, 500);
