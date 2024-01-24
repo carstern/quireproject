@@ -67,32 +67,37 @@ window.addEventListener('load', function () {
 
     if (navOutputContainer) {
         // Retrieve savedNotes from localStorage
-        const savedNotes: { title: string; note: string, date: string }[] = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+        const savedNotes: { title: string; note: string; date: string }[] = JSON.parse(localStorage.getItem('savedNotes') || '[]');
 
         // Iterate over the savedNotes array and create cards
-        savedNotes.forEach(note => {
+        savedNotes.forEach((note, index) => {
             const card: HTMLDivElement = document.createElement('div');
             card.classList.add('note-card'); // You can add a class for styling if needed
 
-            const titleElement: HTMLHeadingElement = document.createElement('h3');
-            titleElement.textContent = note.title;
+            // Add a unique identifier to each note-card
+            card.setAttribute('data-index', index.toString());
 
-            const noteElement: HTMLParagraphElement = document.createElement('p');
-            noteElement.textContent = note.note;
+            card.innerHTML = `
+                <h3>${note.title}</h3>
+                <p>${note.note}</p>
+                <button class="button star-button">⭐</button>
+                <button class="button delete-button">❌</button>
+            `;
 
-            card.appendChild(titleElement);
-            card.appendChild(noteElement);
+            // Add a click event listener to each note-card
+            card.addEventListener('click', function () {
+                const dataIndex = card.getAttribute('data-index');
+                console.log('Note-card clicked! Index:', dataIndex);
+                // Add your logic for handling the click event
+            });
 
-            if (navOutputContainer) {
-                navOutputContainer.appendChild(card);
-            } else {
-                console.error('Error: navOutputContainer is null');
-            }
+            navOutputContainer.appendChild(card);
         });
     } else {
         console.error('Error: navOutputContainer is null');
     }
 });
+
 
 
 
@@ -126,7 +131,7 @@ window.addEventListener('load', function () {
 /*************************
  * Task 4 - Skapa toggle på read/edit-view, anpassad för desktop, mobile/tablet
  *  finslipa 'spara knappen'
- *  - eventListner för enter/tab i desktop (knapp i mobile view?) - för mobilanpassning
+ *  - eventListner för enter/tab i desktop ('klar' knappen i mobilvy - få programmet att reagera - spara till localstorage UTAN KNAPP) - för mobilanpassning
  */
 
 /*************************
