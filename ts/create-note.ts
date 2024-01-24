@@ -53,6 +53,8 @@ createNoteBtn.addEventListener('click', function () {
 
                 // Save the updated array back to localStorage
                 localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+
+                location.reload();
             } else {
                 console.error('Error: titleInput or noteTextArea is null');
             }
@@ -61,11 +63,12 @@ createNoteBtn.addEventListener('click', function () {
         console.error('Error: saveBtn is null');
     }
 });
-
-window.addEventListener('load', function () {
+// Function to perform actions on window load
+function onWindowLoad() {
     const navOutputContainer: HTMLDivElement | null = document.getElementById('nav-output-container') as HTMLDivElement | null;
+    const mainOutputContainer: HTMLDivElement | null = document.getElementById('main-output-container') as HTMLDivElement | null;
 
-    if (navOutputContainer) {
+    if (navOutputContainer && mainOutputContainer) {
         // Retrieve savedNotes from localStorage
         const savedNotes: { title: string; note: string; date: string }[] = JSON.parse(localStorage.getItem('savedNotes') || '[]');
 
@@ -88,15 +91,39 @@ window.addEventListener('load', function () {
             card.addEventListener('click', function () {
                 const dataIndex = card.getAttribute('data-index');
                 console.log('Note-card clicked! Index:', dataIndex);
-                // Add your logic for handling the click event
+
+                // Retrieve the clicked note from savedNotes
+                const clickedNote = savedNotes[parseInt(dataIndex || '0', 10)];
+
+                // Update the mainOutputContainer with the clicked note
+                mainOutputContainer.innerHTML += `
+                    <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
+                    <p> Date created: ${clickedNote.date} </p>
+                    <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
+                    <button id="save-note-button">Save</button>`;
             });
 
             navOutputContainer.appendChild(card);
         });
     } else {
-        console.error('Error: navOutputContainer is null');
+        console.error('Error: navOutputContainer or mainOutputContainer is null');
     }
-});
+}
+
+// Call the function on window load
+window.addEventListener('load', onWindowLoad);
+
+// Assuming you have a Save button event listener
+const saveBtn: HTMLButtonElement | null = document.getElementById('save-note-button') as HTMLButtonElement | null;
+
+if (saveBtn) {
+    saveBtn.addEventListener('click', function () {
+        // Save the note or perform other actions
+        onWindowLoad();
+    });
+}
+
+
 
 
 

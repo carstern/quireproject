@@ -42,6 +42,7 @@ createNoteBtn.addEventListener('click', function () {
                 savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate });
                 // Save the updated array back to localStorage
                 localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+                location.reload();
             }
             else {
                 console.error('Error: titleInput or noteTextArea is null');
@@ -52,9 +53,11 @@ createNoteBtn.addEventListener('click', function () {
         console.error('Error: saveBtn is null');
     }
 });
-window.addEventListener('load', function () {
+// Function to perform actions on window load
+function onWindowLoad() {
     const navOutputContainer = document.getElementById('nav-output-container');
-    if (navOutputContainer) {
+    const mainOutputContainer = document.getElementById('main-output-container');
+    if (navOutputContainer && mainOutputContainer) {
         // Retrieve savedNotes from localStorage
         const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
         // Iterate over the savedNotes array and create cards
@@ -73,15 +76,32 @@ window.addEventListener('load', function () {
             card.addEventListener('click', function () {
                 const dataIndex = card.getAttribute('data-index');
                 console.log('Note-card clicked! Index:', dataIndex);
-                // Add your logic for handling the click event
+                // Retrieve the clicked note from savedNotes
+                const clickedNote = savedNotes[parseInt(dataIndex || '0', 10)];
+                // Update the mainOutputContainer with the clicked note
+                mainOutputContainer.innerHTML += `
+                    <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
+                    <p> Date created: ${clickedNote.date} </p>
+                    <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
+                    <button id="save-note-button">Save</button>`;
             });
             navOutputContainer.appendChild(card);
         });
     }
     else {
-        console.error('Error: navOutputContainer is null');
+        console.error('Error: navOutputContainer or mainOutputContainer is null');
     }
-});
+}
+// Call the function on window load
+window.addEventListener('load', onWindowLoad);
+// Assuming you have a Save button event listener
+const saveBtn = document.getElementById('save-note-button');
+if (saveBtn) {
+    saveBtn.addEventListener('click', function () {
+        // Save the note or perform other actions
+        onWindowLoad();
+    });
+}
 /***
  * next steps for wednesday:
  * sparade anteckningar skapas dynamiskt i nav-output
