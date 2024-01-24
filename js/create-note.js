@@ -83,7 +83,8 @@ function onWindowLoad() {
                 const dataIndex = card.getAttribute('data-index');
                 console.log('Note-card clicked! Index:', dataIndex);
                 // Retrieve the clicked note from savedNotes
-                const clickedNote = savedNotes[parseInt(dataIndex || '0', 10)];
+                const clickedNoteIndex = parseInt(dataIndex || '0', 10);
+                const clickedNote = savedNotes[clickedNoteIndex];
                 // Create and append the new viewNoteCard
                 const viewNoteCard = document.createElement('div');
                 viewNoteCard.id = 'view-note-card'; // Add an id for easier reference
@@ -94,6 +95,28 @@ function onWindowLoad() {
                     <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
                     <button id="save-note-button">Save</button>`;
                 mainOutputContainer.appendChild(viewNoteCard);
+                // Get the dynamically created saveBtn element within viewNoteCard
+                const saveBtn = viewNoteCard.querySelector('#save-note-button');
+                if (saveBtn) {
+                    // Attach event listener to the dynamically created saveBtn
+                    saveBtn.addEventListener('click', function () {
+                        const updatedTitleInput = document.getElementById('notesTitle');
+                        const updatedNoteTextArea = document.getElementById('noteInput');
+                        if (updatedTitleInput && updatedNoteTextArea) {
+                            const updatedTitle = updatedTitleInput.value;
+                            const updatedNote = updatedNoteTextArea.value;
+                            const dateCreated = clickedNote.date;
+                            // Call the function to update and save the edited note
+                            updateAndSaveNote(clickedNoteIndex, updatedTitle, updatedNote, dateCreated);
+                        }
+                        else {
+                            console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
+                        }
+                    });
+                }
+                else {
+                    console.error('Error: saveBtn is null');
+                }
             });
             navOutputContainer.appendChild(card);
         });
@@ -111,6 +134,17 @@ if (saveBtn) {
         // Save the note or perform other actions
         onWindowLoad();
     });
+}
+//update saved note
+function updateAndSaveNote(index, updatedTitle, updatedNote, dateCreated) {
+    // Retrieve existing notes from localStorage or initialize an empty array
+    const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+    // Update the note at the specified index
+    savedNotes[index] = { title: updatedTitle, note: updatedNote, date: dateCreated };
+    // Save the updated array back to localStorage
+    localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+    // Reload the window or update the UI as needed
+    onWindowLoad();
 }
 /***
  * next steps for wednesday:
