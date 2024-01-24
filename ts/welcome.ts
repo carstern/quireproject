@@ -4,33 +4,33 @@ const content =
 
 // When all content on the page has loaded, do all the stuff
 document.addEventListener("DOMContentLoaded", () => {
-  const welcome_overlay = document.createElement("div");
-  welcome_overlay.classList.add("welcome-overlay");
-  const welcome_container = document.createElement("div");
-  welcome_container.classList.add("welcome-container");
-  const welcome_close = document.createElement("span");
-  welcome_close.classList.add("welcome-close");
-  welcome_close.innerHTML = "&#x2715;";
+  const welcomeOverlay = document.createElement("div");
+  welcomeOverlay.classList.add("welcome-overlay");
+  const welcomeContainer = document.createElement("div");
+  welcomeContainer.classList.add("welcome-container");
+  const welcomeClose = document.createElement("span");
+  welcomeClose.classList.add("welcome-close");
+  welcomeClose.innerHTML = "&#x2715;";
 
   const body = document.querySelector("body") as HTMLBodyElement;
 
   /* If welcome variable does not already exist, append everything 
   and show the info-modal to the user */
   if (!localStorage.getItem("welcome")) {
-    welcome_container.innerHTML += content;
-    welcome_container.append(welcome_close);
-    welcome_overlay.append(welcome_container);
+    welcomeContainer.innerHTML += content;
+    welcomeContainer.append(welcomeClose);
+    welcomeOverlay.append(welcomeContainer);
     // Append it to the beginning of body
-    body.prepend(welcome_overlay);
+    body.prepend(welcomeOverlay);
 
-    // Modal closable by clicking outside or by "X"
-    welcome_overlay.addEventListener("click", () => {
-      welcome_container.classList.remove("animate");
-      setTimeout(() => welcome_overlay.remove(), 1500);
+    // Modal closable by clicking outside or "X"
+    welcomeOverlay.addEventListener("click", () => {
+      welcomeContainer.classList.remove("welcome-animate");
+      setTimeout(() => welcomeOverlay.remove(), 1200);
     });
-    welcome_close.addEventListener("click", () => {
-      welcome_container.classList.remove("animate");
-      setTimeout(() => welcome_overlay.remove(), 1500);
+    welcomeClose.addEventListener("click", () => {
+      welcomeContainer.classList.remove("welcome-animate");
+      setTimeout(() => welcomeOverlay.remove(), 1200);
     });
 
     // Add the localstorage variable so info-box can't show again
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Start the transition with some delay to make it more visible
     setTimeout(() => {
-      welcome_container.classList.add("animate");
+      welcomeContainer.classList.add("welcome-animate");
     }, 500);
   }
 });

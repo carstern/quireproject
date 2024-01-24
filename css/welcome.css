@@ -19,7 +19,7 @@ so the animation and closing of modal stays synced */
   border-radius: 10px;
   width: 60%;
   clip-path: circle(0% at calc(100% - 1rem) calc(0% + 1.5rem));
-  transition: clip-path 1.5s;
+  transition: clip-path 1.2s ease-in-out;
   position: relative;
 }
 
@@ -35,7 +35,7 @@ so the animation and closing of modal stays synced */
   color: white;
 }
 
-.animate {
+.welcome-animate {
   clip-path: circle(75%);
 }
 
@@ -48,4 +48,16 @@ so the animation and closing of modal stays synced */
 .welcome-container>p {
   font-size: 0.8rem;
   color: white;
+}
+
+@media (max-width: 1023px) {
+  .welcome-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 767px) {
+  .welcome-container {
+    width: 90%;
+  }
 }
