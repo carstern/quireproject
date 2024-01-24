@@ -28,15 +28,62 @@ createNoteBtn.addEventListener('click', function () {
     <button id="save-note-button">Save</button>`;
     // Get the dynamically created saveBtn element
     const saveBtn = document.getElementById('save-note-button');
-    // Attach event listener to the dynamically created saveBtn
-    saveBtn.addEventListener('click', function () {
-        const titleInput = document.getElementById('notesTitle');
-        const noteTextArea = document.getElementById('noteInput');
-        const savedTitle = titleInput.value;
-        const savedNote = noteTextArea.value;
-        console.log(savedNote + savedTitle);
-    });
+    if (saveBtn) {
+        // Attach event listener to the dynamically created saveBtn
+        saveBtn.addEventListener('click', function () {
+            const titleInput = document.getElementById('notesTitle');
+            const noteTextArea = document.getElementById('noteInput');
+            if (titleInput && noteTextArea) {
+                const savedTitle = titleInput.value;
+                const savedNote = noteTextArea.value;
+                // Retrieve existing notes from localStorage or initialize an empty array
+                const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+                // Add the new note to the array
+                savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate });
+                // Save the updated array back to localStorage
+                localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+            }
+            else {
+                console.error('Error: titleInput or noteTextArea is null');
+            }
+        });
+    }
+    else {
+        console.error('Error: saveBtn is null');
+    }
 });
+window.addEventListener('load', function () {
+    const navOutputContainer = document.getElementById('nav-output-container');
+    if (navOutputContainer) {
+        // Retrieve savedNotes from localStorage
+        const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+        // Iterate over the savedNotes array and create cards
+        savedNotes.forEach(note => {
+            const card = document.createElement('div');
+            card.classList.add('note-card'); // You can add a class for styling if needed
+            const titleElement = document.createElement('h3');
+            titleElement.textContent = note.title;
+            const noteElement = document.createElement('p');
+            noteElement.textContent = note.note;
+            card.appendChild(titleElement);
+            card.appendChild(noteElement);
+            if (navOutputContainer) {
+                navOutputContainer.appendChild(card);
+            }
+            else {
+                console.error('Error: navOutputContainer is null');
+            }
+        });
+    }
+    else {
+        console.error('Error: navOutputContainer is null');
+    }
+});
+/***
+ * next steps for wednesday:
+ * sparade anteckningar skapas dynamiskt i nav-output
+ * localstorge ska funka som tänkt
+ */
 // key-event för input + textarea (tab) --> inputen sparas till savedNotesArray
 /*************************
  * Task 2 - Spara anteckningen i localstorage

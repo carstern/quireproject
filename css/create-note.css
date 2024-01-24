@@ -64,3 +64,8 @@ textarea {
     height: 90%;
     padding: 0.5rem;
 }
+
+.note-card {
+    border-bottom: 2px solid;
+    padding: 0.5rem;
+}
