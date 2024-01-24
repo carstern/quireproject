@@ -11,18 +11,13 @@
 }
 
 .welcome-container {
-  width: 30%;
-  background-color: black;
-  border-radius: 10px;
-}
-
-.welcome-inner {
   background-color: #00B6FF;
   padding: 1rem;
   border-radius: 10px;
-  width: 100%;
-  clip-path: circle(10% at 90% 20%);
-  transition: all .5s ease-in-out;
+  width: 30%;
+  clip-path: circle(0% at 5% 5%);
+  transition: clip-path 1s;
+  position: relative;
 }
 
 .animate {
