@@ -58,10 +58,13 @@ button {
 
 input {
     width: 90%;
+    font-size: 2rem;
+    font-weight: 900;
+    padding: 0.5rem;
 }
 textarea {
     width: 90%;
-    height: 90%;
+    height: 70%;
     padding: 0.5rem;
 }
 

@@ -15,7 +15,7 @@ function createNewNote() {
     mainOutputContainer.innerHTML += `
     </div>
     <input placeholder="Add your title" id="notesTitle">
-    <p> Date created: ${formattedDate} </p>
+    <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
     <textarea id="noteInput" name="userInput" placeholder="Type your notes here"></textarea>
     <button id="save-note-button">Save</button>`;
     // Get the dynamically created saveBtn element
@@ -32,7 +32,7 @@ function createNewNote() {
                 // Retrieve existing notes from localStorage or initialize an empty array
                 const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
                 // Add the new note to the array
-                savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate });
+                savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate, edit: formattedDate });
                 // Save the updated array back to localStorage
                 localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
                 location.reload();
@@ -84,17 +84,13 @@ function onWindowLoad() {
                 // Retrieve the clicked note from savedNotes
                 const clickedNoteIndex = parseInt(dataIndex || '0', 10);
                 const clickedNote = savedNotes[clickedNoteIndex];
-                // Create and append the new viewNoteCard
-                // const viewNoteCard: HTMLDivElement = document.createElement('div');
-                // viewNoteCard.id = 'view-note-card'; // Add an id for easier reference
                 createButtons();
                 // Update the viewNoteCard with the clicked note
                 mainOutputContainer.innerHTML += `
                     <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
-                    <p> Date created: ${clickedNote.date} </p>
+                    <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
                     <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
                     <button id="save-note-button">Save</button>`;
-                // mainOutputContainer.appendChild(viewNoteCard);
                 // Get the dynamically created saveBtn element within viewNoteCard
                 const saveBtn = mainOutputContainer.querySelector('#save-note-button');
                 const createNoteBtn = document.getElementById('new-note-button');
@@ -107,11 +103,22 @@ function onWindowLoad() {
                         const updatedTitleInput = document.getElementById('notesTitle');
                         const updatedNoteTextArea = document.getElementById('noteInput');
                         if (updatedTitleInput && updatedNoteTextArea) {
+                            // Create a new Date object
+                            const currentDate = new Date();
+                            // Get the current date and time components
+                            const year = currentDate.getFullYear();
+                            const month = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
+                            const day = currentDate.getDate();
+                            const hours = currentDate.getHours();
+                            const minutes = currentDate.getMinutes();
+                            // Format the date and time as a string (e.g., "YYYY-MM-DD HH:mm")
+                            const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
                             const updatedTitle = updatedTitleInput.value;
                             const updatedNote = updatedNoteTextArea.value;
                             const dateCreated = clickedNote.date;
+                            const editdate = formattedDate;
                             // Call the function to update and save the edited note
-                            updateAndSaveNote(clickedNoteIndex, updatedTitle, updatedNote, dateCreated);
+                            updateAndSaveNote(clickedNoteIndex, updatedTitle, updatedNote, dateCreated, editdate);
                         }
                         else {
                             console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
@@ -140,11 +147,11 @@ if (saveBtn) {
     });
 }
 //update saved note
-function updateAndSaveNote(index, updatedTitle, updatedNote, dateCreated) {
+function updateAndSaveNote(index, updatedTitle, updatedNote, dateCreated, editDate) {
     // Retrieve existing notes from localStorage or initialize an empty array
     const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
     // Update the note at the specified index
-    savedNotes[index] = { title: updatedTitle, note: updatedNote, date: dateCreated };
+    savedNotes[index] = { title: updatedTitle, note: updatedNote, date: dateCreated, edit: editDate };
     // Save the updated array back to localStorage
     localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
     // Reload the window or update the UI as needed
