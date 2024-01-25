@@ -26,7 +26,13 @@ createNoteBtn.addEventListener('click', function () {
     // Format the date as a string (e.g., "YYYY-MM-DD")
     const formattedDate: string = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
 
-    mainOutputContainer.innerHTML += `
+    mainOutputContainer.innerHTML = `
+    <button class="more-button" id="more-button">More</button>
+    <div class="floating-control-menu" id="floating-control-container">
+    <button class="new-note-button" id="new-note-button">New</button>
+    <button class="print-button" id="print-button">Print</button>
+    <button class="fav-button" id="fav-button">Star</button>
+    </div>
     <input placeholder="Add your title" id="notesTitle">
     <p> Date created: ${formattedDate} </p>
     <textarea id="noteInput" name="userInput" placeholder="Type your notes here"></textarea>
@@ -174,7 +180,7 @@ function updateAndSaveNote(index: number, updatedTitle: string, updatedNote: str
     localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
 
     // Reload the window or update the UI as needed
-    onWindowLoad();
+    location.reload();
 }
 
 
