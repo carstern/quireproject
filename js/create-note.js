@@ -1,18 +1,8 @@
 "use strict";
-/*************************
- * Börja med en enkel CSS för att se tydligt resultat - inte ladda upp på github wayyoooo done
- */
-/*************************
- * Task 1 - Presentera en notepad för användaren. Rubrik och textfält.
- *   addEventListener till skapa anteckning-knappen
- *      - skapar en basic 'mall' en input för rubrik, en textarea för brödtext
- *      - gör i main-output-container
- *      - datum för när den skapades/senast redigerades?
- */
 // koppla till main-output-container
 const mainOutputContainer = document.getElementById('main-output-container');
 const createNoteBtn = document.getElementById('new-note-button');
-createNoteBtn.addEventListener('click', function () {
+function createNewNote() {
     // Create a new Date object
     const today = new Date();
     // Get the current date components
@@ -21,12 +11,8 @@ createNoteBtn.addEventListener('click', function () {
     const day = today.getDate();
     // Format the date as a string (e.g., "YYYY-MM-DD")
     const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-    mainOutputContainer.innerHTML = `
-    <button class="more-button" id="more-button">More</button>
-    <div class="floating-control-menu" id="floating-control-container">
-    <button class="new-note-button" id="new-note-button">New</button>
-    <button class="print-button" id="print-button">Print</button>
-    <button class="fav-button" id="fav-button">Star</button>
+    createButtons();
+    mainOutputContainer.innerHTML += `
     </div>
     <input placeholder="Add your title" id="notesTitle">
     <p> Date created: ${formattedDate} </p>
@@ -34,6 +20,7 @@ createNoteBtn.addEventListener('click', function () {
     <button id="save-note-button">Save</button>`;
     // Get the dynamically created saveBtn element
     const saveBtn = document.getElementById('save-note-button');
+    const createNoteBtn = document.getElementById('new-note-button');
     if (saveBtn) {
         // Attach event listener to the dynamically created saveBtn
         saveBtn.addEventListener('click', function () {
@@ -58,6 +45,12 @@ createNoteBtn.addEventListener('click', function () {
     else {
         console.error('Error: saveBtn is null');
     }
+    createNoteBtn.addEventListener('click', function () {
+        createNewNote();
+    });
+}
+createNoteBtn.addEventListener('click', function () {
+    createNewNote();
 });
 // Function to perform actions on window load
 function onWindowLoad() {
@@ -92,17 +85,22 @@ function onWindowLoad() {
                 const clickedNoteIndex = parseInt(dataIndex || '0', 10);
                 const clickedNote = savedNotes[clickedNoteIndex];
                 // Create and append the new viewNoteCard
-                const viewNoteCard = document.createElement('div');
-                viewNoteCard.id = 'view-note-card'; // Add an id for easier reference
+                // const viewNoteCard: HTMLDivElement = document.createElement('div');
+                // viewNoteCard.id = 'view-note-card'; // Add an id for easier reference
+                createButtons();
                 // Update the viewNoteCard with the clicked note
-                viewNoteCard.innerHTML = `
+                mainOutputContainer.innerHTML += `
                     <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                     <p> Date created: ${clickedNote.date} </p>
                     <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
                     <button id="save-note-button">Save</button>`;
-                mainOutputContainer.appendChild(viewNoteCard);
+                // mainOutputContainer.appendChild(viewNoteCard);
                 // Get the dynamically created saveBtn element within viewNoteCard
-                const saveBtn = viewNoteCard.querySelector('#save-note-button');
+                const saveBtn = mainOutputContainer.querySelector('#save-note-button');
+                const createNoteBtn = document.getElementById('new-note-button');
+                createNoteBtn.addEventListener('click', function () {
+                    createNewNote();
+                });
                 if (saveBtn) {
                     // Attach event listener to the dynamically created saveBtn
                     saveBtn.addEventListener('click', function () {
@@ -152,38 +150,12 @@ function updateAndSaveNote(index, updatedTitle, updatedNote, dateCreated) {
     // Reload the window or update the UI as needed
     location.reload();
 }
-/***
- * next steps for wednesday:
- * sparade anteckningar skapas dynamiskt i nav-output
- * localstorge ska funka som tänkt
- */
-// key-event för input + textarea (tab) --> inputen sparas till savedNotesArray
-/*************************
- * Task 2 - Spara anteckningen i localstorage
- *  skapar och sparar - vid knapp tryck för att spara?
- *      - localStorage savedNotesArray title: title - note: note
- */
-/*************************
- * Task 3 - Presentera notes i containern
- *  länka till nav-output-container
- *      - skapa element:
- *
-                <section class="card">
-                <h3>title</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores vero velit ea repellendus id, vel corrupti, accusamus aperiam explicabo minima cupiditate perferendis illum totam nisi. Sequi nam veniam cupiditate nobis.</p>
-                + 2 buttons - delete | star ==> vid hover
-                || ... i mobile view ==> statiska knappar tilll en början - sen swipe funktion
-
-        - hämtar titel + första 12 orden av brödtext från vår savedNotesarray
- */
-/*************************
- * Task 4 - Skapa toggle på read/edit-view, anpassad för desktop, mobile/tablet
- *  finslipa 'spara knappen'
- *  - eventListner för enter/tab i desktop ('klar' knappen i mobilvy - få programmet att reagera - spara till localstorage UTAN KNAPP) - för mobilanpassning
- */
-/*************************
- * Task 5 - Skapa knapp för ta bort, stjärnmarkera vid hover över anteckningarna
- * i desktop, liten meny i mobile/tablet
- *  Bygga vidare på Task 3
- *      - lägga till element för knappar - lämna funktionerna tomma
- */
+function createButtons() {
+    mainOutputContainer.innerHTML = `
+    <button class="more-button" id="more-button">More</button>
+    <div class="floating-control-menu" id="floating-control-container">
+    <button class="new-note-button" id="new-note-button">New</button>
+    <button class="print-button" id="print-button">Print</button>
+    <button class="fav-button" id="fav-button">Star</button>
+    </div>`;
+}
