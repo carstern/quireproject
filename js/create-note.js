@@ -69,14 +69,29 @@ function getNotesFromLocalStorage() {
         savedNotes.forEach((note, index) => {
             const card = document.createElement('div');
             card.classList.add('note-card');
-            // ger ett attribut som unik identifikation - ger kortet innehåll
+            // Set a unique data-index attribute for each card
             card.setAttribute('data-index', index.toString());
             card.innerHTML = `
                 <h3>${note.title}</h3>
                 <p>${note.note}</p>
-                <button class="button star-button">⭐</button>
-                <button class="button delete-button">❌</button>
+                <button class="button star-button" id="star-button">⭐</button>
+                <button class="button delete-button" id="delete-button" data-index="${index}">❌</button>
             `;
+            const starBtn = card.querySelector('#star-button');
+            const deleteBtn = card.querySelector('#delete-button');
+            if (starBtn) {
+                starBtn.addEventListener('click', function () {
+                    addNotesToFavourites();
+                });
+            }
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function () {
+                    // Retrieve the index from the data-index attribute
+                    const dataIndex = deleteBtn.getAttribute('data-index');
+                    const clickedNoteIndex = parseInt(dataIndex || '0', 10);
+                    deleteNoteFromLocalStorage(clickedNoteIndex);
+                });
+            }
             // varje unikt kort får en eventListener
             card.addEventListener('click', function () {
                 // undersöker om main-output redan har innehåll (dvs redan visar en befintlig anteckning)
@@ -161,4 +176,21 @@ function createButtons() {
     <button class="print-button" id="print-button">Print</button>
     <button class="fav-button" id="fav-button">Star</button>
     </div>`;
+}
+// Funktion för att ta bort anteckning från localStorage
+function deleteNoteFromLocalStorage(index) {
+    // Hämtar sparade anteckningar från localStorage
+    const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+    // Tar bort den valda anteckningen baserat på index
+    savedNotes.splice(index, 1);
+    // Sparar uppdaterade anteckningar till localStorage
+    localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+    // Ta bort det raderade kortet direkt från DOM
+    const cardToRemove = document.querySelector(`[data-index="${index}"]`);
+    if (cardToRemove) {
+        cardToRemove.remove();
+    }
+    location.reload();
+}
+function addNotesToFavourites() {
 }
