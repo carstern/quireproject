@@ -74,14 +74,16 @@ function getNotesFromLocalStorage() {
             card.innerHTML = `
                 <h3>${note.title}</h3>
                 <p>${note.note}</p>
-                <button class="button star-button" id="star-button">⭐</button>
+                <button class="button star-button" id="star-button" data-index="${index}">⭐</button>
                 <button class="button delete-button" id="delete-button" data-index="${index}">❌</button>
             `;
             const starBtn = card.querySelector('#star-button');
             const deleteBtn = card.querySelector('#delete-button');
             if (starBtn) {
                 starBtn.addEventListener('click', function () {
-                    addNotesToFavourites();
+                    const dataIndex = starBtn.getAttribute('data-index');
+                    const clickedNoteIndex = parseInt(dataIndex || '0', 10);
+                    addNotesToFavourites(clickedNoteIndex);
                 });
             }
             if (deleteBtn) {
@@ -192,5 +194,15 @@ function deleteNoteFromLocalStorage(index) {
     }
     location.reload();
 }
-function addNotesToFavourites() {
+// Initialize favNotes from localStorage or an empty array if it doesn't exist
+function addNotesToFavourites(index) {
+    // Initialize favNotes from localStorage or an empty array if it doesn't exist
+    const favNotes = JSON.parse(localStorage.getItem('favNotes') || '[]');
+    // Retrieve the clicked note from the savedNotes array
+    const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+    const clickedNote = savedNotes[index];
+    favNotes.push(clickedNote);
+    // Save favNotes to localStorage
+    localStorage.setItem('favNotes', JSON.stringify(favNotes));
+    console.log(favNotes);
 }
