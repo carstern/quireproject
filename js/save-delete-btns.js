@@ -1,29 +1,4 @@
 "use strict";
-//funktion som tar bort anteckingen från localStorage
-function deleteNoteFromLocalStorage(id) {
-    // hämtar rätt anteckning
-    const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
-    // hittar rätt index baserat på anteckningens id
-    const deletedNoteIndex = savedNotes.findIndex(note => note.id === id);
-    if (deletedNoteIndex !== -1) {
-        // raderar rätt anteckning i savedNotes
-        const deletedNote = savedNotes.splice(deletedNoteIndex, 1)[0];
-        //updaterar savedNotes
-        localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
-        // ska radera kortet från DOMen (osäker på att det fungerar som det ska)
-        const cardToRemove = document.querySelector(`[data-index="${deletedNoteIndex}"]`);
-        if (cardToRemove) {
-            cardToRemove.remove();
-        }
-        // hämtar favNotes
-        const favNotes = JSON.parse(localStorage.getItem('favNotes') || '[]');
-        // filterar ut antckningen baserat på id - uppdaterar favNotes
-        const updatedFavNotes = favNotes.filter(note => note.id !== id);
-        localStorage.setItem('favNotes', JSON.stringify(updatedFavNotes));
-        // sidan laddas om för att visa resultatet
-        location.reload();
-    }
-}
 function addNotesToFavourites(id) {
     // hämtar vår favNotes array från localStorage || skapar en ny för förstagångsanvändare
     const favNotes = JSON.parse(localStorage.getItem('favNotes') || '[]');
@@ -50,6 +25,41 @@ function addNotesToFavourites(id) {
         }
     }
 }
+//funktion som tar bort anteckingen från localStorage
+function deleteNoteFromLocalStorage(id) {
+    // hämtar rätt anteckning
+    const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+    // hittar rätt index baserat på anteckningens id
+    const deletedNoteIndex = savedNotes.findIndex(note => note.id === id);
+    if (deletedNoteIndex !== -1) {
+        // raderar rätt anteckning i savedNotes
+        const deletedNote = savedNotes.splice(deletedNoteIndex, 1)[0];
+        //updaterar savedNotes
+        localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+        // ska radera kortet från DOMen (osäker på att det fungerar som det ska)
+        const cardToRemove = document.querySelector(`[data-index="${deletedNoteIndex}"]`);
+        if (cardToRemove) {
+            cardToRemove.remove();
+        }
+        // hämtar favNotes
+        const favNotes = JSON.parse(localStorage.getItem('favNotes') || '[]');
+        // filterar ut antckningen baserat på id - uppdaterar favNotes
+        const updatedFavNotes = favNotes.filter(note => note.id !== id);
+        localStorage.setItem('favNotes', JSON.stringify(updatedFavNotes));
+        // sidan laddas om för att visa resultatet
+        location.reload();
+    }
+}
+function updateAndSaveNote(updatedTitle, updatedNote, dateCreated, editDate, id) {
+    const savedNotes = getSavedNotes();
+    const savedNoteIndex = savedNotes.findIndex(note => note.id === id);
+    if (savedNoteIndex !== -1) {
+        savedNotes[savedNoteIndex] = { title: updatedTitle, note: updatedNote, date: dateCreated, edit: editDate, id };
+        saveNotesToLocalStorage(savedNotes);
+        updateFavNoteIfExists(updatedTitle, updatedNote, dateCreated, editDate, id);
+        location.reload();
+    }
+}
 // undersöker om antckningen som ska uppdateras redan finns i favNotes - uppdaterar därefter
 function updateFavNoteIfExists(updatedTitle, updatedNoteText, dateCreated, editDate, id) {
     const favNotes = JSON.parse(localStorage.getItem('favNotes') || '[]');
@@ -58,7 +68,24 @@ function updateFavNoteIfExists(updatedTitle, updatedNoteText, dateCreated, editD
     if (index !== -1) {
         // om den finns - uppdateras innehållet i rätt index
         favNotes[index] = { title: updatedTitle, note: updatedNoteText, date: dateCreated, edit: editDate, id };
-        // sparar till localStorage
+        // sparar till localStorag
         localStorage.setItem('favNotes', JSON.stringify(favNotes));
     }
+}
+//hämtar alla sparade notes
+function getSavedNotes() {
+    const savedNotesString = localStorage.getItem('savedNotes');
+    return savedNotesString ? JSON.parse(savedNotesString) : [];
+}
+function saveNotesToLocalStorage(notes) {
+    localStorage.setItem('savedNotes', JSON.stringify(notes));
+}
+function createButtons() {
+    mainOutputContainer.innerHTML = `
+        <button class="more-button" id="more-button">More</button>
+        <div class="floating-control-menu" id="floating-control-container">
+            <button class="new-note-button" id="new-note-button">New</button>
+            <button class="print-button" id="print-button">Print</button>
+            <button class="fav-button" id="fav-button">Star</button>
+        </div>`;
 }
