@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    gap: 0.5rem;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+}
+
+.nav-container{
+    display: flex;
+    flex-direction: column;
+    min-width: 10%;
+    border: 2px solid;
+    border-radius: 1rem;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    min-width: 90%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-output-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 20%;
+    border: 2px solid;
+    border-radius: 1rem;
+}
+
+.main-output-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 80%;
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+button {
+    padding: 0.2rem;
+    width: 70px;
+}
+
+
+input {
+    width: 90%;
+    font-size: 2rem;
+    font-weight: 900;
+    padding: 0.5rem;
+}
+textarea {
+    width: 90%;
+    height: 70%;
+    padding: 0.5rem;
+}
+
+.note-card {
+    border-bottom: 2px solid;
+    padding: 0.5rem;
+}
