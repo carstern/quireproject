@@ -67,19 +67,29 @@ function createNewNote(){
         createNewNote();
     });
 }
-// hämtar sparade anteckningar när sidan laddas om
 function getNotesFromLocalStorage() {
     const navOutputContainer: HTMLDivElement | null = document.getElementById('nav-output-container') as HTMLDivElement | null;
     const mainOutputContainer: HTMLDivElement | null = document.getElementById('main-output-container') as HTMLDivElement | null;
 
     if (navOutputContainer && mainOutputContainer) {
-        // Hämtar sparade anteckningar || skapar ny array för förstagångsanvändare
-        const savedNotes: { title: string; note: string; date: string, edit: string }[] = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+        // Retrieve savedNotes from localStorage or initialize to an empty array
+        const savedNotesString: string | null = localStorage.getItem('savedNotes');
+        const savedNotes: { title: string; note: string; date: string, edit: string }[] = savedNotesString ? JSON.parse(savedNotesString) : [];
+
+        console.log('savedNotes:', savedNotes);
 
         // loopar genom våra anteckningar - skapar kort - med ett indexattribut för att särskilja dem
         savedNotes.forEach((note, index) => {
+            // Skip null notes
+            if (!note) {
+                console.error('Note at index', index, 'is null. Skipping.');
+                return;
+            }
+        
+            console.log('Processing note at index', index, ':', note);
+        
             const card: HTMLDivElement = document.createElement('div');
-            card.classList.add('note-card'); 
+            card.classList.add('note-card');
         
             // Set a unique data-index attribute for each card
             card.setAttribute('data-index', index.toString());
@@ -90,7 +100,7 @@ function getNotesFromLocalStorage() {
                 <button class="button star-button" id="star-button" data-index="${index}">⭐</button>
                 <button class="button delete-button" id="delete-button" data-index="${index}">❌</button>
             `;
-        
+
             /**********************
              * Ny kod -start /Eva
              */
@@ -98,19 +108,19 @@ function getNotesFromLocalStorage() {
             //hämtar dynamiskt skapade knappar
             const starBtn = card.querySelector('#star-button') as HTMLButtonElement;
             const deleteBtn = card.querySelector('#delete-button') as HTMLButtonElement;
-        
+
             //säkerställer att rätt knapp/kort trycks - anropar funktion (se save-delete-btns.ts)
             if (starBtn) {
-                starBtn.addEventListener('click', function() {
+                starBtn.addEventListener('click', function () {
                     // hämtar index från rätt knapp och kort
                     const dataIndex = starBtn.getAttribute('data-index');
                     const clickedNoteIndex = parseInt(dataIndex || '0', 10);
                     addNotesToFavourites(clickedNoteIndex);
                 });
             }
-        
-            if(deleteBtn) {
-                deleteBtn.addEventListener('click', function() {
+
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function () {
                     // hämtar index från rätt knapp och kort
                     const dataIndex = deleteBtn.getAttribute('data-index');
                     const clickedNoteIndex = parseInt(dataIndex || '0', 10);
@@ -121,7 +131,6 @@ function getNotesFromLocalStorage() {
              * Ny kod -slut /Eva
              */
 
-
             // varje unikt kort får en eventListener
             card.addEventListener('click', function () {
                 // undersöker om main-output redan har innehåll (dvs redan visar en befintlig anteckning)
@@ -130,23 +139,23 @@ function getNotesFromLocalStorage() {
                     // raderar isf innehållet från mainoutput
                     mainOutputContainer.removeChild(existingViewNoteCard);
                 }
-            
+
                 const dataIndex = card.getAttribute('data-index');
-            
+
                 // Hämtar den specifika anteckningen från vår localStorage
                 const clickedNoteIndex = parseInt(dataIndex || '0', 10);
                 const clickedNote = savedNotes[clickedNoteIndex];
 
                 //hämtar knappar
                 createButtons();
-            
+
                 // Visar vårt innehåll från kortet
                 mainOutputContainer.innerHTML += `
                     <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                     <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
                     <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
                     <button id="save-note-button">Save</button>`;
-            
+
                 // De dynamiskt skapde knapparna får samma funktionalitet som default-läget
                 const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
                 const saveBtn: HTMLButtonElement | null = mainOutputContainer.querySelector('#save-note-button') as HTMLButtonElement | null;
@@ -154,13 +163,13 @@ function getNotesFromLocalStorage() {
                 createNoteBtn.addEventListener('click', function () {
                     createNewNote();
                 });
-            
+
                 if (saveBtn) {
                     saveBtn.addEventListener('click', function () {
                         //kopplar till våra html-elemnt
                         const updatedTitleInput: HTMLInputElement | null = document.getElementById('notesTitle') as HTMLInputElement | null;
                         const updatedNoteTextArea: HTMLTextAreaElement | null = document.getElementById('noteInput') as HTMLTextAreaElement | null;
-            
+
                         if (updatedTitleInput && updatedNoteTextArea) {
                             //hämtar dagens datum (KAN GÖRAS OM TILL EN FRISTÅENDE FUNKTION)
                             const currentDate: Date = new Date();
@@ -177,9 +186,12 @@ function getNotesFromLocalStorage() {
                             const updatedNote: string = updatedNoteTextArea.value;
                             const dateCreated: string = clickedNote.date;
                             const editdate: string = formattedDate;
-            
+
                             // anropar funktionen för att uppdatera och spara vårt innehåll - lägger till last edited
                             updateAndSaveNote(clickedNoteIndex, updatedTitle, updatedNote, dateCreated, editdate);
+
+                                // Call the function to update favNotes if the note exists
+                            updateFavNoteIfExists(index, updatedTitle, updatedNote, dateCreated, editdate);
                         } else {
                             console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
                         }
@@ -187,7 +199,7 @@ function getNotesFromLocalStorage() {
                 } else {
                     console.error('Error: saveBtn is null');
                 }
-            });         
+            });
 
             navOutputContainer.appendChild(card);
         });
@@ -196,20 +208,21 @@ function getNotesFromLocalStorage() {
     }
 }
 
-//uppdaterar och sparar vid edit - genom att ta emot fem parameterar
+
 function updateAndSaveNote(index: number, updatedTitle: string, updatedNote: string, dateCreated: string, editDate: string) {
-    //Hämtar från localStorage || skapar en ny array för förstagångsanvändare
+    // Fetch savedNotes from localStorage or create a new array
     const savedNotes: { title: string; note: string; date: string, edit: string }[] = JSON.parse(localStorage.getItem('savedNotes') || '[]');
 
-    // uppdaterar kortet så att den behåller sitt ursprungliga index
+    // Update the card at the specified index
     savedNotes[index] = { title: updatedTitle, note: updatedNote, date: dateCreated, edit: editDate };
 
-    // Sparar datan i localStorage
+    // Save the updated notes to localStorage
     localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
 
-    // Laddas sidan om för att uppdatera enligt getNotesFromLocalStorage
+    // Reload the page to reflect the changes
     location.reload();
 }
+
 
 //våra knappar skapas dynamiskt varje gång vårt innehåll ändras i main-output
 function createButtons (){

@@ -1,18 +1,26 @@
 "use strict";
-// Funktion för att ta bort anteckning från localStorage
+// Function to delete a note from localStorage
 function deleteNoteFromLocalStorage(index) {
-    // Hämtar sparade anteckningar från localStorage || skapar ny - onödigt kanske?
+    // Fetch saved notes from localStorage or create a new array
     const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
-    // Tar bort den valda anteckningen baserat på index
-    savedNotes.splice(index, 1);
-    // Sparar uppdaterade anteckningar till localStorage
+    // Remove the selected note based on the index
+    const deletedNote = savedNotes.splice(index, 1)[0];
+    // Save the updated notes to localStorage
     localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
-    // Ta bort det raderade kortet direkt från DOM
+    // Remove the deleted card directly from the DOM
     const cardToRemove = document.querySelector(`[data-index="${index}"]`);
     if (cardToRemove) {
         cardToRemove.remove();
     }
-    //laddar om sidan för att den raderade anteckningen inte ska visas i mainOutput
+    // Fetch favNotes from localStorage or create a new array
+    const favNotes = JSON.parse(localStorage.getItem('favNotes') || '[]');
+    // Filter out the deleted note from favNotes
+    const updatedFavNotes = favNotes.filter(note => {
+        return note.title !== deletedNote.title || note.note !== deletedNote.note;
+    });
+    // Save the updated favNotes to localStorage
+    localStorage.setItem('favNotes', JSON.stringify(updatedFavNotes));
+    // Reload the page to reflect the changes
     location.reload();
 }
 // Funktion som lägger till/tar bort antckningen till favNotes-array
@@ -37,6 +45,18 @@ function addNotesToFavourites(index) {
         // lägger till i favNotes om den inte redan finns
         favNotes.push(clickedNote);
         // sparar till localStorage
+        localStorage.setItem('favNotes', JSON.stringify(favNotes));
+    }
+}
+// Function to check if a note is in favNotes and update its content
+function updateFavNoteIfExists(index, updatedTitle, updatedNoteText, dateCreated, editDate) {
+    // Fetch favNotes from localStorage or create a new array
+    const favNotes = JSON.parse(localStorage.getItem('favNotes') || '[]');
+    // Check if the note is in favNotes based on the index
+    if (index >= 0 && index < favNotes.length) {
+        // If the note is in favNotes, update its content
+        favNotes[index] = { title: updatedTitle, note: updatedNoteText, date: dateCreated, edit: editDate };
+        // Save the updated favNotes to localStorage
         localStorage.setItem('favNotes', JSON.stringify(favNotes));
     }
 }

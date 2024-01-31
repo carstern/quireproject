@@ -58,15 +58,22 @@ function createNewNote() {
         createNewNote();
     });
 }
-// hämtar sparade anteckningar när sidan laddas om
 function getNotesFromLocalStorage() {
     const navOutputContainer = document.getElementById('nav-output-container');
     const mainOutputContainer = document.getElementById('main-output-container');
     if (navOutputContainer && mainOutputContainer) {
-        // Hämtar sparade anteckningar || skapar ny array för förstagångsanvändare
-        const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
+        // Retrieve savedNotes from localStorage or initialize to an empty array
+        const savedNotesString = localStorage.getItem('savedNotes');
+        const savedNotes = savedNotesString ? JSON.parse(savedNotesString) : [];
+        console.log('savedNotes:', savedNotes);
         // loopar genom våra anteckningar - skapar kort - med ett indexattribut för att särskilja dem
         savedNotes.forEach((note, index) => {
+            // Skip null notes
+            if (!note) {
+                console.error('Note at index', index, 'is null. Skipping.');
+                return;
+            }
+            console.log('Processing note at index', index, ':', note);
             const card = document.createElement('div');
             card.classList.add('note-card');
             // Set a unique data-index attribute for each card
@@ -150,6 +157,8 @@ function getNotesFromLocalStorage() {
                             const editdate = formattedDate;
                             // anropar funktionen för att uppdatera och spara vårt innehåll - lägger till last edited
                             updateAndSaveNote(clickedNoteIndex, updatedTitle, updatedNote, dateCreated, editdate);
+                            // Call the function to update favNotes if the note exists
+                            updateFavNoteIfExists(index, updatedTitle, updatedNote, dateCreated, editdate);
                         }
                         else {
                             console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
@@ -167,15 +176,14 @@ function getNotesFromLocalStorage() {
         console.error('Error: navOutputContainer or mainOutputContainer is null');
     }
 }
-//uppdaterar och sparar vid edit - genom att ta emot fem parameterar
 function updateAndSaveNote(index, updatedTitle, updatedNote, dateCreated, editDate) {
-    //Hämtar från localStorage || skapar en ny array för förstagångsanvändare
+    // Fetch savedNotes from localStorage or create a new array
     const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
-    // uppdaterar kortet så att den behåller sitt ursprungliga index
+    // Update the card at the specified index
     savedNotes[index] = { title: updatedTitle, note: updatedNote, date: dateCreated, edit: editDate };
-    // Sparar datan i localStorage
+    // Save the updated notes to localStorage
     localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
-    // Laddas sidan om för att uppdatera enligt getNotesFromLocalStorage
+    // Reload the page to reflect the changes
     location.reload();
 }
 //våra knappar skapas dynamiskt varje gång vårt innehåll ändras i main-output
