@@ -46,3 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 500);
     }
 });
+
+
+localStorage.clear();
