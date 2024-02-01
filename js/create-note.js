@@ -16,6 +16,26 @@ function createNewNote() {
         <div>
             <input placeholder="Add your title" id="notesTitle">
             <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
+            <div class="contain-toolbar">
+            <div class="keep-height"></div>
+            <div class="toolbar" id="toolbar">
+              <button id="bold">B</button>
+              <button id="italic">I</button>
+              <button id="underline">U</button>
+              <button id="unordered-list">UL</button>
+              <button id="ordered-list">OL</button>
+              <select id="header-choice">
+                <option value="h1">H1</option>
+                <option value="h2">H2</option>
+                <option value="h3">H3</option>
+                <option value="h4">H4</option>
+                <option value="h5">H5</option>
+                <option value="h6">H6</option>
+              </select>
+              <button id="insert-image">Img</button>
+              <button id="toggle-toolbar">⇆</button>
+            </div>
+          </div>
             <textarea id="noteInput" name="userInput" placeholder="Type your notes here"></textarea>
             <button id="save-note-button">Save</button>
         </div>`;
@@ -100,6 +120,26 @@ function createNoteCard(note) {
             mainOutputContainer.innerHTML += `
                 <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                 <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+                <div class="contain-toolbar">
+                <div class="keep-height"></div>
+                <div class="toolbar" id="toolbar">
+                  <button id="bold">B</button>
+                  <button id="italic">I</button>
+                  <button id="underline">U</button>
+                  <button id="unordered-list">UL</button>
+                  <button id="ordered-list">OL</button>
+                  <select id="header-choice">
+                    <option value="h1">H1</option>
+                    <option value="h2">H2</option>
+                    <option value="h3">H3</option>
+                    <option value="h4">H4</option>
+                    <option value="h5">H5</option>
+                    <option value="h6">H6</option>
+                  </select>
+                  <button id="insert-image">Img</button>
+                  <button id="toggle-toolbar">⇆</button>
+                </div>
+              </div>
                 <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
                 <button id="save-note-button" data-id="${clickedNote.id}">Save</button>`;
             const createNoteBtn = document.getElementById('new-note-button');
