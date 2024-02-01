@@ -1,44 +1,42 @@
+/* Display flex and nowrap must stay because they are responsible 
+for making the toolbar keep its shape and not collapse when pushed
+towards the right edge of the screen, rest is styling */
 .toolbar {
-    display: flex;
-    flex-wrap: nowrap;
-    background-color: rgba(59, 59, 59, 0.879);
-    padding: 3px 5px;
-    border-radius: 3px;
-  
-  }
-  
-  .contain-toolbar {
-    display: flex;
-  }
-  
-  .keep-height {
-    height: 27px;
-  }
-  
-  .toolbar > button {
-    width: 30px;
-    text-align: center;
-    padding: 0 5px;
-  }
-  
-  /* .note-div {
-    background: rgba(233, 233, 233, 0.523);
-    width: 500px;
-    height: 500px;
-    border: 0;
-    outline: 0;
-    padding: 0.5rem;
-  }
-   */
-  .bold {
-    font-weight: 900;
-  }
-  
-  .pressed {
-    background-color: greenyellow;
-  }
-  
-  .absolute {
-    position: absolute;
-    display: none;
-  }
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: rgba(59, 59, 59, 0.879);
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+/* This is a div that holds toolbar and the invisible keep-height 
+div on the same line */
+.contain-toolbar {
+  display: flex;
+}
+
+/* This divs function is so that the space left behind the toolbar when it
+get undocked does not collapse, resulting in hideous moving of 
+everything underneath */
+.keep-height {
+  height: 27px;
+}
+
+/* Pure styling*/
+.toolbar>button {
+  width: 30px;
+  text-align: center;
+  padding: 0 5px;
+}
+
+/* Necessary class used to check whether or not toolbar is docked or not. 
+However any styling has no effect on the function */
+.pressed {
+  background-color: greenyellow;
+}
+
+/* Necessary class whose function it is to undock the toolbar */
+.absolute {
+  position: absolute;
+  display: none;
+}
