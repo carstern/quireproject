@@ -5,6 +5,7 @@ type Note = {
     date: string;
     edit: string;
     id: number;
+    isFavorite: boolean;
 };
 
 //hämtar HTML element
@@ -48,7 +49,7 @@ function createNewNote() {
                 //skapar en note - pushar till savedNotes -sparar
                 const savedNotes: Note[] = getSavedNotes();
 
-                savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate, edit: formattedDate, id: uniqueId });
+                savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
                 saveNotesToLocalStorage(savedNotes);
 
                 location.reload();
@@ -149,8 +150,7 @@ function createNoteCard(note: Note): HTMLDivElement {
                         const dateCreated = clickedNote.date;
                         const editDate = formattedDate;
 
-                        updateAndSaveNote(updatedTitle, updatedNote, dateCreated, editDate, clickedNote.id);
-                        updateFavNoteIfExists(updatedTitle, updatedNote, dateCreated, editDate, clickedNote.id);
+                        updateAndSaveNote(updatedTitle, updatedNote, dateCreated, editDate, clickedNote.id, clickedNote.isFavorite );
                     } else {
                         console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
                     }
