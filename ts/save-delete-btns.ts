@@ -68,3 +68,4 @@ function createButtons() {
             <button class="fav-button" id="fav-button">Star</button>
         </div>`;
 }
+

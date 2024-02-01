@@ -18,6 +18,7 @@ window.addEventListener('load', getNotesFromLocalStorage);
 createNoteBtn.addEventListener('click', createNewNote);
 
 function createNewNote() {
+
     const today: Date = new Date();
     //anropar fuktion för att hämta datum
     const formattedDate: string = formatDate(today);
@@ -50,22 +51,31 @@ function createNewNote() {
               <button id="toggle-toolbar">⇆</button>
             </div>
           </div>
-            <textarea id="noteInput" name="userInput" placeholder="Type your notes here"></textarea>
+          <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
             <button id="save-note-button">Save</button>
         </div>`;
 
+
+    //hämtar toolbar script
+    loadScript('./js/toolbar.js', () => {
+        // Callback function is called when the script is loaded
+        console.log('Script loaded successfully!');
+        // Additional logic or initialization if needed
+      });
     //hämar spara-knapp
     const saveBtn = document.getElementById('save-note-button') as HTMLButtonElement | null;
+
+    const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
 
     if (saveBtn) {
         saveBtn.addEventListener('click', function () {
             //hämtar element och dess värden
             const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
-            const noteTextArea = document.getElementById('noteInput') as HTMLTextAreaElement | null;
+            const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
 
-            if (titleInput && noteTextArea) {
+            if (titleInput && noteDiv) {
                 const savedTitle: string = titleInput.value;
-                const savedNote: string = noteTextArea.value;
+                const savedNote: string = noteDiv.innerHTML;
                 //skapar en note - pushar till savedNotes -sparar
                 const savedNotes: Note[] = getSavedNotes();
 
@@ -74,7 +84,7 @@ function createNewNote() {
 
                 location.reload();
             } else {
-                console.error('Error: titleInput or noteTextArea is null');
+                console.error('Error: titleInput or noteDiv is null');
             }
         });
     } else {
@@ -169,8 +179,15 @@ function createNoteCard(note: Note): HTMLDivElement {
                   <button id="toggle-toolbar">⇆</button>
                 </div>
               </div>
-                <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
+              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>
                 <button id="save-note-button" data-id="${clickedNote.id}">Save</button>`;
+
+                //hämtar toolbar script
+                loadScript('./js/toolbar.js', () => {
+                    // Callback function is called when the script is loaded
+                    console.log('Script loaded successfully!');
+                    // Additional logic or initialization if needed
+                });
 
             const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
             const saveBtn = mainOutputContainer.querySelector('#save-note-button') as HTMLButtonElement | null;
@@ -180,19 +197,19 @@ function createNoteCard(note: Note): HTMLDivElement {
             if (saveBtn) {
                 saveBtn.addEventListener('click', function () {
                     const updatedTitleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
-                    const updatedNoteTextArea = document.getElementById('noteInput') as HTMLTextAreaElement | null;
+                    const updatednoteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
 
-                    if (updatedTitleInput && updatedNoteTextArea) {
+                    if (updatedTitleInput && updatednoteDiv) {
                         const currentDate = new Date();
                         const formattedDate = formatDate(currentDate);
                         const updatedTitle = updatedTitleInput.value;
-                        const updatedNote = updatedNoteTextArea.value;
+                        const updatedNote = updatednoteDiv.innerHTML;
                         const dateCreated = clickedNote.date;
                         const editDate = formattedDate;
 
                         updateAndSaveNote(updatedTitle, updatedNote, dateCreated, editDate, clickedNote.id, clickedNote.isFavorite );
                     } else {
-                        console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
+                        console.error('Error: updatedTitleInput or updatednoteDiv is null');
                     }
                 });
             } else {
@@ -214,3 +231,14 @@ function formatDate(date: Date): string {
 
     return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
 }
+
+// Function to load a script dynamically
+function loadScript(scriptSrc: string, callback: () => void): void {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+    script.onload = callback;
+  
+    // Append the script to the document
+    document.head.appendChild(script);
+  }

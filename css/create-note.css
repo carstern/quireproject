@@ -62,10 +62,11 @@ input {
     font-weight: 900;
     padding: 0.5rem;
 }
-textarea {
+.note-div {
     width: 90%;
     height: 70%;
     padding: 0.5rem;
+    border: 2px solid;
 }
 
 .note-card {

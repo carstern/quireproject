@@ -36,19 +36,26 @@ function createNewNote() {
               <button id="toggle-toolbar">⇆</button>
             </div>
           </div>
-            <textarea id="noteInput" name="userInput" placeholder="Type your notes here"></textarea>
+          <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
             <button id="save-note-button">Save</button>
         </div>`;
+    //hämtar toolbar script
+    loadScript('./js/toolbar.js', () => {
+        // Callback function is called when the script is loaded
+        console.log('Script loaded successfully!');
+        // Additional logic or initialization if needed
+    });
     //hämar spara-knapp
     const saveBtn = document.getElementById('save-note-button');
+    const noteDiv = document.getElementById('noteInput');
     if (saveBtn) {
         saveBtn.addEventListener('click', function () {
             //hämtar element och dess värden
             const titleInput = document.getElementById('notesTitle');
-            const noteTextArea = document.getElementById('noteInput');
-            if (titleInput && noteTextArea) {
+            const noteDiv = document.getElementById('noteInput');
+            if (titleInput && noteDiv) {
                 const savedTitle = titleInput.value;
-                const savedNote = noteTextArea.value;
+                const savedNote = noteDiv.innerHTML;
                 //skapar en note - pushar till savedNotes -sparar
                 const savedNotes = getSavedNotes();
                 savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
@@ -56,7 +63,7 @@ function createNewNote() {
                 location.reload();
             }
             else {
-                console.error('Error: titleInput or noteTextArea is null');
+                console.error('Error: titleInput or noteDiv is null');
             }
         });
     }
@@ -140,26 +147,32 @@ function createNoteCard(note) {
                   <button id="toggle-toolbar">⇆</button>
                 </div>
               </div>
-                <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
+              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>
                 <button id="save-note-button" data-id="${clickedNote.id}">Save</button>`;
+            //hämtar toolbar script
+            loadScript('./js/toolbar.js', () => {
+                // Callback function is called when the script is loaded
+                console.log('Script loaded successfully!');
+                // Additional logic or initialization if needed
+            });
             const createNoteBtn = document.getElementById('new-note-button');
             const saveBtn = mainOutputContainer.querySelector('#save-note-button');
             createNoteBtn.addEventListener('click', createNewNote);
             if (saveBtn) {
                 saveBtn.addEventListener('click', function () {
                     const updatedTitleInput = document.getElementById('notesTitle');
-                    const updatedNoteTextArea = document.getElementById('noteInput');
-                    if (updatedTitleInput && updatedNoteTextArea) {
+                    const updatednoteDiv = document.getElementById('noteInput');
+                    if (updatedTitleInput && updatednoteDiv) {
                         const currentDate = new Date();
                         const formattedDate = formatDate(currentDate);
                         const updatedTitle = updatedTitleInput.value;
-                        const updatedNote = updatedNoteTextArea.value;
+                        const updatedNote = updatednoteDiv.innerHTML;
                         const dateCreated = clickedNote.date;
                         const editDate = formattedDate;
                         updateAndSaveNote(updatedTitle, updatedNote, dateCreated, editDate, clickedNote.id, clickedNote.isFavorite);
                     }
                     else {
-                        console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
+                        console.error('Error: updatedTitleInput or updatednoteDiv is null');
                     }
                 });
             }
@@ -178,4 +191,13 @@ function formatDate(date) {
     const hours = date.getHours();
     const minutes = date.getMinutes();
     return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+}
+// Function to load a script dynamically
+function loadScript(scriptSrc, callback) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+    script.onload = callback;
+    // Append the script to the document
+    document.head.appendChild(script);
 }
