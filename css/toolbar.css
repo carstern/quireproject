@@ -40,3 +40,8 @@ However any styling has no effect on the function */
   position: absolute;
   display: none;
 }
+
+div[contenteditable="true"] ul,
+div[contenteditable="true"] ol {
+  list-style-position: inside;
+}
