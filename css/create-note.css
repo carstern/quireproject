@@ -49,6 +49,9 @@ main {
     border-radius: 1rem;
     padding: 0.5rem;
 }
+.note-card img {
+    width: 80%;
+}
 
 button {
     padding: 0.2rem;
@@ -62,10 +65,11 @@ input {
     font-weight: 900;
     padding: 0.5rem;
 }
-textarea {
+.note-div {
     width: 90%;
     height: 70%;
     padding: 0.5rem;
+    border: 2px solid;
 }
 
 .note-card {
