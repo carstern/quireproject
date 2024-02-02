@@ -47,7 +47,9 @@ function createNewNote() {
                 <option value="h5">H5</option>
                 <option value="h6">H6</option>
               </select>
-              <button id="insert-image">Img</button>
+              <button id="uploadBtn">Välj fil</button>
+              <span id="fileName"></span>
+              <input type="file" id="fileInput" accept="image/*" style="display: none" />
               <button id="toggle-toolbar">⇆</button>
             </div>
           </div>
@@ -58,6 +60,12 @@ function createNewNote() {
 
     //hämtar toolbar script
     loadScript('./js/toolbar.js', () => {
+        // Callback function is called when the script is loaded
+        console.log('Script loaded successfully!');
+        // Additional logic or initialization if needed
+      });
+
+      loadScript('./js/add-image.js', () => {
         // Callback function is called when the script is loaded
         console.log('Script loaded successfully!');
         // Additional logic or initialization if needed
@@ -175,7 +183,9 @@ function createNoteCard(note: Note): HTMLDivElement {
                     <option value="h5">H5</option>
                     <option value="h6">H6</option>
                   </select>
-                  <button id="insert-image">Img</button>
+                  <button id="uploadBtn">Välj fil</button>
+                  <span id="fileName"></span>
+                  <input type="file" id="fileInput" accept="image/*" style="display: none" />
                   <button id="toggle-toolbar">⇆</button>
                 </div>
               </div>
@@ -184,6 +194,12 @@ function createNoteCard(note: Note): HTMLDivElement {
 
                 //hämtar toolbar script
                 loadScript('./js/toolbar.js', () => {
+                    // Callback function is called when the script is loaded
+                    console.log('Script loaded successfully!');
+                    // Additional logic or initialization if needed
+                });
+
+                loadScript('./js/add-image.js', () => {
                     // Callback function is called when the script is loaded
                     console.log('Script loaded successfully!');
                     // Additional logic or initialization if needed
@@ -242,3 +258,5 @@ function loadScript(scriptSrc: string, callback: () => void): void {
     // Append the script to the document
     document.head.appendChild(script);
   }
+
+  

@@ -49,6 +49,9 @@ main {
     border-radius: 1rem;
     padding: 0.5rem;
 }
+.note-card img {
+    width: 80%;
+}
 
 button {
     padding: 0.2rem;
