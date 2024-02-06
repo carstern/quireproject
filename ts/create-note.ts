@@ -127,15 +127,19 @@ function getNotesFromLocalStorage() {
 
 //skapar kort - ger id / attribut / knappar med funktioner baserat på id
 function createNoteCard(note: Note): HTMLDivElement {
-    const card = document.createElement('div');
+    const card: HTMLDivElement = document.createElement('div');
     card.classList.add('note-card');
     card.setAttribute('data-id', note.id.toString());
 
+    // Limit the note length
+    const limitedNote: string = limitNoteLength(note.note);
+
     card.innerHTML = `
         <h3>${note.title}</h3>
-        <p>${note.note}</p>
+        <p>${limitedNote}</p> 
         <button class="button star-button" data-id="${note.id}">⭐</button>
         <button class="button delete-button" data-id="${note.id}">❌</button>`;
+
 
     const starBtn = card.querySelector('.star-button') as HTMLButtonElement;
     const deleteBtn = card.querySelector('.delete-button') as HTMLButtonElement;

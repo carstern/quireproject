@@ -105,9 +105,11 @@ function createNoteCard(note) {
     const card = document.createElement('div');
     card.classList.add('note-card');
     card.setAttribute('data-id', note.id.toString());
+    // Limit the note length
+    const limitedNote = limitNoteLength(note.note);
     card.innerHTML = `
         <h3>${note.title}</h3>
-        <p>${note.note}</p>
+        <p>${limitedNote}</p> 
         <button class="button star-button" data-id="${note.id}">⭐</button>
         <button class="button delete-button" data-id="${note.id}">❌</button>`;
     const starBtn = card.querySelector('.star-button');

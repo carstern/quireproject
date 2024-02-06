@@ -19,11 +19,13 @@ function allNotesOverview() {
     savedNotes.forEach(note => {
         const noteDisplayCard = document.createElement("div");
         noteDisplayCard.classList.add("note-card");
+        /*****EVAS KOD - se limit-note.ts****** */
+        const limitedNote = limitNoteLength(note.note);
         noteDisplayCard.innerHTML = `
-            <h3>${note.title}</h3>
-            <p>${note.note}</p>
-            <button class="button star-button" data-id="${note.id}">⭐</button>
-            <button class="button delete-button" data-id="${note.id}">❌</button>`;
+        <h3>${note.title}</h3>
+        <p>${limitedNote}</p>
+        <button class="button star-button" data-id="${note.id}">⭐</button>
+        <button class="button delete-button" data-id="${note.id}">❌</button>`;
         // appendar varje kort
         mainOutputContainer.appendChild(noteDisplayCard);
         // lägger till all funtionalitet - återanvänt från create-note.ts

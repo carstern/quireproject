@@ -116,9 +116,12 @@ function getNotes() {
       noteDisplayCard.classList.add("note-card");
       // We set an attribute to present the notes
       noteDisplayCard.setAttribute("note-index", index.toString());
+
+      /*****EVAS KOD - se limit-note.ts****** */
+      const limitedNote = limitNoteLength(note.note);
       noteDisplayCard.innerHTML = `
                       <h3>${note.title}</h3>
-                      <p>${note.note}</p>
+                      <p>${limitedNote}</p>
                       <button class="button star-button">⭐ss</button>
                       <button class="button delete-button">❌</button>
                   `;
