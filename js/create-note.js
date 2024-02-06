@@ -156,28 +156,22 @@ function createNoteCard(note) {
                 // Additional logic or initialization if needed
             });
             const createNoteBtn = document.getElementById('new-note-button');
-            const saveBtn = mainOutputContainer.querySelector('#save-note-button');
+            // const saveBtn = mainOutputContainer.querySelector('#save-note-button') as HTMLButtonElement | null;
             createNoteBtn.addEventListener('click', createNewNote);
-            if (saveBtn) {
-                saveBtn.addEventListener('click', function () {
-                    const updatedTitleInput = document.getElementById('notesTitle');
-                    const updatednoteDiv = document.getElementById('noteInput');
-                    if (updatedTitleInput && updatednoteDiv) {
-                        const currentDate = new Date();
-                        const formattedDate = formatDate(currentDate);
-                        const updatedTitle = updatedTitleInput.value;
-                        const updatedNote = updatednoteDiv.innerHTML;
-                        const dateCreated = clickedNote.date;
-                        const editDate = formattedDate;
-                        updateAndSaveNote(updatedTitle, updatedNote, dateCreated, editDate, clickedNote.id, clickedNote.isFavorite);
-                    }
-                    else {
-                        console.error('Error: updatedTitleInput or updatednoteDiv is null');
-                    }
+            //ersätt saveButton med dynamicSave
+            const savedNotes = getSavedNotes();
+            const noteDiv = document.getElementById('noteInput');
+            const titleInput = document.getElementById('notesTitle');
+            if (noteDiv && titleInput) {
+                noteDiv.addEventListener('input', function () {
+                    dynamicSave(clickedNote.id);
+                });
+                titleInput.addEventListener('input', function () {
+                    dynamicSave(clickedNote.id);
                 });
             }
             else {
-                console.error('Error: saveBtn is null');
+                console.error('Error: noteDiv is null');
             }
         }
     });
