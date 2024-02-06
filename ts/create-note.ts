@@ -56,8 +56,6 @@ function createNewNote() {
           <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
             <button id="save-note-button">Save</button>
         </div>`;
-
-
     //hämtar toolbar script
     loadScript('./js/toolbar.js', () => {
         // Callback function is called when the script is loaded
@@ -70,6 +68,13 @@ function createNewNote() {
         console.log('Script loaded successfully!');
         // Additional logic or initialization if needed
       });
+
+      const savedNotes: Note[] = getSavedNotes();
+      //pusha den tom note till savedNotes
+      savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
+      saveNotesToLocalStorage(savedNotes);
+      getNotesFromLocalStorage();
+
     //hämar spara-knapp
     const saveBtn = document.getElementById('save-note-button') as HTMLButtonElement | null;
 
@@ -109,6 +114,7 @@ function getNotesFromLocalStorage() {
     const mainOutputContainer = document.getElementById('main-output-container') as HTMLDivElement | null;
 
     if (navOutputContainer && mainOutputContainer) {
+        navOutputContainer.innerHTML = '';
         const savedNotes: Note[] = getSavedNotes();
         //skapar ett kort/ note
         savedNotes.forEach((note) => {

@@ -52,6 +52,11 @@ function createNewNote() {
         console.log('Script loaded successfully!');
         // Additional logic or initialization if needed
     });
+    const savedNotes = getSavedNotes();
+    //pusha den tom note till savedNotes
+    savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
+    saveNotesToLocalStorage(savedNotes);
+    getNotesFromLocalStorage();
     //hämar spara-knapp
     const saveBtn = document.getElementById('save-note-button');
     const noteDiv = document.getElementById('noteInput');
@@ -85,6 +90,7 @@ function getNotesFromLocalStorage() {
     const navOutputContainer = document.getElementById('nav-output-container');
     const mainOutputContainer = document.getElementById('main-output-container');
     if (navOutputContainer && mainOutputContainer) {
+        navOutputContainer.innerHTML = '';
         const savedNotes = getSavedNotes();
         //skapar ett kort/ note
         savedNotes.forEach((note) => {
