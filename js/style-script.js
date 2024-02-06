@@ -7,5 +7,10 @@ const moreButton = document.getElementById("more-button");
 navContainer.classList.add("hide");
 // Listen for clicks on the more button; add/remove hide 
 moreButton.addEventListener("click", function () {
-    navContainer.classList.remove("hide");
+    if (navContainer.classList.contains("hide")) {
+        navContainer.classList.remove("hide");
+    }
+    else {
+        navContainer.classList.add("hide");
+    }
 });
