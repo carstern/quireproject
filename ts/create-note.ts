@@ -18,95 +18,69 @@ window.addEventListener('load', getNotesFromLocalStorage);
 createNoteBtn.addEventListener('click', createNewNote);
 
 function createNewNote() {
-
     const today: Date = new Date();
-    //anropar fuktion för att hämta datum
     const formattedDate: string = formatDate(today);
     const uniqueId: number = today.getTime();
     
     createButtons(); //skapar knappar
 
-    //skapar grundmall
     mainOutputContainer.innerHTML += `
         <div>
             <input placeholder="Add your title" id="notesTitle">
             <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
             <div class="contain-toolbar">
-            <div class="keep-height"></div>
-            <div class="toolbar" id="toolbar">
-              <button id="bold">B</button>
-              <button id="italic">I</button>
-              <button id="underline">U</button>
-              <button id="unordered-list">UL</button>
-              <button id="ordered-list">OL</button>
-              <select id="header-choice">
-                <option value="h1">H1</option>
-                <option value="h2">H2</option>
-                <option value="h3">H3</option>
-                <option value="h4">H4</option>
-                <option value="h5">H5</option>
-                <option value="h6">H6</option>
-              </select>
-              <button id="uploadBtn">Välj fil</button>
-              <span id="fileName"></span>
-              <input type="file" id="fileInput" accept="image/*" style="display: none" />
-              <button id="toggle-toolbar">⇆</button>
+                <div class="keep-height"></div>
+                <div class="toolbar" id="toolbar">
+                    <button id="bold">B</button>
+                    <button id="italic">I</button>
+                    <button id="underline">U</button>
+                    <button id="unordered-list">UL</button>
+                    <button id="ordered-list">OL</button>
+                    <select id="header-choice">
+                        <option value="h1">H1</option>
+                        <option value="h2">H2</option>
+                        <option value="h3">H3</option>
+                        <option value="h4">H4</option>
+                        <option value="h5">H5</option>
+                        <option value="h6">H6</option>
+                    </select>
+                    <button id="uploadBtn">Välj fil</button>
+                    <span id="fileName"></span>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none" />
+                    <button id="toggle-toolbar">⇆</button>
+                </div>
             </div>
-          </div>
-          <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
+            <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
             <button id="save-note-button">Save</button>
         </div>`;
-    //hämtar toolbar script
+
     loadScript('./js/toolbar.js', () => {
-        // Callback function is called when the script is loaded
         console.log('Script loaded successfully!');
-        // Additional logic or initialization if needed
       });
 
-      loadScript('./js/add-image.js', () => {
-        // Callback function is called when the script is loaded
+    loadScript('./js/add-image.js', () => {
         console.log('Script loaded successfully!');
-        // Additional logic or initialization if needed
-      });
+    });
 
-      const savedNotes: Note[] = getSavedNotes();
-      //pusha den tom note till savedNotes
-      savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
-      saveNotesToLocalStorage(savedNotes);
-      getNotesFromLocalStorage();
-
-    //hämar spara-knapp
-    const saveBtn = document.getElementById('save-note-button') as HTMLButtonElement | null;
+    const savedNotes: Note[] = getSavedNotes();
+    savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
+    saveNotesToLocalStorage(savedNotes);
+    getNotesFromLocalStorage();
 
     const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
-
-    if (saveBtn) {
-        saveBtn.addEventListener('click', function () {
-            //hämtar element och dess värden
-            const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
-            const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
-
-            if (titleInput && noteDiv) {
-                const savedTitle: string = titleInput.value;
-                const savedNote: string = noteDiv.innerHTML;
-                //skapar en note - pushar till savedNotes -sparar
-                const savedNotes: Note[] = getSavedNotes();
-
-                savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
-                saveNotesToLocalStorage(savedNotes);
-
-                location.reload();
-            } else {
-                console.error('Error: titleInput or noteDiv is null');
-            }
+    const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+    if (noteDiv && titleInput) {
+        noteDiv.addEventListener('input', function(){
+            dynamicSave(uniqueId);
         });
+        titleInput.addEventListener('input', function(){
+            dynamicSave(uniqueId);
+        })
     } else {
-        console.error('Error: saveBtn is null');
+        console.error('Error: noteDiv is null');
     }
-
-    //gör skapa-knappen funktionell
-    createNoteBtn.addEventListener('click', createNewNote);
 }
+
 
 //hämtar notes from localStorage - placerar i navOutput
 function getNotesFromLocalStorage() {
