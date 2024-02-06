@@ -1,5 +1,8 @@
 body {
     border: 1px solid hotpink;
+
+    display: flex;
+    flex-direction: column;
 }
 .nav-container {
     border: 1px solid red;
@@ -9,3 +12,8 @@ body {
     border: 1px solid blue;
 }
 
+
+/* Hide class  */
+.hide {
+    display: none;
+}
