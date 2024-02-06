@@ -2,7 +2,6 @@ body {
     border: 1px solid hotpink;
 
     display: flex;
-    flex-direction: column;
 }
 .nav-container {
     border: 1px solid red;
