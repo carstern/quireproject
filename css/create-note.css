@@ -64,11 +64,20 @@ input {
     font-size: 2rem;
     font-weight: 900;
     padding: 0.5rem;
+    border: none;
 }
+
+input:focus{
+    border: 2px solid;
+}
+
 .note-div {
     width: 90%;
     height: 70%;
     padding: 0.5rem;
+    /* border: 2px solid; */
+}
+.note-div:focus {
     border: 2px solid;
 }
 

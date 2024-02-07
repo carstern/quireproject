@@ -1,4 +1,4 @@
-function dynamicSave(uniqueId: number) {
+function dynamicSave(uniqueId: number, editDate: string) {
     const noteDiv = document.getElementById('noteInput') as HTMLDivElement;
     const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
     const updatedNote = noteDiv.innerHTML;
@@ -12,6 +12,7 @@ function dynamicSave(uniqueId: number) {
         if (currentNoteIndex !== -1) {
             savedNotes[currentNoteIndex].note = updatedNote;
             savedNotes[currentNoteIndex].title = updatedTitle;
+            savedNotes[currentNoteIndex].edit = editDate;
             saveNotesToLocalStorage(savedNotes);
             getNotesFromLocalStorage();
         } else {

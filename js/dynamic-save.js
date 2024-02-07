@@ -1,5 +1,5 @@
 "use strict";
-function dynamicSave(uniqueId) {
+function dynamicSave(uniqueId, editDate) {
     const noteDiv = document.getElementById('noteInput');
     const titleInput = document.getElementById('notesTitle');
     const updatedNote = noteDiv.innerHTML;
@@ -11,6 +11,7 @@ function dynamicSave(uniqueId) {
         if (currentNoteIndex !== -1) {
             savedNotes[currentNoteIndex].note = updatedNote;
             savedNotes[currentNoteIndex].title = updatedTitle;
+            savedNotes[currentNoteIndex].edit = editDate;
             saveNotesToLocalStorage(savedNotes);
             getNotesFromLocalStorage();
         }

@@ -70,10 +70,10 @@ function createNewNote() {
     const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
     if (noteDiv && titleInput) {
         noteDiv.addEventListener('input', function(){
-            dynamicSave(uniqueId);
+            dynamicSave(uniqueId, formattedDate);
         });
         titleInput.addEventListener('input', function(){
-            dynamicSave(uniqueId);
+            dynamicSave(uniqueId, formattedDate);
         })
     } else {
         console.error('Error: noteDiv or titleInput is null');
@@ -123,7 +123,7 @@ function createNoteCard(note: Note): HTMLDivElement {
     const starBtn = card.querySelector('.star-button') as HTMLButtonElement;
     const deleteBtn = card.querySelector('.delete-button') as HTMLButtonElement;
 
-    if (starBtn) {
+    if (starBtn) {  
         starBtn.addEventListener('click', function () {
             addNotesToFavourites(note.id);
         });
@@ -146,68 +146,43 @@ function createNoteCard(note: Note): HTMLDivElement {
         const clickedNote = getSavedNotes().find((n) => n.id === note.id);
 
         if (clickedNote) {
+            //read view
             createButtons();
             mainOutputContainer.innerHTML += `
                 <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                 <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
-                <div class="contain-toolbar">
-                <div class="keep-height"></div>
-                <div class="toolbar" id="toolbar">
-                  <button id="bold">B</button>
-                  <button id="italic">I</button>
-                  <button id="underline">U</button>
-                  <button id="unordered-list">UL</button>
-                  <button id="ordered-list">OL</button>
-                  <select id="header-choice">
-                    <option value="h1">H1</option>
-                    <option value="h2">H2</option>
-                    <option value="h3">H3</option>
-                    <option value="h4">H4</option>
-                    <option value="h5">H5</option>
-                    <option value="h6">H6</option>
-                  </select>
-                  <button id="uploadBtn">Välj fil</button>
-                  <span id="fileName"></span>
-                  <input type="file" id="fileInput" accept="image/*" style="display: none" />
-                  <button id="toggle-toolbar">⇆</button>
-                </div>
-              </div>
               <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
 
-                //hämtar toolbar script
-                loadScript('./js/toolbar.js', () => {
-                    // Callback function is called when the script is loaded
-                    console.log('Script loaded successfully!');
-                    // Additional logic or initialization if needed
-                });
-
-                loadScript('./js/add-image.js', () => {
-                    // Callback function is called when the script is loaded
-                    console.log('Script loaded successfully!');
-                    // Additional logic or initialization if needed
-                });
-
             const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
-            // const saveBtn = mainOutputContainer.querySelector('#save-note-button') as HTMLButtonElement | null;
 
             createNoteBtn.addEventListener('click', createNewNote);
-
-            //ersätt saveButton med dynamicSave
-            const savedNotes: Note[] = getSavedNotes();
-        
             const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
             const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+
+            //edit mode
+            if (noteDiv){
+                noteDiv.addEventListener('click', function(event){
+                    // Pass the event object to getToolbar
+                    getToolbar(clickedNote, event);
+                })
+            }
+            if (titleInput){
+                titleInput.addEventListener('click', function(event){
+                    // Pass the event object to getToolbar
+                    getToolbar(clickedNote, event);
+                })
+            }
+
             if (noteDiv && titleInput) {
                 noteDiv.addEventListener('input', function(){
-                    dynamicSave(clickedNote.id);
+                    dynamicSave(clickedNote.id, clickedNote.edit);
                 });
                 titleInput.addEventListener('input', function(){
-                    dynamicSave(clickedNote.id);
+                    dynamicSave(clickedNote.id, clickedNote.edit);
                 })
             } else {
                 console.error('Error: noteDiv is null');
             }
-
         }
     });
 
@@ -237,4 +212,92 @@ function loadScript(scriptSrc: string, callback: () => void): void {
   }
 
   
-  
+  function getToolbar(clickedNote: Note, event: MouseEvent) {
+    const today: Date = new Date();
+    clickedNote.edit = formatDate(today)
+    createButtons();
+    mainOutputContainer.innerHTML += `
+        <input id="notesTitle" value="${clickedNote.title}">
+        <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+        <div class="contain-toolbar">
+        <div class="keep-height"></div>
+        <div class="toolbar" id="toolbar">
+        <button id="bold">B</button>
+        <button id="italic">I</button>
+        <button id="underline">U</button>
+        <button id="unordered-list">UL</button>
+        <button id="ordered-list">OL</button>
+        <select id="header-choice">
+            <option value="h1">H1</option>
+            <option value="h2">H2</option>
+            <option value="h3">H3</option>
+            <option value="h4">H4</option>
+            <option value="h5">H5</option>
+            <option value="h6">H6</option>
+        </select>
+        <button id="uploadBtn">Välj fil</button>
+        <span id="fileName"></span>
+        <input type="file" id="fileInput" accept="image/*" style="display: none" />
+        <button id="toggle-toolbar">⇆</button>
+        </div>
+    </div>
+    <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
+
+    const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
+
+    createNoteBtn.addEventListener('click', createNewNote);
+
+    //hämtar toolbar script
+    loadScript('./js/toolbar.js', () => {
+        // Callback function is called when the script is loaded
+        console.log('Script loaded successfully!');
+        // Additional logic or initialization if needed
+    });
+
+    loadScript('./js/add-image.js', () => {
+    // Callback function is called when the script is loaded
+    console.log('Script loaded successfully!');
+    // Additional logic or initialization if needed
+    });
+    const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
+    
+    const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+
+    if (noteDiv && titleInput) {
+        noteDiv.addEventListener('input', function(){
+            dynamicSave(clickedNote.id, clickedNote.edit);
+        });
+        titleInput.addEventListener('input', function(){
+            dynamicSave(clickedNote.id, clickedNote.edit);
+        })
+    } else {
+        console.error('Error: noteDiv is null');
+    }
+
+        // Get the target element that triggered the click event
+        const targetElement = event.target as HTMLElement;
+
+        // Check if the target element is noteDiv or titleInput
+        if (targetElement.id === 'noteInput') {
+            // If it's noteDiv, focus on it and set the caret at the end
+            const noteDiv = document.getElementById('noteInput') as HTMLDivElement;
+            if (noteDiv) {
+                noteDiv.focus();
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.selectNodeContents(noteDiv);
+                range.collapse(false); // Set to end of text
+                selection?.removeAllRanges();
+                selection?.addRange(range);
+            }
+        } else if (targetElement.id === 'notesTitle') {
+            // If it's titleInput, focus on it and set the caret at the end
+            const titleInput = document.getElementById('notesTitle') as HTMLInputElement;
+            if (titleInput) {
+                titleInput.focus();
+                const length = titleInput.value.length;
+                titleInput.setSelectionRange(length, length);
+            }
+        }
+    
+  }
