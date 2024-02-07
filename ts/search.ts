@@ -6,8 +6,6 @@ const searchLink = document.getElementById("search-link") as HTMLAnchorElement;
 
 // Global elements
 let inputElement: HTMLInputElement;
-// let noteDisplayCard: HTMLDivElement;
-
 
 // Listen for clicks on the 'search' anchor and call the createInput function
 searchLink.addEventListener("click", function (e) {
@@ -49,7 +47,6 @@ function createInput() {
 
 // Fucntion to get the notes and display in output
 function getNotes(userSearchInput: string) {
-  //Linus Nya KOD
   // Check if the search input is empty
   if (!userSearchInput.trim()) {
     // Select and remove only the note cards from navOutputContainer
@@ -57,7 +54,6 @@ function getNotes(userSearchInput: string) {
     noteCards.forEach((card) => card.remove());
     return; // Exit the function if the search input is empty
   }
-  //SLUTAR HÄR
 
   // Select all noteDisplayCards within navOutputContainer
   const noteDisplayCards = document.querySelectorAll(
@@ -83,7 +79,6 @@ function getNotes(userSearchInput: string) {
     );
   });
 
-  //Linus Nya KOD - La till en if-sats på visat sökresultat.
   // Check if user has entered at least one character and filteredNotes is empty
   if (userSearchInput.length >= 1 && filteredNotes.length === 0) {
     // Create a new div for the "No notes found" message
@@ -96,7 +91,9 @@ function getNotes(userSearchInput: string) {
   } else {
     // Display the filtered notes
     filteredNotes.forEach((note) => {
+      //creates cards
       const card = createNoteCard(note);
+      // appends the cards
       navOutputContainer.appendChild(card);
     });
   }
