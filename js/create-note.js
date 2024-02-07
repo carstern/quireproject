@@ -37,7 +37,6 @@ function createNewNote() {
                 </div>
             </div>
             <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
-            <button id="save-note-button">Save</button>
         </div>`;
     loadScript('./js/toolbar.js', () => {
         console.log('Script loaded successfully!');
@@ -60,10 +59,10 @@ function createNewNote() {
         });
     }
     else {
-        console.error('Error: noteDiv is null');
+        console.error('Error: noteDiv or titleInput is null');
     }
 }
-//hämtar notes from localStorage - placerar i navOutput
+//hämtar notes from localStorage - placerar i navOutput - uppdateras dynamiskt tack vare dynamicSave();
 function getNotesFromLocalStorage() {
     const navOutputContainer = document.getElementById('nav-output-container');
     const mainOutputContainer = document.getElementById('main-output-container');
@@ -142,8 +141,7 @@ function createNoteCard(note) {
                   <button id="toggle-toolbar">⇆</button>
                 </div>
               </div>
-              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>
-                <button id="save-note-button" data-id="${clickedNote.id}">Save</button>`;
+              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
             //hämtar toolbar script
             loadScript('./js/toolbar.js', () => {
                 // Callback function is called when the script is loaded

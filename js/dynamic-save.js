@@ -6,6 +6,7 @@ function dynamicSave(uniqueId) {
     if (titleInput) {
         const updatedTitle = titleInput.value;
         const savedNotes = getSavedNotes();
+        // om ingenting hittas blir currentNoteIndex === -1
         const currentNoteIndex = savedNotes.findIndex(note => note.id === uniqueId);
         if (currentNoteIndex !== -1) {
             savedNotes[currentNoteIndex].note = updatedNote;
