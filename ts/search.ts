@@ -6,17 +6,8 @@ const searchLink = document.getElementById("search-link") as HTMLAnchorElement;
 
 // Global elements
 let inputElement: HTMLInputElement;
-let userSearchInput: string;
-let noteDisplayCard: HTMLDivElement;
+// let noteDisplayCard: HTMLDivElement;
 
-// Interface for the serach
-interface SearchCriteria {
-  id: string;
-  label: string;
-}
-
-// Get the notes from local storage, or init an empty array
-const notes: Note[] = JSON.parse(localStorage.getItem("notes") || "[]");
 
 // Listen for clicks on the 'search' anchor and call the createInput function
 searchLink.addEventListener("click", function (e) {
@@ -46,20 +37,18 @@ function createInput() {
   // Listen for user input and store it
   inputElement.addEventListener("input", function () {
     // Store and dynamically update the seach input value
-    userSearchInput = inputElement.value.toLowerCase();
+    const userSearchInput: string = inputElement.value.toLowerCase();
 
     // Lets us see the input in the console
     console.log(userSearchInput);
 
     // Call getSavedNotes each time input is changed
-    getNotes();
+    getNotes(userSearchInput);
   });
 }
 
 // Fucntion to get the notes and display in output
-function getNotes() {
-  // Trim before and after whitespace from input
-  const trimmedSearchInput = userSearchInput.trim();
+function getNotes(userSearchInput: string) {
   //Linus Nya KOD
   // Check if the search input is empty
   if (!userSearchInput.trim()) {
@@ -81,12 +70,12 @@ function getNotes() {
   });
 
   // Get the notes from local storage, or init an empty array if none
-  const LSNotes: Note[] = JSON.parse(
+  const savedNotes: Note[] = JSON.parse(
     localStorage.getItem("savedNotes") || "[]"
   );
 
-  // Filter the notes
-  const filteredNotes = LSNotes.filter(function (note) {
+  // Filter the notes - based on input
+  const filteredNotes = savedNotes.filter(function (note) {
     // Try the notes against the input
     return (
       note.title.toLowerCase().includes(userSearchInput) ||
@@ -94,8 +83,6 @@ function getNotes() {
     );
   });
 
-  // Get the user's search input
-  const searchInputValue = document.querySelector("input");
   //Linus Nya KOD - La till en if-sats på visat sökresultat.
   // Check if user has entered at least one character and filteredNotes is empty
   if (userSearchInput.length >= 1 && filteredNotes.length === 0) {
@@ -108,52 +95,9 @@ function getNotes() {
     navOutputContainer.appendChild(noNotesDiv);
   } else {
     // Display the filtered notes
-    filteredNotes.forEach(function (note, index) {
-      // Create a container card div for each result
-      noteDisplayCard = document.createElement("div");
-      // Define the content to display
-
-      noteDisplayCard.classList.add("note-card");
-      // We set an attribute to present the notes
-      noteDisplayCard.setAttribute("note-index", index.toString());
-
-      /*****EVAS KOD - se limit-note.ts****** */
-      const limitedNote = limitNoteLength(note.note);
-      noteDisplayCard.innerHTML = `
-                      <h3>${note.title}</h3>
-                      <p>${limitedNote}</p>
-                      <button class="button star-button">⭐ss</button>
-                      <button class="button delete-button">❌</button>
-                  `;
-      //SLUTAR HÄR
-      // Append
-      navOutputContainer.appendChild(noteDisplayCard);
-
-      // We get out attribute
-      const noteIndex = noteDisplayCard.getAttribute("note-index");
-
-      // We make our eventlistner viable to click on the result note
-      noteDisplayCard.addEventListener("click", function () {
-        // find the index (OBS detta genererar fel index då den tar från localstorage)
-        const clickedIndex = parseInt(noteIndex || "0", 10);
-        const clickedResultNote = filteredNotes[clickedIndex];
-
-        // Showcase the whole notes as it is
-
-        mainOutputContainer.innerHTML = `
-        <input placeholder="Add your title" id="notesTitle" value="${clickedResultNote.title}">
-        <p> Date created: ${clickedResultNote.date} | Last Edited: ${clickedResultNote.edit}</p>
-        <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedResultNote.note}</textarea>
-        `;
-
-        // OBS! Tog bort save knappen, för att det inte ska se ut som att man ska göra förändringar i detta läget med tanke på att i framtiden ska sparas automatiskt när du skriver i antecknigen.
-      });
+    filteredNotes.forEach((note) => {
+      const card = createNoteCard(note);
+      navOutputContainer.appendChild(card);
     });
   }
 }
-
-//   const quireLogo = document.getElementById('quire-logo');
-
-//   quireLogo.addEventListener('click', function(){
-//     location.reload();
-//   })
