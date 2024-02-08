@@ -1,4 +1,5 @@
-// Insert html content for first-time-info-box here
+
+/* // Insert html content for first-time-info-box here
 const content = `<h4>Hey! Welcome to Quire!</h4>
   <p>So now that you are finally here, what can this baby do for you?</p>
   <h4>Create Notes</h4>
@@ -12,6 +13,9 @@ const content = `<h4>Hey! Welcome to Quire!</h4>
 be able to find them easier, and/or use the search function to find specific notes of interest.</p>`;
 
 // When all content on the page has loaded, do all the stuff
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const welcomeOverlay = document.createElement("div");
   welcomeOverlay.classList.add("welcome-overlay");
@@ -23,8 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const body = document.querySelector("body") as HTMLBodyElement;
 
-  /* If welcome variable does not already exist, append everything 
-  and show the info-modal to the user */
+  // If welcome variable does not already exist, append everything and show the info-modal to the user 
   if (!localStorage.getItem("welcome")) {
     welcomeContainer.innerHTML += content;
     welcomeContainer.append(welcomeClose);
@@ -49,5 +52,26 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       welcomeContainer.classList.add("welcome-animate");
     }, 500);
+  }
+});  */
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const infoButton = document.getElementById("infoButton");
+  const infoBox = document.getElementById("infoBox");
+  const closeButton = document.getElementById("closeButton");
+
+  if (infoButton && infoBox && closeButton) {
+    infoButton.addEventListener("click", function () {
+      infoBox.style.display = "block";
+    });
+
+    closeButton.addEventListener("click", function () {
+      infoBox.style.display = "none";
+    });
   }
 });

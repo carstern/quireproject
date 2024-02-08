@@ -1,75 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-ZBYC9C7HL6"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBYC9C7HL6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+      gtag("config", "G-ZBYC9C7HL6");
+    </script>
 
-  gtag('config', 'G-ZBYC9C7HL6');
-</script>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quire</title>
     <!-- meta data here -->
     <!-- google font links here -->
     <!-- Här länkar vi vår css eva.css, jason.css....-->
-    <link rel="stylesheet" href="./css/create-note.css">
-    <link rel="stylesheet" href="./css/welcome.css">
-    <link rel="stylesheet" href="./css/toolbar.css">
-</head>
+    <link rel="stylesheet" href="./css/create-note.css" />
+    <link rel="stylesheet" href="./css/welcome.css" />
+    <link rel="stylesheet" href="./css/toolbar.css" />
+  </head>
 
-<body>
+  <body>
     <!-- byttes från section - för semantikens skull (viktigt med header säger Aldor, vi litar på honom :) -->
     <header class="nav-container" id="nav-container">
-        <section>
-            <!-- img = quire logo -->
-            <img src="" alt="quire-logo" id="quire-logo">
-        </section>
-        <nav>
-            <a href="" class="nav-link" id="search-link">Search</a>
-            <a href="" class="nav-link" id="fav-link">Stared</a>
-            <a href="" class="nav-link" id="statistics-link">Statistics</a>
-            <a href="" class="nav-link" id="templates-link">Templates</a>
-            <a href="" class="nav-link" id="setting-link">Settings</a>
+      <section>
+        <!-- img = quire logo -->
+        <img src="" alt="quire-logo" id="quire-logo" />
+      </section>
+      <nav>
+        <a href="" class="nav-link" id="search-link">Search</a>
+        <a href="" class="nav-link" id="fav-link">Stared</a>
+        <a href="" class="nav-link" id="statistics-link">Statistics</a>
+        <a href="" class="nav-link" id="templates-link">Templates</a>
+        <a href="" class="nav-link" id="setting-link">Settings</a>
+        
+        <button id="infoButton">Show Info</button>
 
-        </nav>
+        <div id="infoBox" class="infoBox">
+          <div class="infoContent">
+            <h2>Information</h2>
+            `
+            <h4>Hey! Welcome to Quire!</h4>
+            <p>
+              So now that you are finally here, what can this baby do for you?
+            </p>
+            <h4>Create Notes</h4>
+            <p>
+              Add notes on the fly with the click of a button. Fill them up with
+              your brightest ideas and keep them all handy in one place.
+            </p>
+            <h4>Edit & Style</h4>
+            <p>
+              You can (incredibly/miraculously) edit your previously created
+              notes, and style them with (revolutionizing/groundbreaking) tools
+              like bold or underlined text, or add an unordered list. And that's
+              actually it.
+            </p>
+            <h4>Favourite && || Search</h4>
+            <p>
+              For all the cavemen out there that just got on the internet, you
+              can mark notes as favourites to be able to find them easier,
+              and/or use the search function to find specific notes of interest.
+            </p>
+            <button id="closeButton">Close</button>
+          </div>
+        </div>
+      </nav>
     </header>
 
-
     <main>
-        <!-- aside istället för div? -->
-        <div class="nav-output-container" id="nav-output-container">
-            <!-- innehåll skapas dynamiskt i js? beronde på default view = alla anteckingar -->
-            <!-- stared view = alla stjärnmarkerade anteckningar -->
-            <!-- search result view = alla sökresultat -->
+      <!-- aside istället för div? -->
+      <div class="nav-output-container" id="nav-output-container">
+        <!-- innehåll skapas dynamiskt i js? beronde på default view = alla anteckingar -->
+        <!-- stared view = alla stjärnmarkerade anteckningar -->
+        <!-- search result view = alla sökresultat -->
 
-            <!-- card (section) skapas dynamiskt av knapptryck -->
-            <!-- exempel:
+        <!-- card (section) skapas dynamiskt av knapptryck -->
+        <!-- exempel:
                 <section class="card">
                 <h3>title</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores vero velit ea repellendus id, vel corrupti, accusamus aperiam explicabo minima cupiditate perferendis illum totam nisi. Sequi nam veniam cupiditate nobis.</p>
                 + 2 buttons - delete | star ==> vid hover
                 || ... i mobile view ==> statiska knappar tilll en början - sen swipe funktion
             </section> -->
+      </div>
+      <!-- section ist för div? - semantik -->
+      <div class="main-output-container" id="main-output-container">
+        <button class="more-button" id="more-button">More</button>
+        <!-- information hur amn änvänder sidan - visas först ==> ens senaste anteckning-->
+        <!-- skapa-anteckning ==> en notepad med titel + text area? -->
+        <!-- tool bar skapas dynamiskt? -->
+        <div class="floating-control-menu" id="floating-control-container">
+          <button class="new-note-button" id="new-note-button">New</button>
+          <button class="print-button" id="print-button">Print</button>
+          <button class="fav-button" id="fav-button">Star</button>
         </div>
-        <!-- section ist för div? - semantik -->
-        <div class="main-output-container" id="main-output-container">
-            <button class="more-button" id="more-button">More</button>
-            <!-- information hur amn änvänder sidan - visas först ==> ens senaste anteckning-->
-            <!-- skapa-anteckning ==> en notepad med titel + text area? -->
-            <!-- tool bar skapas dynamiskt? -->
-            <div class="floating-control-menu" id="floating-control-container">
-                <button class="new-note-button" id="new-note-button">New</button>
-                <button class="print-button" id="print-button">Print</button>
-                <button class="fav-button" id="fav-button">Star</button>
-            </div>
-            <!--  -->
-        </div>
+        <!--  -->
+      </div>
     </main>
     <script src="./js/welcome.js"></script>
     <script src="./js/create-note.js"></script>
@@ -78,6 +112,5 @@
     <!-- <script src="./js/toolbar.js"></script> -->
     <!-- scripts here 
     eva.js, jumi.js, jason.js....-->
-</body>
-
+  </body>
 </html>

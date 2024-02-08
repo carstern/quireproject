@@ -52,6 +52,41 @@ so the animation and closing of modal stays synced */
   color: white;
 }
 
+.hidden {
+  display: none;
+}
+
+.infoBox {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.infoContent {
+  text-align: center;
+}
+
+#infoButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#closeButton {
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
 @media (max-width: 1023px) {
   .welcome-container {
     width: 80%;
