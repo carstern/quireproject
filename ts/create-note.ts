@@ -73,6 +73,9 @@ function createNewNote() {
     //dynamiskt skapade element hämtas
     const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
     const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+    const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
+
+    createNoteBtn.addEventListener('click', createNewNote);//får sin funktionalitet
     //får eventListeners för dynamicSave();
     if (noteDiv && titleInput) {
         noteDiv.addEventListener('input', function(){
