@@ -1,32 +1,40 @@
 // Connect to all relevant html
-const noteDiv = document.querySelector(".note-div");
-const toolbar = document.querySelector("#toolbar");
+// const noteDiv = document.querySelector(".note-div");
+// const toolbar = document.querySelector("#toolbar");
 
-const boldButton = document.querySelector("#bold");
-const italicButton = document.querySelector("#italic");
-const underlineButton = document.querySelector("#underline");
-const ULButton = document.querySelector("#unordered-list");
-const OLButton = document.querySelector("#ordered-list");
-const headerChoice = document.querySelector("#header-choice");
-const toggleToolbar = document.querySelector("#toggle-toolbar");
+// const boldButton = document.querySelector("#bold");
+// const italicButton = document.querySelector("#italic");
+// const underlineButton = document.querySelector("#underline");
+// const ULButton = document.querySelector("#unordered-list");
+// const OLButton = document.querySelector("#ordered-list");
+// const headerChoice = document.querySelector("#header-choice");
+// const toggleToolbar = document.querySelector("#toggle-toolbar");
 
 /* Call update position when selection changes, and on mouseup inside,
 but only if toolbar is undocked (undock button has class "pressed") */
 document.addEventListener("selectionchange", () => {
+  const toggleToolbar = document.querySelector("#toggle-toolbar");
+
   if (toggleToolbar.classList.contains("pressed")) updatePosition();
 });
-noteDiv.addEventListener("mouseup", () => {
+document.querySelector(".note-div").addEventListener("mouseup", () => {
+  const toggleToolbar = document.querySelector("#toggle-toolbar");
+
   if (toggleToolbar.classList.contains("pressed")) updatePosition();
 });
 
 /* Handles position calculation of undocked toolbar and prevents it 
 from leaving the screen on smaller screens */
 function updatePosition() {
+  const toolbar = document.querySelector("#toolbar");
+  const noteDiv = document.querySelector(".note-div");
+
   // Fetch users selection
   let selection = window.getSelection();
   /* Show undocked toolbar when selection is at least one character long, 
   and is actually inside the note div */
   if (selection.toString().length > 0) {
+
     // Check if the selection is inside the note div
     if (noteDiv.contains(selection.getRangeAt(0).commonAncestorContainer)) {
       toolbar.style.display = "flex";
@@ -52,28 +60,28 @@ function updatePosition() {
   } else toolbar.style.left = centerX + window.scrollX + "px";
 }
 // Text edit functions, self-explanatory
-boldButton.addEventListener("click", () => {
+document.querySelector("#bold").addEventListener("click", () => {
   document.execCommand("bold", false, null);
 });
-italicButton.addEventListener("click", () => {
+document.querySelector("#italic").addEventListener("click", () => {
   document.execCommand("italic", false, null);
 });
-underlineButton.addEventListener("click", () => {
+document.querySelector("#underline").addEventListener("click", () => {
   document.execCommand("underline", false, null);
 });
-ULButton.addEventListener("click", () => {
+document.querySelector("#unordered-list").addEventListener("click", () => {
   document.execCommand("insertUnorderedList", false, null);
 });
-OLButton.addEventListener("click", () => {
+document.querySelector("#ordered-list").addEventListener("click", () => {
   document.execCommand("insertOrderedList", false, null);
 });
-headerChoice.addEventListener("change", () => {
-  document.execCommand("formatBlock", false, headerChoice.value);
+document.querySelector("#header-choice").addEventListener("change", () => {
+  document.execCommand("formatBlock", false, document.querySelector("#header-choice").value);
 });
 
 // Toolbar dock/undock toggle button
-toggleToolbar.addEventListener("click", () => {
+document.querySelector("#toggle-toolbar").addEventListener("click", () => {
   updatePosition();
-  toggleToolbar.classList.toggle("pressed");
-  toolbar.classList.toggle("absolute");
+  document.querySelector("#toggle-toolbar").classList.toggle("pressed");
+  document.querySelector("#toolbar").classList.toggle("absolute");
 });

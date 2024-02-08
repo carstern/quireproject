@@ -17,12 +17,12 @@ window.addEventListener('load', getNotesFromLocalStorage);
 
 createNoteBtn.addEventListener('click', createNewNote);
 
-function createNewNote() {
+async function createNewNote() {
     const today: Date = new Date();
     const formattedDate: string = formatDate(today);
     const uniqueId: number = today.getTime();
-    
-    createButtons(); //skapar knappar
+
+    createButtons(); // Create buttons
 
     mainOutputContainer.innerHTML += `
         <div>
@@ -53,32 +53,42 @@ function createNewNote() {
             <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
         </div>`;
 
-    loadScript('./js/toolbar.js', () => {
-        console.log('Script loaded successfully!');
-      });
+    try {
+        await Promise.all([
+            loadScript('./js/toolbar.js', () => {
+                console.log('Toolbar script loaded successfully!');
+            }),
+            loadScript('./js/add-image.js', () => {
+                console.log('Add image script loaded successfully!');
+            })
+        ]);
 
-    loadScript('./js/add-image.js', () => {
-        console.log('Script loaded successfully!');
-    });
+        console.log('All scripts loaded successfully!');
+        
+        const savedNotes: Note[] = getSavedNotes();
+        savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
+        saveNotesToLocalStorage(savedNotes);
+        getNotesFromLocalStorage();
 
-    const savedNotes: Note[] = getSavedNotes();
-    savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
-    saveNotesToLocalStorage(savedNotes);
-    getNotesFromLocalStorage();
-
-    const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
-    const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
-    if (noteDiv && titleInput) {
-        noteDiv.addEventListener('input', function(){
-            dynamicSave(uniqueId);
-        });
-        titleInput.addEventListener('input', function(){
-            dynamicSave(uniqueId);
-        })
-    } else {
-        console.error('Error: noteDiv or titleInput is null');
+        const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
+        const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+        if (noteDiv && titleInput) {
+            noteDiv.addEventListener('input', function(){
+                dynamicSave(uniqueId);
+            });
+            titleInput.addEventListener('input', function(){
+                dynamicSave(uniqueId);
+            });
+        } else {
+            console.error('Error: noteDiv or titleInput is null');
+        }
+    } catch (error) {
+        console.error('Error loading scripts:', error);
     }
 }
+
+
+
 
 
 //hämtar notes from localStorage - placerar i navOutput - uppdateras dynamiskt tack vare dynamicSave();
@@ -137,6 +147,7 @@ function createNoteCard(note: Note): HTMLDivElement {
 
     // varje kort som klickas visas i mainOutput - tar bort befintligt kort som visas
     card.addEventListener('click', function () {
+        // checkExistingScripts();
         const existingViewNoteCard = document.getElementById('view-note-card') as HTMLDivElement | null;
 
         if (existingViewNoteCard) {
@@ -227,14 +238,28 @@ function formatDate(date: Date): string {
 
 // Function to load a script dynamically
 function loadScript(scriptSrc: string, callback: () => void): void {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = scriptSrc;
-    script.onload = callback;
-  
-    // Append the script to the document
-    document.head.appendChild(script);
-  }
+    const existingScripts = document.body.querySelectorAll(`script[src="${scriptSrc}"]`);
+    const existingShowAllNotesScript = document.body.querySelector('script[src="./js/show-all-notes.js"]');
 
-  
-  
+    if (existingScripts.length > 0) {
+        // Remove existing scripts with the same source
+        existingScripts.forEach(script => {
+            script.parentNode?.removeChild(script);
+        });
+    }
+
+    if (existingShowAllNotesScript) {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = scriptSrc;
+        script.onload = callback;
+        // script.defer = true;
+
+        // Insert the script after the existing show-all-notes.js script
+        existingShowAllNotesScript.parentNode?.insertBefore(script, existingShowAllNotesScript.nextSibling);
+    } else {
+        console.error('Error: show-all-notes.js script not found.');
+    }
+}
+
+

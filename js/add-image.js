@@ -1,9 +1,10 @@
 "use strict";
-let imageCounter = 0; // Räknare för att hålla koll på antalet inlästa bilder
-// Skapa en ny instans av DraggableImage för varje ny bild
+
 document
     .getElementById("fileInput")
     .addEventListener("change", function (e) {
+        let imageCounter = 0; // Räknare för att hålla koll på antalet inlästa bilder
+        // Skapa en ny instans av DraggableImage för varje ny bild
     const target = e.target;
     const file = target.files[0];
     if (!file.type.startsWith("image/")) {

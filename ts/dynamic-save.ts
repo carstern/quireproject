@@ -1,7 +1,7 @@
 function dynamicSave(uniqueId: number) {
     const noteDiv = document.getElementById('noteInput') as HTMLDivElement;
     const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
-    const updatedNote = noteDiv.innerHTML;
+    const updatedNote: string = noteDiv.innerHTML;
 
     if (titleInput) {
         const updatedTitle: string = titleInput.value;
