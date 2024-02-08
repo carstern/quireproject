@@ -12,17 +12,19 @@ type Note = {
 const mainOutputContainer = document.getElementById('main-output-container') as HTMLDivElement;
 const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
 
-//hämtar sparade notes när sidan laddas
+//hämtar sparade notes när sidan laddas - visas i NavOutput
 window.addEventListener('load', getNotesFromLocalStorage); 
 
-createNoteBtn.addEventListener('click', createNewNote);
+createNoteBtn.addEventListener('click', createNewNote);//får sin funktionalitet
 
-async function createNewNote() {
+function createNewNote() {
+    //hämtar datum för created och edit
     const today: Date = new Date();
     const formattedDate: string = formatDate(today);
     const uniqueId: number = today.getTime();
-
-    createButtons(); // Create buttons
+    
+    //grundmallen skapas
+    createButtons(); //skapar knappar floating menu control
 
     mainOutputContainer.innerHTML += `
         <div>
@@ -53,42 +55,36 @@ async function createNewNote() {
             <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
         </div>`;
 
-    try {
-        await Promise.all([
-            loadScript('./js/toolbar.js', () => {
-                console.log('Toolbar script loaded successfully!');
-            }),
-            loadScript('./js/add-image.js', () => {
-                console.log('Add image script loaded successfully!');
-            })
-        ]);
+    //hämtar script med funktionalitet för textredigering och bildhantering
+    loadScript('./js/toolbar.js', () => {
+        console.log('Script loaded successfully!');
+      });
 
-        console.log('All scripts loaded successfully!');
-        
-        const savedNotes: Note[] = getSavedNotes();
-        savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
-        saveNotesToLocalStorage(savedNotes);
-        getNotesFromLocalStorage();
+    loadScript('./js/add-image.js', () => {
+        console.log('Script loaded successfully!');
+    });
 
-        const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
-        const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
-        if (noteDiv && titleInput) {
-            noteDiv.addEventListener('input', function(){
-                dynamicSave(uniqueId);
-            });
-            titleInput.addEventListener('input', function(){
-                dynamicSave(uniqueId);
-            });
-        } else {
-            console.error('Error: noteDiv or titleInput is null');
-        }
-    } catch (error) {
-        console.error('Error loading scripts:', error);
+    //skapar en tom note - visas i nav med getNotesFromLocalStorage();
+    const savedNotes: Note[] = getSavedNotes();
+    savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
+    saveNotesToLocalStorage(savedNotes);
+    getNotesFromLocalStorage();
+
+    //dynamiskt skapade element hämtas
+    const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
+    const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+    //får eventListeners för dynamicSave();
+    if (noteDiv && titleInput) {
+        noteDiv.addEventListener('input', function(){
+            dynamicSave(uniqueId, formattedDate);
+        });
+        titleInput.addEventListener('input', function(){
+            dynamicSave(uniqueId, formattedDate);
+        })
+    } else {
+        console.error('Error: noteDiv or titleInput is null');
     }
 }
-
-
-
 
 
 //hämtar notes from localStorage - placerar i navOutput - uppdateras dynamiskt tack vare dynamicSave();
@@ -97,15 +93,17 @@ function getNotesFromLocalStorage() {
     const mainOutputContainer = document.getElementById('main-output-container') as HTMLDivElement | null;
 
     if (navOutputContainer && mainOutputContainer) {
+        //rensar innehåll först
         navOutputContainer.innerHTML = '';
         const savedNotes: Note[] = getSavedNotes();
-        //skapar ett kort/ note
+        //skapar ett kort för varje Note
         savedNotes.forEach((note) => {
             if (!note) {
                 console.error('Note is null. Skipping.');
                 return;
             }
 
+            //nytt kort skapas - appendas till navOutput
             const card = createNoteCard(note);
             navOutputContainer.appendChild(card);
         });
@@ -118,11 +116,13 @@ function getNotesFromLocalStorage() {
 function createNoteCard(note: Note): HTMLDivElement {
     const card: HTMLDivElement = document.createElement('div');
     card.classList.add('note-card');
+    //kortets attribut === id
     card.setAttribute('data-id', note.id.toString());
 
-    // Limit the note length
+    // begränsar antal tecken (över 30)
     const limitedNote: string = limitNoteLength(note.note);
 
+    //kortet får innehåll - knapparna får unikt id
     card.innerHTML = `
         <h3>${note.title}</h3>
         <p>${limitedNote}</p> 
@@ -133,7 +133,8 @@ function createNoteCard(note: Note): HTMLDivElement {
     const starBtn = card.querySelector('.star-button') as HTMLButtonElement;
     const deleteBtn = card.querySelector('.delete-button') as HTMLButtonElement;
 
-    if (starBtn) {
+    //gör knapparna funktionella - anropar functions onclick baserat på id
+    if (starBtn) {  
         starBtn.addEventListener('click', function () {
             addNotesToFavourites(note.id);
         });
@@ -145,87 +146,153 @@ function createNoteCard(note: Note): HTMLDivElement {
         });
     }
 
-    // varje kort som klickas visas i mainOutput - tar bort befintligt kort som visas
+    // varje kort som klickas visas i mainOutput
     card.addEventListener('click', function () {
-        // checkExistingScripts();
         const existingViewNoteCard = document.getElementById('view-note-card') as HTMLDivElement | null;
 
+        // - tar bort befintligt kort som visas
         if (existingViewNoteCard) {
             mainOutputContainer.removeChild(existingViewNoteCard);
         }
 
+        //hittar rätt kort baserat på id
         const clickedNote = getSavedNotes().find((n) => n.id === note.id);
 
         if (clickedNote) {
+            //Skapar vår vy för VIEW MODE
             createButtons();
             mainOutputContainer.innerHTML += `
                 <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                 <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
-                <div class="contain-toolbar">
-                <div class="keep-height"></div>
-                <div class="toolbar" id="toolbar">
-                  <button id="bold">B</button>
-                  <button id="italic">I</button>
-                  <button id="underline">U</button>
-                  <button id="unordered-list">UL</button>
-                  <button id="ordered-list">OL</button>
-                  <select id="header-choice">
-                    <option value="h1">H1</option>
-                    <option value="h2">H2</option>
-                    <option value="h3">H3</option>
-                    <option value="h4">H4</option>
-                    <option value="h5">H5</option>
-                    <option value="h6">H6</option>
-                  </select>
-                  <button id="uploadBtn">Välj fil</button>
-                  <span id="fileName"></span>
-                  <input type="file" id="fileInput" accept="image/*" style="display: none" />
-                  <button id="toggle-toolbar">⇆</button>
-                </div>
-              </div>
               <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
 
-                //hämtar toolbar script
-                loadScript('./js/toolbar.js', () => {
-                    // Callback function is called when the script is loaded
-                    console.log('Script loaded successfully!');
-                    // Additional logic or initialization if needed
-                });
-
-                loadScript('./js/add-image.js', () => {
-                    // Callback function is called when the script is loaded
-                    console.log('Script loaded successfully!');
-                    // Additional logic or initialization if needed
-                });
-
+            //hämtar element - ger funktionalitet
             const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
-            // const saveBtn = mainOutputContainer.querySelector('#save-note-button') as HTMLButtonElement | null;
-
             createNoteBtn.addEventListener('click', createNewNote);
-
-            //ersätt saveButton med dynamicSave
-            const savedNotes: Note[] = getSavedNotes();
-        
             const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
             const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+
+            //Tooglar till EDIT MODE när inputs klickas
+            if (noteDiv){
+                noteDiv.addEventListener('click', function(event){
+                    // Pass the event object to editMode
+                    editMode(clickedNote, event);
+                })
+            }
+            if (titleInput){
+                titleInput.addEventListener('click', function(event){
+                    // Pass the event object to editMode
+                    editMode(clickedNote, event);
+                })
+            }
+
+            //uppdaterar innehåll med dynamicSave();
             if (noteDiv && titleInput) {
                 noteDiv.addEventListener('input', function(){
-                    dynamicSave(clickedNote.id);
+                    dynamicSave(clickedNote.id, clickedNote.edit);
                 });
                 titleInput.addEventListener('input', function(){
-                    dynamicSave(clickedNote.id);
+                    dynamicSave(clickedNote.id, clickedNote.edit);
                 })
             } else {
                 console.error('Error: noteDiv is null');
             }
-
         }
     });
 
     return card;
 }
 
-//formaterar datum
+  function editMode(clickedNote: Note, event: MouseEvent) {
+    //hämtar nytt datum för last edited
+    const today: Date = new Date();
+    clickedNote.edit = formatDate(today)
+    //skapar editMode-mall (med uppdaterad last edited)
+    createButtons();
+    mainOutputContainer.innerHTML += `
+        <input id="notesTitle" value="${clickedNote.title}">
+        <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+        <div class="contain-toolbar">
+        <div class="keep-height"></div>
+        <div class="toolbar" id="toolbar">
+        <button id="bold">B</button>
+        <button id="italic">I</button>
+        <button id="underline">U</button>
+        <button id="unordered-list">UL</button>
+        <button id="ordered-list">OL</button>
+        <select id="header-choice">
+            <option value="h1">H1</option>
+            <option value="h2">H2</option>
+            <option value="h3">H3</option>
+            <option value="h4">H4</option>
+            <option value="h5">H5</option>
+            <option value="h6">H6</option>
+        </select>
+        <button id="uploadBtn">Välj fil</button>
+        <span id="fileName"></span>
+        <input type="file" id="fileInput" accept="image/*" style="display: none" />
+        <button id="toggle-toolbar">⇆</button>
+        </div>
+    </div>
+    <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
+
+    const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
+    const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
+    const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
+    createNoteBtn.addEventListener('click', createNewNote);
+
+    //hämtar toolbar script
+    loadScript('./js/toolbar.js', () => {
+        console.log('Script loaded successfully!');
+    });
+
+    loadScript('./js/add-image.js', () => {
+    console.log('Script loaded successfully!');
+    });
+
+    // uppdaterar innehåll med dynamicSave();
+    if (noteDiv && titleInput) {
+        noteDiv.addEventListener('input', function(){
+            dynamicSave(clickedNote.id, clickedNote.edit);
+        });
+        titleInput.addEventListener('input', function(){
+            dynamicSave(clickedNote.id, clickedNote.edit);
+        })
+    } else {
+        console.error('Error: noteDiv is null');
+    }
+
+        // hämtar elementet som först klickades på som target
+        const targetElement = event.target as HTMLElement;
+
+        // undersöker vilket element det var
+        if (targetElement.id === 'noteInput') {
+            // placerar vår 'text cursor' i slutet av texten för edit
+            const noteDiv = document.getElementById('noteInput') as HTMLDivElement;
+            if (noteDiv) {
+                noteDiv.focus();
+                //måste göra en createRange (iom DivElement)
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.selectNodeContents(noteDiv);
+                range.collapse(false); // placerar 'text cursor' sist
+                selection?.removeAllRanges();
+                selection?.addRange(range);
+            }
+        } else if (targetElement.id === 'notesTitle') {
+            // placerar vår 'caret' i slutet av texten för edit
+            const titleInput = document.getElementById('notesTitle') as HTMLInputElement;
+            if (titleInput) {
+                titleInput.focus();
+                const length = titleInput.value.length;
+                //setSelectionReange fungerar på InputElement (inte DIV)
+                titleInput.setSelectionRange(length, length);
+            }
+        }
+    
+  }
+
+  //formaterar datum
 function formatDate(date: Date): string {
     const year: number = date.getFullYear();
     const month: number = date.getMonth() + 1;
@@ -236,30 +303,15 @@ function formatDate(date: Date): string {
     return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
 }
 
-// Function to load a script dynamically
+// Funktion för att ladda scripts som inte är hårdkodade i index.html
 function loadScript(scriptSrc: string, callback: () => void): void {
-    const existingScripts = document.body.querySelectorAll(`script[src="${scriptSrc}"]`);
-    const existingShowAllNotesScript = document.body.querySelector('script[src="./js/show-all-notes.js"]');
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+    script.onload = callback;
+  
+    // placerar scriptet i head (index.html)
+    document.head.appendChild(script);
+  }
 
-    if (existingScripts.length > 0) {
-        // Remove existing scripts with the same source
-        existingScripts.forEach(script => {
-            script.parentNode?.removeChild(script);
-        });
-    }
-
-    if (existingShowAllNotesScript) {
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = scriptSrc;
-        script.onload = callback;
-        // script.defer = true;
-
-        // Insert the script after the existing show-all-notes.js script
-        existingShowAllNotesScript.parentNode?.insertBefore(script, existingShowAllNotesScript.nextSibling);
-    } else {
-        console.error('Error: show-all-notes.js script not found.');
-    }
-}
-
-
+  

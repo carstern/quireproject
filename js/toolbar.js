@@ -13,9 +13,7 @@
 /* Call update position when selection changes, and on mouseup inside,
 but only if toolbar is undocked (undock button has class "pressed") */
 document.addEventListener("selectionchange", () => {
-  const toggleToolbar = document.querySelector("#toggle-toolbar");
-
-  if (toggleToolbar.classList.contains("pressed")) updatePosition();
+  if (document.querySelector("#toggle-toolbar").classList.contains("pressed")) updatePosition();
 });
 document.querySelector(".note-div").addEventListener("mouseup", () => {
   const toggleToolbar = document.querySelector("#toggle-toolbar");
