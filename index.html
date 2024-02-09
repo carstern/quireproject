@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,22 +9,23 @@
     <!-- Här länkar vi vår css eva.css, jason.css....-->
     <title>Quire</title>
 </head>
+
 <body>
     <!-- behövs en header? -->
     <section class="nav-container" id="nav-container">
         <nav>
             <!-- img = quire logo -->
-            <img src="" alt="quire-logo"> 
+            <img src="" alt="quire-logo">
             <a href="" class="nav-link" id="search-link">Search</a>
             <a href="" class="nav-link" id="fav-link">Stared</a>
             <a href="" class="nav-link" id="statistics-link">Statistics</a>
             <a href="" class="nav-link" id="templates-link">Templates</a>
             <a href="" class="nav-link" id="setting-link">Settings</a>
-            
+
         </nav>
     </section>
 
-   
+
     <main>
         <div class="nav-output-container" id="nav-output-container">
             <!-- innehåll skapas dynamiskt i js? beronde på default view = alla anteckingar -->
@@ -52,7 +54,10 @@
             <!--  -->
         </div>
     </main>
+    <script src="exportera-formatering.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@2.0.2/marked.min.js"></script>
     <!-- scripts here 
     eva.js, jumi.js, jason.js....-->
 </body>
-</html>                   
+
+</html>
