@@ -1,139 +1,91 @@
 "use strict";
-// koppla till main-output-container
+//hämtar HTML element
 const mainOutputContainer = document.getElementById('main-output-container');
 const createNoteBtn = document.getElementById('new-note-button');
-// anropar funtionen som visar våra sparade anteckningar
+//hämtar sparade notes när sidan laddas - visas i NavOutput
 window.addEventListener('load', getNotesFromLocalStorage);
-createNoteBtn.addEventListener('click', function () {
-    createNewNote();
-});
+createNoteBtn.addEventListener('click', createNewNote); //får sin funktionalitet
 function createNewNote() {
-    // Hämtar dagen datum - sparar som en string
+    //hämtar datum för created och edit
     const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1; // Month is zero-based, so we add 1
-    const day = today.getDate();
-    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-    //anropar funtion som skapar våra knappar
-    createButtons();
-    //skapar en grundmall för anteckning
+    const formattedDate = formatDate(today);
+    const uniqueId = today.getTime();
+    //grundmallen skapas
+    createButtons(); //skapar knappar floating menu control
     mainOutputContainer.innerHTML += `
-    </div>
-    <input placeholder="Add your title" id="notesTitle">
-    <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
-    <textarea id="noteInput" name="userInput" placeholder="Type your notes here"></textarea>
-    <button id="save-note-button">Save</button>`;
-    // Hämtar vi vår dynamiskt skapade spara-knapp
-    const saveBtn = document.getElementById('save-note-button');
+        <div>
+            <input placeholder="Add your title" id="notesTitle">
+            <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
+            <div class="contain-toolbar">
+                <div class="keep-height"></div>
+                <div class="toolbar" id="toolbar">
+                    <button id="bold">B</button>
+                    <button id="italic">I</button>
+                    <button id="underline">U</button>
+                    <button id="unordered-list">UL</button>
+                    <button id="ordered-list">OL</button>
+                    <select id="header-choice">
+                        <option value="h1">H1</option>
+                        <option value="h2">H2</option>
+                        <option value="h3">H3</option>
+                        <option value="h4">H4</option>
+                        <option value="h5">H5</option>
+                        <option value="h6">H6</option>
+                    </select>
+                    <button id="uploadBtn">Välj fil</button>
+                    <span id="fileName"></span>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none" />
+                    <button id="toggle-toolbar">⇆</button>
+                </div>
+            </div>
+            <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
+        </div>`;
+    //hämtar script med funktionalitet för textredigering och bildhantering
+    loadScript('./js/toolbar.js', () => {
+        console.log('Script loaded successfully!');
+    });
+    loadScript('./js/add-image.js', () => {
+        console.log('Script loaded successfully!');
+    });
+    //skapar en tom note - visas i nav med getNotesFromLocalStorage();
+    const savedNotes = getSavedNotes();
+    savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
+    saveNotesToLocalStorage(savedNotes);
+    getNotesFromLocalStorage();
+    //dynamiskt skapade element hämtas
+    const noteDiv = document.getElementById('noteInput');
+    const titleInput = document.getElementById('notesTitle');
     const createNoteBtn = document.getElementById('new-note-button');
-    //försäkrar att knappen finns
-    if (saveBtn) {
-        saveBtn.addEventListener('click', function () {
-            //kopplar vi tll html element
-            const titleInput = document.getElementById('notesTitle');
-            const noteTextArea = document.getElementById('noteInput');
-            if (titleInput && noteTextArea) {
-                //hämtar värdet av titel + anteckning
-                const savedTitle = titleInput.value;
-                const savedNote = noteTextArea.value;
-                // Hämtar vi redan sparaed anteckning || skapar ny array för förstagångsanvändare
-                const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
-                // lägger till vår nya anteckning - sparas
-                savedNotes.push({ title: savedTitle, note: savedNote, date: formattedDate, edit: formattedDate });
-                // Sparar till localStorage
-                localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
-                //sidan laddas om för att dynamiskt skapa innehåll i nav-output från localStorage
-                location.reload();
-            }
-            else {
-                console.error('Error: titleInput or noteTextArea is null');
-            }
+    createNoteBtn.addEventListener('click', createNewNote); //får sin funktionalitet
+    //får eventListeners för dynamicSave();
+    if (noteDiv && titleInput) {
+        noteDiv.addEventListener('input', function () {
+            dynamicSave(uniqueId, formattedDate);
+        });
+        titleInput.addEventListener('input', function () {
+            dynamicSave(uniqueId, formattedDate);
         });
     }
     else {
-        console.error('Error: saveBtn is null');
+        console.error('Error: noteDiv or titleInput is null');
     }
-    //vår nyskapade createNoteBTn får samma funktionalitet som startsidan
-    createNoteBtn.addEventListener('click', function () {
-        createNewNote();
-    });
 }
-// hämtar sparade anteckningar när sidan laddas om
+//hämtar notes from localStorage - placerar i navOutput - uppdateras dynamiskt tack vare dynamicSave();
 function getNotesFromLocalStorage() {
     const navOutputContainer = document.getElementById('nav-output-container');
     const mainOutputContainer = document.getElementById('main-output-container');
     if (navOutputContainer && mainOutputContainer) {
-        // Hämtar sparade anteckningar || skapar ny array för förstagångsanvändare
-        const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
-        // loopar genom våra anteckningar - skapar kort - med ett indexattribut för att särskilja dem
-        savedNotes.forEach((note, index) => {
-            const card = document.createElement('div');
-            card.classList.add('note-card');
-            // ger ett attribut som unik identifikation - ger kortet innehåll
-            card.setAttribute('data-index', index.toString());
-            card.innerHTML = `
-                <h3>${note.title}</h3>
-                <p>${note.note}</p>
-                <button class="button star-button">⭐</button>
-                <button class="button delete-button">❌</button>
-            `;
-            // varje unikt kort får en eventListener
-            card.addEventListener('click', function () {
-                // undersöker om main-output redan har innehåll (dvs redan visar en befintlig anteckning)
-                const existingViewNoteCard = document.getElementById('view-note-card');
-                if (existingViewNoteCard) {
-                    // raderar isf innehållet från mainoutput
-                    mainOutputContainer.removeChild(existingViewNoteCard);
-                }
-                const dataIndex = card.getAttribute('data-index');
-                // Hämtar den specifika anteckningen från vår localStorage
-                const clickedNoteIndex = parseInt(dataIndex || '0', 10);
-                const clickedNote = savedNotes[clickedNoteIndex];
-                //hämtar knappar
-                createButtons();
-                // Visar vårt innehåll från kortet
-                mainOutputContainer.innerHTML += `
-                    <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
-                    <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
-                    <textarea id="noteInput" name="userInput" placeholder="Type your notes here">${clickedNote.note}</textarea>
-                    <button id="save-note-button">Save</button>`;
-                // De dynamiskt skapde knapparna får samma funktionalitet som default-läget
-                const createNoteBtn = document.getElementById('new-note-button');
-                const saveBtn = mainOutputContainer.querySelector('#save-note-button');
-                createNoteBtn.addEventListener('click', function () {
-                    createNewNote();
-                });
-                if (saveBtn) {
-                    saveBtn.addEventListener('click', function () {
-                        //kopplar till våra html-elemnt
-                        const updatedTitleInput = document.getElementById('notesTitle');
-                        const updatedNoteTextArea = document.getElementById('noteInput');
-                        if (updatedTitleInput && updatedNoteTextArea) {
-                            //hämtar dagens datum (KAN GÖRAS OM TILL EN FRISTÅENDE FUNKTION)
-                            const currentDate = new Date();
-                            const year = currentDate.getFullYear();
-                            const month = currentDate.getMonth() + 1;
-                            const day = currentDate.getDate();
-                            const hours = currentDate.getHours();
-                            const minutes = currentDate.getMinutes();
-                            // formaterar till en string
-                            const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
-                            const updatedTitle = updatedTitleInput.value;
-                            const updatedNote = updatedNoteTextArea.value;
-                            const dateCreated = clickedNote.date;
-                            const editdate = formattedDate;
-                            // anropar funktionen för att uppdatera och spara vårt innehåll - lägger till last edited
-                            updateAndSaveNote(clickedNoteIndex, updatedTitle, updatedNote, dateCreated, editdate);
-                        }
-                        else {
-                            console.error('Error: updatedTitleInput or updatedNoteTextArea is null');
-                        }
-                    });
-                }
-                else {
-                    console.error('Error: saveBtn is null');
-                }
-            });
+        //rensar innehåll först
+        navOutputContainer.innerHTML = '';
+        const savedNotes = getSavedNotes();
+        //skapar ett kort för varje Note
+        savedNotes.forEach((note) => {
+            if (!note) {
+                console.error('Note is null. Skipping.');
+                return;
+            }
+            //nytt kort skapas - appendas till navOutput
+            const card = createNoteCard(note);
             navOutputContainer.appendChild(card);
         });
     }
@@ -141,24 +93,181 @@ function getNotesFromLocalStorage() {
         console.error('Error: navOutputContainer or mainOutputContainer is null');
     }
 }
-//uppdaterar och sparar vid edit - genom att ta emot fem parameterar
-function updateAndSaveNote(index, updatedTitle, updatedNote, dateCreated, editDate) {
-    //Hämtar från localStorage || skapar en ny array för förstagångsanvändare
-    const savedNotes = JSON.parse(localStorage.getItem('savedNotes') || '[]');
-    // uppdaterar kortet så att den behåller sitt ursprungliga index
-    savedNotes[index] = { title: updatedTitle, note: updatedNote, date: dateCreated, edit: editDate };
-    // Sparar datan i localStorage
-    localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
-    // Laddas sidan om för att uppdatera enligt getNotesFromLocalStorage
-    location.reload();
+//skapar kort - ger id / attribut / knappar med funktioner baserat på id
+function createNoteCard(note) {
+    const card = document.createElement('div');
+    card.classList.add('note-card');
+    //kortets attribut === id
+    card.setAttribute('data-id', note.id.toString());
+    // begränsar antal tecken (över 30)
+    const limitedNote = limitNoteLength(note.note);
+    //kortet får innehåll - knapparna får unikt id
+    card.innerHTML = `
+        <h3>${note.title}</h3>
+        <p>${limitedNote}</p> 
+        <button class="button star-button" data-id="${note.id}">⭐</button>
+        <button class="button delete-button" data-id="${note.id}">❌</button>`;
+    const starBtn = card.querySelector('.star-button');
+    const deleteBtn = card.querySelector('.delete-button');
+    //gör knapparna funktionella - anropar functions onclick baserat på id
+    if (starBtn) {
+        starBtn.addEventListener('click', function () {
+            addNotesToFavourites(note.id);
+        });
+    }
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function () {
+            deleteNoteFromLocalStorage(note.id);
+        });
+    }
+    // varje kort som klickas visas i mainOutput
+    card.addEventListener('click', function () {
+        const existingViewNoteCard = document.getElementById('view-note-card');
+        // - tar bort befintligt kort som visas
+        if (existingViewNoteCard) {
+            mainOutputContainer.removeChild(existingViewNoteCard);
+        }
+        //hittar rätt kort baserat på id
+        const clickedNote = getSavedNotes().find((n) => n.id === note.id);
+        if (clickedNote) {
+            //Skapar vår vy för VIEW MODE
+            createButtons();
+            mainOutputContainer.innerHTML += `
+                <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
+                <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
+            //hämtar element - ger funktionalitet
+            const createNoteBtn = document.getElementById('new-note-button');
+            createNoteBtn.addEventListener('click', createNewNote);
+            const noteDiv = document.getElementById('noteInput');
+            const titleInput = document.getElementById('notesTitle');
+            //Tooglar till EDIT MODE när inputs klickas
+            if (noteDiv) {
+                noteDiv.addEventListener('click', function (event) {
+                    // Pass the event object to editMode
+                    editMode(clickedNote, event);
+                });
+            }
+            if (titleInput) {
+                titleInput.addEventListener('click', function (event) {
+                    // Pass the event object to editMode
+                    editMode(clickedNote, event);
+                });
+            }
+            //uppdaterar innehåll med dynamicSave();
+            if (noteDiv && titleInput) {
+                noteDiv.addEventListener('input', function () {
+                    dynamicSave(clickedNote.id, clickedNote.edit);
+                });
+                titleInput.addEventListener('input', function () {
+                    dynamicSave(clickedNote.id, clickedNote.edit);
+                });
+            }
+            else {
+                console.error('Error: noteDiv is null');
+            }
+        }
+    });
+    return card;
 }
-//våra knappar skapas dynamiskt varje gång vårt innehåll ändras i main-output
-function createButtons() {
-    mainOutputContainer.innerHTML = `
-    <button class="more-button" id="more-button">More</button>
-    <div class="floating-control-menu" id="floating-control-container">
-    <button class="new-note-button" id="new-note-button">New</button>
-    <button class="print-button" id="print-button">Print</button>
-    <button class="fav-button" id="fav-button">Star</button>
-    </div>`;
+function editMode(clickedNote, event) {
+    //hämtar nytt datum för last edited
+    const today = new Date();
+    clickedNote.edit = formatDate(today);
+    //skapar editMode-mall (med uppdaterad last edited)
+    createButtons();
+    mainOutputContainer.innerHTML += `
+        <input id="notesTitle" value="${clickedNote.title}">
+        <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+        <div class="contain-toolbar">
+        <div class="keep-height"></div>
+        <div class="toolbar" id="toolbar">
+        <button id="bold">B</button>
+        <button id="italic">I</button>
+        <button id="underline">U</button>
+        <button id="unordered-list">UL</button>
+        <button id="ordered-list">OL</button>
+        <select id="header-choice">
+            <option value="h1">H1</option>
+            <option value="h2">H2</option>
+            <option value="h3">H3</option>
+            <option value="h4">H4</option>
+            <option value="h5">H5</option>
+            <option value="h6">H6</option>
+        </select>
+        <button id="uploadBtn">Välj fil</button>
+        <span id="fileName"></span>
+        <input type="file" id="fileInput" accept="image/*" style="display: none" />
+        <button id="toggle-toolbar">⇆</button>
+        </div>
+    </div>
+    <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
+    const createNoteBtn = document.getElementById('new-note-button');
+    const noteDiv = document.getElementById('noteInput');
+    const titleInput = document.getElementById('notesTitle');
+    createNoteBtn.addEventListener('click', createNewNote);
+    //hämtar toolbar script
+    loadScript('./js/toolbar.js', () => {
+        console.log('Script loaded successfully!');
+    });
+    loadScript('./js/add-image.js', () => {
+        console.log('Script loaded successfully!');
+    });
+    // uppdaterar innehåll med dynamicSave();
+    if (noteDiv && titleInput) {
+        noteDiv.addEventListener('input', function () {
+            dynamicSave(clickedNote.id, clickedNote.edit);
+        });
+        titleInput.addEventListener('input', function () {
+            dynamicSave(clickedNote.id, clickedNote.edit);
+        });
+    }
+    else {
+        console.error('Error: noteDiv is null');
+    }
+    // hämtar elementet som först klickades på som target
+    const targetElement = event.target;
+    // undersöker vilket element det var
+    if (targetElement.id === 'noteInput') {
+        // placerar vår 'text cursor' i slutet av texten för edit
+        const noteDiv = document.getElementById('noteInput');
+        if (noteDiv) {
+            noteDiv.focus();
+            //måste göra en createRange (iom DivElement)
+            const range = document.createRange();
+            const selection = window.getSelection();
+            range.selectNodeContents(noteDiv);
+            range.collapse(false); // placerar 'text cursor' sist
+            selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
+            selection === null || selection === void 0 ? void 0 : selection.addRange(range);
+        }
+    }
+    else if (targetElement.id === 'notesTitle') {
+        // placerar vår 'caret' i slutet av texten för edit
+        const titleInput = document.getElementById('notesTitle');
+        if (titleInput) {
+            titleInput.focus();
+            const length = titleInput.value.length;
+            //setSelectionReange fungerar på InputElement (inte DIV)
+            titleInput.setSelectionRange(length, length);
+        }
+    }
+}
+//formaterar datum
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+}
+// Funktion för att ladda scripts som inte är hårdkodade i index.html
+function loadScript(scriptSrc, callback) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+    script.onload = callback;
+    // placerar scriptet i head (index.html)
+    document.head.appendChild(script);
 }
