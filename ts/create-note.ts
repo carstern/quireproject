@@ -308,13 +308,20 @@ function formatDate(date: Date): string {
 
 // Funktion för att ladda scripts som inte är hårdkodade i index.html
 function loadScript(scriptSrc: string, callback: () => void): void {
+    // undersöker om srciptet redan finns
+    const existingScript = document.querySelector(`script[src="${scriptSrc}"]`) as HTMLScriptElement;
+
+    if (existingScript) {
+        //om sant - tar bort det innan det läggs till igen
+        existingScript.parentNode?.removeChild(existingScript);
+    }
+
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = scriptSrc;
     script.onload = callback;
-  
-    // placerar scriptet i head (index.html)
-    document.head.appendChild(script);
-  }
 
+    // placerar scriptet i <head>
+    document.head.appendChild(script);
+}
   
