@@ -83,6 +83,16 @@
     <!-- <script src="./js/toolbar.js"></script> -->
     <!-- scripts here 
     eva.js, jumi.js, jason.js....-->
+    <script>
+        // spårar antal klcik på serach-funktionen
+        document.getElementById('search-link').addEventListener('click', function() {
+            // skickar event till GA
+            gtag('event', 'search_link_clicked', {
+                'event_category': 'Navigation',
+                'event_label': 'Search Link Clicked'
+            });
+        });
+    </script>
 </body>
 
 </html>
