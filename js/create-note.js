@@ -11,9 +11,13 @@ function createNewNote() {
     const formattedDate = formatDate(today);
     const uniqueId = today.getTime();
     //grundmallen skapas
-    createButtons(); //skapar knappar floating menu control
+    // createButtons(); //skapar knappar floating menu control
+    if (document.getElementById('template')) {
+        const template = document.getElementById('template');
+        mainOutputContainer.removeChild(template);
+    }
     mainOutputContainer.innerHTML += `
-        <div>
+        <div id="template">
             <input placeholder="Add your title" id="notesTitle">
             <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
             <div class="contain-toolbar">
@@ -55,8 +59,8 @@ function createNewNote() {
     //dynamiskt skapade element hämtas
     const noteDiv = document.getElementById('noteInput');
     const titleInput = document.getElementById('notesTitle');
-    const createNoteBtn = document.getElementById('new-note-button');
-    createNoteBtn.addEventListener('click', createNewNote); //får sin funktionalitet
+    // const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
+    // createNoteBtn.addEventListener('click', createNewNote);//får sin funktionalitet
     //får eventListeners för dynamicSave();
     if (noteDiv && titleInput) {
         noteDiv.addEventListener('input', function () {
@@ -131,14 +135,18 @@ function createNoteCard(note) {
         const clickedNote = getSavedNotes().find((n) => n.id === note.id);
         if (clickedNote) {
             //Skapar vår vy för VIEW MODE
-            createButtons();
+            // createButtons();
+            if (document.getElementById('template')) {
+                const template = document.getElementById('template');
+                mainOutputContainer.removeChild(template);
+            }
             mainOutputContainer.innerHTML += `
-                <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
+                <div id="template"><input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                 <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
-              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
+              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
             //hämtar element - ger funktionalitet
-            const createNoteBtn = document.getElementById('new-note-button');
-            createNoteBtn.addEventListener('click', createNewNote);
+            // const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
+            // createNoteBtn.addEventListener('click', createNewNote);
             const noteDiv = document.getElementById('noteInput');
             const titleInput = document.getElementById('notesTitle');
             //Tooglar till EDIT MODE när inputs klickas
@@ -175,9 +183,13 @@ function editMode(clickedNote, event) {
     const today = new Date();
     clickedNote.edit = formatDate(today);
     //skapar editMode-mall (med uppdaterad last edited)
-    createButtons();
+    // createButtons();
+    if (document.getElementById('template')) {
+        const template = document.getElementById('template');
+        mainOutputContainer.removeChild(template);
+    }
     mainOutputContainer.innerHTML += `
-        <input id="notesTitle" value="${clickedNote.title}">
+        <div id="template"><input id="notesTitle" value="${clickedNote.title}">
         <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
         <div class="contain-toolbar">
         <div class="keep-height"></div>
@@ -201,11 +213,11 @@ function editMode(clickedNote, event) {
         <button id="toggle-toolbar">⇆</button>
         </div>
     </div>
-    <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
-    const createNoteBtn = document.getElementById('new-note-button');
+    <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
+    // const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
     const noteDiv = document.getElementById('noteInput');
     const titleInput = document.getElementById('notesTitle');
-    createNoteBtn.addEventListener('click', createNewNote);
+    // createNoteBtn.addEventListener('click', createNewNote);
     //hämtar toolbar script
     loadScript('./js/toolbar.js', () => {
         console.log('Script loaded successfully!');
