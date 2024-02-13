@@ -32,7 +32,7 @@ function createNewNote() {
                         <option value="h5">H5</option>
                         <option value="h6">H6</option>
                     </select>
-                    <button id="uploadBtn">Välj fil</button>
+                    <button id="uploadBtn">Img</button>
                     <span id="fileName"></span>
                     <input type="file" id="fileInput" accept="image/*" style="display: none" />
                     <button id="markdown-button">MD</button>
@@ -203,7 +203,7 @@ function editMode(clickedNote, event) {
             <option value="h5">H5</option>
             <option value="h6">H6</option>
         </select>
-        <button id="uploadBtn">Välj fil</button>
+        <button id="uploadBtn">Img</button>
         <span id="fileName"></span>
         <input type="file" id="fileInput" accept="image/*" style="display: none" />
         <button id="markdown-button">MD</button>

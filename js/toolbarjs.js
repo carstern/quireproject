@@ -76,23 +76,23 @@ document.querySelector("#toggle-toolbar").addEventListener("click", () => {
   document.querySelector("#toolbar").classList.toggle("absolute");
 });
 
-// // Markdown toggle code
+// Markdown toggle code
 
-// // let noteInput = document.querySelector("#noteInput");
-// let originalMarkdown = noteInput.innerText;
-// let isHtmlView = false;
+// let noteInput = document.querySelector("#noteInput");
+let originalMarkdown = noteInput.innerText;
+let isHtmlView = false;
 
-// document.querySelector("#markdown-button").addEventListener("click", () => {
-//   // console.log("Test");
-//   // const noteInput = document.querySelector("#noteInput");
-//   // userNoteText.innerHTML = marked(userNoteText.innerText);
+document.querySelector("#markdown-button").addEventListener("click", () => {
+  // console.log("Test");
+  // const noteInput = document.querySelector("#noteInput");
+  // userNoteText.innerHTML = marked(userNoteText.innerText);
 
-//   if (isHtmlView) {
-//     // Switch to Markdown view
-//     noteInput.innerText = originalMarkdown;
-//   } else {
-//     // Switch to HTML view
-//     noteInput.innerHTML = marked(originalMarkdown);
-//   }
-//   isHtmlView = !isHtmlView;
-// });
+  if (isHtmlView) {
+    // Switch to Markdown view
+    noteInput.innerText = originalMarkdown;
+  } else {
+    // Switch to HTML view
+    noteInput.innerHTML = marked(originalMarkdown);
+  }
+  isHtmlView = !isHtmlView;
+});
