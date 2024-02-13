@@ -45,6 +45,9 @@ function createNewNote() {
     loadScript("./js/toolbar.js", () => {
         console.log("Script loaded successfully!");
     });
+    loadScript("./js/markdown.js", () => {
+        console.log("Script loaded successfully!");
+    });
     loadScript("./js/add-image.js", () => {
         console.log("Script loaded successfully!");
     });
@@ -217,6 +220,9 @@ function editMode(clickedNote, event) {
     createNoteBtn.addEventListener("click", createNewNote);
     //hämtar toolbar script
     loadScript("./js/toolbar.js", () => {
+        console.log("Script loaded successfully!");
+    });
+    loadScript("./js/markdown.js", () => {
         console.log("Script loaded successfully!");
     });
     loadScript("./js/add-image.js", () => {
