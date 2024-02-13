@@ -7,6 +7,7 @@ towards the right edge of the screen, rest is styling */
   background-color: rgba(59, 59, 59, 0.879);
   padding: 3px 5px;
   border-radius: 3px;
+  gap: 1px;
 }
 
 /* This is a div that holds toolbar and the invisible keep-height 
@@ -15,9 +16,9 @@ div on the same line */
   display: flex;
 }
 
-/* This divs function is so that the space left behind the toolbar when it
-get undocked does not collapse, resulting in hideous moving of 
-everything underneath */
+/* This divs function is so that the space left behind the toolbar 
+when it get undocked does not collapse, resulting in hideous moving 
+of everything underneath */
 .keep-height {
   height: 27px;
 }
@@ -26,11 +27,11 @@ everything underneath */
 .toolbar>button {
   width: 30px;
   text-align: center;
-  padding: 0 5px;
+  padding: 0;
 }
 
-/* Necessary class used to check whether or not toolbar is docked or not. 
-However any styling has no effect on the function */
+/* Necessary class used to check whether or not toolbar is docked or 
+not. However any styling has no effect on the function */
 .pressed {
   background-color: greenyellow;
 }
