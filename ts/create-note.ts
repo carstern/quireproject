@@ -25,6 +25,21 @@ function createNewNote() {
     
     //grundmallen skapas
     createButtons(); //skapar knappar floating menu control
+    /*
+    const printBtn = document.getElementById('print-button') as HTMLButtonElement;
+
+    // Add event listener to the print button
+printBtn.addEventListener('click', () => {
+    printDocument();
+});
+
+// Function to print the document
+function printDocument() {
+    // Use window.print() to initiate the print dialog
+    window.print();
+    
+} */
+    
 
     mainOutputContainer.innerHTML += `
         <div>
@@ -61,6 +76,10 @@ function createNewNote() {
       });
 
     loadScript('./js/add-image.js', () => {
+        console.log('Script loaded successfully!');
+    });
+
+    loadScript('./js/print.js', () => {
         console.log('Script loaded successfully!');
     });
 
@@ -164,6 +183,12 @@ function createNoteCard(note: Note): HTMLDivElement {
         if (clickedNote) {
             //Skapar vår vy för VIEW MODE
             createButtons();
+
+            loadScript('./js/print.js', () => {
+                console.log('Script loaded successfully!');
+            });
+        
+
             mainOutputContainer.innerHTML += `
                 <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                 <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
@@ -212,6 +237,11 @@ function createNoteCard(note: Note): HTMLDivElement {
     clickedNote.edit = formatDate(today)
     //skapar editMode-mall (med uppdaterad last edited)
     createButtons();
+
+    loadScript('./js/print.js', () => {
+        console.log('Script loaded successfully!');
+    });
+
     mainOutputContainer.innerHTML += `
         <input id="notesTitle" value="${clickedNote.title}">
         <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
