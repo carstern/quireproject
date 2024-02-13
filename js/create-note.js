@@ -4,7 +4,9 @@ const mainOutputContainer = document.getElementById('main-output-container');
 const createNoteBtn = document.getElementById('new-note-button');
 //hämtar sparade notes när sidan laddas - visas i NavOutput
 window.addEventListener('load', getNotesFromLocalStorage);
-createNoteBtn.addEventListener('click', createNewNote); //får sin funktionalitet
+document.addEventListener("DOMContentLoaded", () => {
+    createNoteBtn.addEventListener('click', createNewNote); //får sin funktionalitet
+});
 function createNewNote() {
     //hämtar datum för created och edit
     const today = new Date();
@@ -107,10 +109,14 @@ function createNoteCard(note) {
     const limitedNote = limitNoteLength(note.note);
     //kortet får innehåll - knapparna får unikt id
     card.innerHTML = `
-        <h3>${note.title}</h3>
+        <div class= card-content>
+        <h3>${note.title}</h3><br>
         <p>${limitedNote}</p> 
-        <button class="button star-button" data-id="${note.id}">⭐</button>
-        <button class="button delete-button" data-id="${note.id}">❌</button>`;
+        </div>
+        <div>
+        <button class="button star-button ${note.isFavorite ? 'is-favorite' : ''}" data-id="${note.id}">⭐</button> <br>
+        <button class="button delete-button" data-id="${note.id}">❌</button>
+        </div>`;
     const starBtn = card.querySelector('.star-button');
     const deleteBtn = card.querySelector('.delete-button');
     //gör knapparna funktionella - anropar functions onclick baserat på id
@@ -126,6 +132,13 @@ function createNoteCard(note) {
     }
     // varje kort som klickas visas i mainOutput
     card.addEventListener('click', function () {
+        const navContainer = document.getElementById("nav-container");
+        navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
+        navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
+        if (document.getElementById('template')) {
+            const template = document.getElementById('template');
+            mainOutputContainer.removeChild(template);
+        }
         const existingViewNoteCard = document.getElementById('view-note-card');
         // - tar bort befintligt kort som visas
         if (existingViewNoteCard) {

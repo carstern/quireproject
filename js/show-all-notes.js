@@ -14,7 +14,9 @@ function allNotesOverview() {
     // hämtar notes
     const savedNotes = getSavedNotes();
     // tömmer main innan resultat visas
-    mainOutputContainer.innerHTML = '';
+    // mainOutputContainer.innerHTML = '';
+    const template = document.createElement('div');
+    template.id = 'template';
     if (navOutputContainer && mainOutputContainer) {
         const savedNotes = getSavedNotes();
         //skapar ett kort/ note
@@ -24,10 +26,11 @@ function allNotesOverview() {
                 return;
             }
             const card = createNoteCard(note);
-            mainOutputContainer.appendChild(card);
+            template.appendChild(card);
         });
     }
     else {
         console.error('Error: navOutputContainer or mainOutputContainer is null');
     }
+    mainOutputContainer.appendChild(template);
 }

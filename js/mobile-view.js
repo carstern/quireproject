@@ -5,21 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
     moreBtn.addEventListener("click", () => {
         const navContainer = document.getElementById("nav-container");
         navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
+        console.log('click');
     });
-    const floatingControlMenu = document.getElementById("floating-control-container");
-    const controlButtons = document.querySelectorAll(".control-button");
-    floatingControlMenu === null || floatingControlMenu === void 0 ? void 0 : floatingControlMenu.addEventListener("click", () => {
-        controlButtons.forEach((button) => {
-            button.classList.toggle("control-buttons-show");
-        });
+    searchLink.addEventListener("click", () => {
+        // const navContainer = document.getElementById("nav-container");
+        navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
+        console.log('click');
     });
-    // Add click event to body to close floating control menu
-    document.body.addEventListener("click", (event) => {
-        const target = event.target;
-        if (!floatingControlMenu.contains(target)) {
-            controlButtons.forEach((button) => {
-                button.classList.remove("control-buttons-show");
-            });
-        }
+    showFavoritesBtn.addEventListener("click", () => {
+        // const navContainer = document.getElementById("nav-container");
+        navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
+        console.log('click');
     });
 });

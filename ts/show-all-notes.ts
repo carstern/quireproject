@@ -17,7 +17,9 @@ function allNotesOverview(){
     // hämtar notes
     const savedNotes: Note[] = getSavedNotes();
     // tömmer main innan resultat visas
-    mainOutputContainer.innerHTML = '';
+    // mainOutputContainer.innerHTML = '';
+    const template = document.createElement('div') as HTMLDivElement;
+    template.id = 'template'
 
     if (navOutputContainer && mainOutputContainer) {
         const savedNotes: Note[] = getSavedNotes();
@@ -29,9 +31,10 @@ function allNotesOverview(){
             }
 
             const card = createNoteCard(note);
-            mainOutputContainer.appendChild(card);
+            template.appendChild(card);
         });
     } else {
         console.error('Error: navOutputContainer or mainOutputContainer is null');
     }
+    mainOutputContainer.appendChild(template);
 }

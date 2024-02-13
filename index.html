@@ -18,8 +18,8 @@
     <!-- meta data here -->
     <!-- google font links here -->
     <!-- Font Awesome stylesheet -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-2bPbt4v4T2VPSNdM9DLXlBz1lFUGls+dG+RNiJKmOv+6oLlErx8zxr7/d/9B+Vof32aQzOD0zF85LQ6JQx/t/g==" crossorigin="anonymous" />
-    <!-- Här länkar vi vår css eva.css, jason.css....-->
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/ad20af66a9.js" crossorigin="anonymous"></script>    <!-- Här länkar vi vår css eva.css, jason.css....-->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/welcome.css">
     <link rel="stylesheet" href="./css/toolbar.css">
@@ -33,12 +33,14 @@
             <img src="logo.png" alt="quire-logo" id="quire-logo">
         </section>
         <nav>
-            <a href="" class="nav-link" id="search-link"><i class="fas fa-search"></i>Search</a>
-            <a href="" class="nav-link" id="all-notes-link">All Notes</a>
-            <a href="" class="nav-link" id="fav-link">Stared</a>
-            <a href="" class="nav-link" id="statistics-link">Statistics</a>
-            <a href="" class="nav-link" id="welcome-link">Welcome</a>
+            <a href="#" class="nav-link" id="search-link"><i class="fas fa-search"></i> </a>
+            <a href="#" class="nav-link" id="all-notes-link"><i class="fas fa-list"></i> </a>
+            <a href="#" class="nav-link" id="fav-link"><i class="fas fa-star"></i> </a>
+            <a href="#" class="nav-link" id="statistics-link"><i class="fas fa-chart-bar"></i> </a>
+            <a href="#" class="nav-link" id="welcome-link"><i class="fas fa-info-circle"></i> </a>
+
         </nav>
+        
     </header>
 
 
@@ -58,21 +60,25 @@
                 || ... i mobile view ==> statiska knappar tilll en början - sen swipe funktion
             </section> -->
         </div>
+        <div class="floating-control-menu">
+            <button class="more-button" id="more-button">More</button>
+            <button class="control-button new-note-button" id="new-note-button">New</button>
+            <button class="control-button print-button" id="print-button">Print</button>
+            <button class="control-button fav-button" id="fav-button">Star</button>
+        </div>
         <!-- section ist för div? - semantik -->
         <div class="main-output-container" id="main-output-container">
-            <button class="more-button" id="more-button">More</button>
             <!-- information hur amn änvänder sidan - visas först ==> ens senaste anteckning-->
             <!-- skapa-anteckning ==> en notepad med titel + text area? -->
             <!-- tool bar skapas dynamiskt? -->
-            <div class="floating-control-menu" id="floating-control-container">
-                <button class="control-button new-note-button" id="new-note-button">New</button>
+            <!-- <div class="floating-control-menu" id="floating-control-container"> -->
+                <!-- <button class="control-button new-note-button" id="new-note-button">New</button>
                 <button class="control-button print-button" id="print-button">Print</button>
-                <button class="control-button fav-button" id="fav-button">Star</button>
-            </div>
+                <button class="control-button fav-button" id="fav-button">Star</button> -->
+            <!-- </div> -->
             <!--  -->
         </div>
     </main>
-    <script src="./js/mobile-view.js"></script>
     <script src="./js/limit-note.js"></script>
     <script src="./js/welcome.js"></script>
     <script src="./js/dynamic-save.js"></script>
@@ -82,6 +88,8 @@
     <script src="./js/filter-notes.js"></script>
     <script src="./js/show-all-notes.js"></script>
     <script src="./js/custom-events-ga4.js"></script>
+    <script src="./js/mobile-view.js"></script>
+
    
     <!-- <script src="./js/toolbar.js"></script> -->
     <!-- scripts here 

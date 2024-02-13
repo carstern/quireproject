@@ -15,7 +15,9 @@ const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonEl
 //hämtar sparade notes när sidan laddas - visas i NavOutput
 window.addEventListener('load', getNotesFromLocalStorage); 
 
+document.addEventListener("DOMContentLoaded", () => {
 createNoteBtn.addEventListener('click', createNewNote);//får sin funktionalitet
+});
 
 function createNewNote() {
     //hämtar datum för created och edit
@@ -131,10 +133,14 @@ function createNoteCard(note: Note): HTMLDivElement {
 
     //kortet får innehåll - knapparna får unikt id
     card.innerHTML = `
-        <h3>${note.title}</h3>
+        <div class= card-content>
+        <h3>${note.title}</h3><br>
         <p>${limitedNote}</p> 
-        <button class="button star-button" data-id="${note.id}">⭐</button>
-        <button class="button delete-button" data-id="${note.id}">❌</button>`;
+        </div>
+        <div>
+        <button class="button star-button ${note.isFavorite ? 'is-favorite' : ''}" data-id="${note.id}">⭐</button> <br>
+        <button class="button delete-button" data-id="${note.id}">❌</button>
+        </div>`;
 
 
     const starBtn = card.querySelector('.star-button') as HTMLButtonElement;
@@ -155,6 +161,14 @@ function createNoteCard(note: Note): HTMLDivElement {
 
     // varje kort som klickas visas i mainOutput
     card.addEventListener('click', function () {
+        const navContainer = document.getElementById("nav-container");
+        navContainer?.classList.toggle("nav-container-show");
+        navOutputContainer?.classList.toggle("nav-output-container-show");
+
+        if(document.getElementById('template') as HTMLDivElement){
+            const template = document.getElementById('template') as HTMLDivElement
+            mainOutputContainer.removeChild(template);
+        }
         const existingViewNoteCard = document.getElementById('view-note-card') as HTMLDivElement | null;
 
         // - tar bort befintligt kort som visas

@@ -7,8 +7,22 @@ function addNotesToFavourites(id: number) {
         // Toggle isFavorite to the opposite value
         clickedNote.isFavorite = !clickedNote.isFavorite;
 
-        // sparar och uppdaterar array i localStorage
+        // Sparar och uppdaterar array i localStorage
         localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+
+        // Hämta star-button elementet med id
+        const button = document.querySelector(`.star-button[data-id="${id}"]`);
+
+        if (button) {
+            // Toggle button style based on isFavorite property
+            if (clickedNote.isFavorite) {
+                button.classList.add('is-favorite');
+            } else {
+                button.classList.remove('is-favorite');
+            }
+        } else {
+            console.error('Button not found.');
+        }
     }
 }
 

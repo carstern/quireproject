@@ -5,23 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
     moreBtn.addEventListener("click", () => {
         const navContainer = document.getElementById("nav-container");
         navContainer?.classList.toggle("nav-container-show");
+        console.log('click')
     });
 
-    const floatingControlMenu = document.getElementById("floating-control-container") as HTMLDivElement;
-    const controlButtons = document.querySelectorAll(".control-button") as NodeListOf<HTMLButtonElement>;
-    floatingControlMenu?.addEventListener("click", () => {
-        controlButtons.forEach((button: HTMLButtonElement) => {
-            button.classList.toggle("control-buttons-show");
-        });
+    searchLink.addEventListener("click", () => {
+
+        // const navContainer = document.getElementById("nav-container");
+        navOutputContainer?.classList.toggle("nav-output-container-show");
+        console.log('click')
     });
 
-    // Add click event to body to close floating control menu
-    document.body.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-        if (!floatingControlMenu.contains(target)) {
-            controlButtons.forEach((button: HTMLButtonElement) => {
-                button.classList.remove("control-buttons-show");
-            });
-        }
+    showFavoritesBtn.addEventListener("click", () => {
+        // const navContainer = document.getElementById("nav-container");
+        navOutputContainer?.classList.toggle("nav-output-container-show");
+        console.log('click')
     });
 });
