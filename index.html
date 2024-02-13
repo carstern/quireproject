@@ -17,8 +17,10 @@
     <title>Quire</title>
     <!-- meta data here -->
     <!-- google font links here -->
+    <!-- Font Awesome stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-2bPbt4v4T2VPSNdM9DLXlBz1lFUGls+dG+RNiJKmOv+6oLlErx8zxr7/d/9B+Vof32aQzOD0zF85LQ6JQx/t/g==" crossorigin="anonymous" />
     <!-- Här länkar vi vår css eva.css, jason.css....-->
-    <link rel="stylesheet" href="./css/create-note.css">
+    <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/welcome.css">
     <link rel="stylesheet" href="./css/toolbar.css">
 </head>
@@ -28,15 +30,13 @@
     <header class="nav-container" id="nav-container">
         <section>
             <!-- img = quire logo -->
-            <img src="" alt="quire-logo" id="quire-logo">
+            <img src="logo.png" alt="quire-logo" id="quire-logo">
         </section>
         <nav>
             <a href="" class="nav-link" id="search-link">Search</a>
             <a href="" class="nav-link" id="all-notes-link">All Notes</a>
             <a href="" class="nav-link" id="fav-link">Stared</a>
             <a href="" class="nav-link" id="statistics-link">Statistics</a>
-            <a href="" class="nav-link" id="templates-link">Templates</a>
-            <a href="" class="nav-link" id="setting-link">Settings</a>
             <a href="" class="nav-link" id="welcome-link">Welcome</a>
         </nav>
     </header>
@@ -65,9 +65,9 @@
             <!-- skapa-anteckning ==> en notepad med titel + text area? -->
             <!-- tool bar skapas dynamiskt? -->
             <div class="floating-control-menu" id="floating-control-container">
-                <button class="new-note-button" id="new-note-button">New</button>
-                <button class="print-button" id="print-button">Print</button>
-                <button class="fav-button" id="fav-button">Star</button>
+                <button class="control-button new-note-button" id="new-note-button">New</button>
+                <button class="control-button print-button" id="print-button">Print</button>
+                <button class="control-button fav-button" id="fav-button">Star</button>
             </div>
             <!--  -->
         </div>
@@ -81,6 +81,7 @@
     <script src="./js/filter-notes.js"></script>
     <script src="./js/show-all-notes.js"></script>
     <script src="./js/custom-events-ga4.js"></script>
+    <script src="./js/mobile-view.js"></script>
     <!-- <script src="./js/toolbar.js"></script> -->
     <!-- scripts here 
     eva.js, jumi.js, jason.js....-->

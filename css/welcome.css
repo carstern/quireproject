@@ -15,11 +15,12 @@ you must also change the setTimeout timers inside welcome.ts
 so the animation and closing of modal stays synced */
 .welcome-container {
   background-color: #375F80;
+  color: #f5f5f5;
   padding: 1rem;
   border-radius: 10px;
   width: 60%;
   clip-path: circle(0% at calc(100% - 1rem) calc(0% + 1.5rem));
-  transition: clip-path 1s ease-in-out;
+  transition: clip-path 1.2s ease-in-out;
   position: relative;
 }
 
@@ -43,13 +44,11 @@ so the animation and closing of modal stays synced */
   padding: 0;
   margin: 0;
   font-size: 1.2rem;
-  color: white;
 }
 
 .welcome-container>p {
   font-size: 1rem;
   margin: 0.5rem 0;
-  color: white;
 }
 
 @media (max-width: 1023px) {
