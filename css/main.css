@@ -86,22 +86,119 @@ background-color: var(--primary-color);
 
   /* Floating control */
 
-
-
-  .floating-control-menu {
+  /* .floating-control-menu {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    max-width: 3rem;
-    min-height: 3rem;
-    /* border-radius: */
-    border: solid black
-  }  
-  
-  /* .control-button {
-    display: none;
-  } */
+    width: 7rem;
+    height: 7rem;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    margin-top: 37rem;
+  }   */
 
+
+/* Gömmer knapparna från start */
+/* .control-button {
+  margin-left: 8.5rem; 
+  opacity: 0; 
+  visibility: hidden; 
+  transition: opacity 0.5s ease, visibility 0s linear;
+}
+
+/* När du klickar på diven kommer knapparna fram med liten animation */
+/* .floating-control-menu.active .control-button {
+  height: 3rem;
+  width: 3rem;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.fa-solid {
+  color: var(--darker-contrast-color);
+  font-size: 1.2rem;
+  padding: 1rem;
+} */ 
+
+
+.floating-control-menu {
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 6rem;
+  height: 6rem;
+  border: solid var(--primary-color);
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  margin-top: 37rem;
+}
+
+
+.fa-regular {
+  margin: 0.2rem;
+  color: var(--darker-contrast-color);
+  font-size: 1.3rem;
+}
+
+.floating-control-menu > i {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+  
+
+
+
+
+
+.control-button {
+  position: absolute; 
+  color: var(--darker-contrast-color);
+  background-color: var(--primary-color);
+  height: 4rem;
+  width: 4rem;
+  border-radius: 50%; 
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0s linear;
+}
+
+/* position knapparna */
+.new-note-button {
+  top: -4rem; 
+  left: 20%;
+  /* transform: translateX(-20%); */
+  transform: translateY(-15%);
+}
+
+.print-button {
+  right: -4rem; 
+  top: 50%;
+  transform: translateY(-140%);
+}
+
+.fav-button {
+  bottom: -3.5rem; 
+  left: 110%;
+  /* transform: translateX(90%); */
+  transform: translateY(-80%);
+}
+
+/* visar knapparna vid click! */
+.floating-control-menu.active .control-button {
+  opacity: 1;
+  visibility: visible;
+}
+
+  
   .note-card h3,
   .note-card p {
     max-width: 100px ;
