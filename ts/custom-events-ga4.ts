@@ -6,6 +6,16 @@ function trackSearchLinkClick() {
         'event_label': 'Search Link Clicked'
     });
 }
+/*** MALL FÖR FUNCTION
+ * function NAMNET PÅ DIN FUNKTION() {
+    // skickar event till GA4
+    // BYT UT ALLA NAMN
+    (window as any).gtag('event', 'search_link_clicked', {
+        'event_category': 'Navigation',
+        'event_label': 'Search Link Clicked'
+    });
+}
+ */
 
 // undersöker att g-tagen har laddats in innan våra spårningar börjar
 window.onload = function () {
@@ -17,7 +27,13 @@ window.onload = function () {
         if (searchLink) {
             searchLink.addEventListener('click', trackSearchLinkClick);
         }
-
+            /******MALL FÖR CUSTOM EVENT******* */
+            // if (typeof (window as any).gtag === 'function') {
+            //     const DITT-ELEMENT = document.getElementById('ID PÅ DITT ELEMENT');
+            //     if (DITT ELEMENT) {
+            //         DITT ELEMENT.addEventListener('click', DIN FUNKTION);
+            //     }
+            // }
     } else {
         // om gtag inte hittas - letar den igen efter en delay
         setTimeout(function () {
@@ -27,7 +43,12 @@ window.onload = function () {
                     searchLink.addEventListener('click', trackSearchLinkClick);
                 }
             }
-
+            // if (typeof (window as any).gtag === 'function') {
+            //     const DITT-ELEMENT = document.getElementById('ID PÅ DITT ELEMENT');
+            //     if (DITT ELEMENT) {
+            //         DITT ELEMENT.addEventListener('click', DIN FUNKTION);
+            //     }
+            // }
         }, 1000); // Adjust the delay time as needed
     }
 };
