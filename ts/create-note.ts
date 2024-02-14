@@ -69,6 +69,10 @@ function createNewNote() {
     console.log("Script loaded successfully!");
   });
 
+  loadShowdownScript("./node_modules/showdown/dist/showdown.min.js", () => {
+    console.log("Script loaded successfully!");
+  });
+
   loadScript("./js/add-image.js", () => {
     console.log("Script loaded successfully!");
   });
@@ -288,6 +292,10 @@ function editMode(clickedNote: Note, event: MouseEvent) {
     console.log("Script loaded successfully!");
   });
 
+  loadShowdownScript("./node_modules/showdown/dist/showdown.min.js", () => {
+    console.log("Script loaded successfully!");
+  });
+
   loadScript("./js/add-image.js", () => {
     console.log("Script loaded successfully!");
   });
@@ -364,6 +372,25 @@ function loadScript(scriptSrc: string, callback: () => void): void {
 
   const script = document.createElement("script");
   script.type = "text/javascript";
+  script.src = scriptSrc;
+  script.onload = callback;
+
+  // placerar scriptet i <head>
+  document.head.appendChild(script);
+}
+
+function loadShowdownScript(scriptSrc: string, callback: () => void): void {
+  // undersöker om srciptet redan finns
+  const existingScript = document.querySelector(
+    `script[src="${scriptSrc}"]`
+  ) as HTMLScriptElement;
+
+  if (existingScript) {
+    //om sant - tar bort det innan det läggs till igen
+    existingScript.parentNode?.removeChild(existingScript);
+  }
+
+  const script = document.createElement("script");
   script.src = scriptSrc;
   script.onload = callback;
 

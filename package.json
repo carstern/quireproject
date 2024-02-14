@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@types/showdown": "^2.0.6",
+    "showdown": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17"
+  }
+}
