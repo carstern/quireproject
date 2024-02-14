@@ -207,6 +207,9 @@ function createNoteCard(note: Note): HTMLDivElement {
 }
 
   function editMode(clickedNote: Note, event: MouseEvent) {
+    // startar timer för spårning
+    startEditModeTimer();
+
     //hämtar nytt datum för last edited
     const today: Date = new Date();
     clickedNote.edit = formatDate(today)
@@ -292,7 +295,8 @@ function createNoteCard(note: Note): HTMLDivElement {
                 titleInput.setSelectionRange(length, length);
             }
         }
-    
+     // Uppmärksamma klick utanför för spårningen
+        document.body.addEventListener('click', handleClickOutside);
   }
 
   //formaterar datum
