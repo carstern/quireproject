@@ -113,9 +113,11 @@ function createNoteCard(note) {
         <h3>${note.title}</h3><br>
         <p>${limitedNote}</p> 
         </div>
-        <div>
-        <button class="button star-button ${note.isFavorite ? 'is-favorite' : ''}" data-id="${note.id}">⭐</button> <br>
-        <button class="button delete-button" data-id="${note.id}">❌</button>
+        <div class="button-div">
+        <button class="star-button ${note.isFavorite ? 'is-favorite' : ''}" data-id="${note.id}">
+        ${note.isFavorite ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'}
+        </button>
+        <button class="delete-button" data-id="${note.id}"><i class="fa-solid fa-x"></i></button>
         </div>`;
     const starBtn = card.querySelector('.star-button');
     const deleteBtn = card.querySelector('.delete-button');
@@ -142,13 +144,6 @@ function createNoteCard(note) {
             navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
             navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
             const moreBtn = document.getElementById("more-button");
-            // Toggle text between "More" and "Hide"
-            if (moreBtn.textContent === "More") {
-                moreBtn.textContent = "Hide";
-            }
-            else {
-                moreBtn.textContent = "More";
-            }
         }
         if (window.innerWidth > 760 && window.innerWidth < 1020) {
             navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");

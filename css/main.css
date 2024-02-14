@@ -10,7 +10,7 @@
 
 body {
     margin: 0;
-    padding: 0;
+    padding: none;
     box-sizing: border-box;
     font-family: 'Space Grotesk', sans-serif;
     display: flex;
@@ -20,6 +20,10 @@ body {
     background-color: var(--dark-color);
     color: #F5F5F5;
     overflow-x: hidden;
+}
+
+.fa-solid, .fa-regular {
+    color: var(--darker-contrast-color);
 }
 
 main {
@@ -38,6 +42,12 @@ main {
 
 #quire-logo {
     width: 50px;
+    align-self: center;
+}
+
+#quire-logo:hover {
+    transform: scale(1.2);
+    transition: 1s;
 }
 
 nav {
@@ -61,11 +71,14 @@ nav {
     height: 100%; /* Full height */
     animation: slideOut 0.8s ease forwards; /* Use the slideOut animation */
     transform: translateX(-100%); /* Initially hide off-screen */
+    border-right:2px solid #F5F5F5;
 }
 
 .nav-container-show {
     display: flex;
     flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
     gap: 1rem;
     width: 30vw; /* 30% of screen width */
     height: 100%; /* Full height */
@@ -148,15 +161,9 @@ nav {
     padding: 0.5rem;
 }
 
-.button {
-    background-color: var(--primary-color);
-    border: none;
-    padding: 0.5rem;
-}
-
-.is-favorite {
+/* .is-favorite {
     background-color: yellow;
-}
+} */
 
 input {
     border: none;
@@ -197,7 +204,7 @@ input {
 
   .note-card {
     width: 100% ;
-    border-bottom: 2px solid var(--darker-contrast-color);
+    border-bottom: 2px solid var(--light-color);
     height: 5rem;
     padding: 0.4rem;
     display: flex;
@@ -212,20 +219,21 @@ input {
     width: 70%;
   }
 
+  .delete-button,
+  .star-button {
+      background-color: var(--primary-color);
+      border: none;
+      padding: none;
+      margin: 0s;
+  }
+
   .delete-button {
     margin-top: 1rem;
   }
 
-
-  .button {
-    background-color: var(--primary-color);
-    border: none;
-    padding: 0.5rem;
-  }
-
-  .is-favorite{
+  /* .is-favorite{
     background-color: yellow;
-  }
+  } */
 
   /* Tablet breakpoint media query */
   @media (min-width: 768px) {
@@ -275,20 +283,80 @@ input {
         width: 12vw;
     }
 
-    .nav-output-container, .nav-output-container-show {
+    #quire-logo{
+        width: 40px;
+    }
+    .nav-link > i {
+        color: var(--darker-contrast-color);
+        font-size: 0.8rem;
+        margin: 0.3rem;
+        letter-spacing: 1px;
+    }
+
+    .nav-output-container, .nav-output-container-show, #nav-output-container {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0;
         background-color: var(--primary-color);
-        min-width: 20%; /* 30% of screen width */
+        width: 12vw; /* 30% of screen width */
         height: 100%; /* Full height */
         animation: slideIn 0.8s ease forwards; /* Use the slideIn animation */
         transform: translateX(0); /* Show nav container by translating it into view */
-        margin-right: 1rem;
-        padding: 0.2rem;
+        margin-right: 0;
+        padding: none;
     }
 
     /* .floating-control-menu{
         margin-left: 2px;
     } */
-}
+
+
+    .note-card {
+        background-color: var(--primary-color);
+        width: 100%;
+        border-bottom: 2px solid var(--light-color);
+        min-height: 4rem;
+        max-height: 4rem;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0;
+        /* align-items: center; */
+        overflow: hidden;
+        font-size: 20%;
+      }
+    
+      .note-card h3,
+      .note-card p {
+          max-width: 100px;
+          color: var(--darker-contrast-color);
+          margin: 0;
+          text-decoration: none;
+          text-emphasis: none;
+          font-style: none;
+          white-space: nowrap; /* Prevent wrapping */
+          overflow: hidden; /* Hide overflow */
+          text-overflow: ellipsis; /* Show ellipsis for overflowed text */
+      }
+
+        .card-content {
+            width: 70%;
+            overflow-x: hidden;
+            padding: 0.2rem;
+            
+        }
+
+        .button-div {
+            width: 30%;
+            /* margin-left: 2rem; */
+            padding: 0.2rem;
+        }
+
+
+
+/* 
+        .is-favorite{
+            background-color: yellow;
+          }*/
+} 

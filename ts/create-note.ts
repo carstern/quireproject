@@ -137,9 +137,11 @@ function createNoteCard(note: Note): HTMLDivElement {
         <h3>${note.title}</h3><br>
         <p>${limitedNote}</p> 
         </div>
-        <div>
-        <button class="button star-button ${note.isFavorite ? 'is-favorite' : ''}" data-id="${note.id}">⭐</button> <br>
-        <button class="button delete-button" data-id="${note.id}">❌</button>
+        <div class="button-div">
+        <button class="star-button ${note.isFavorite ? 'is-favorite' : ''}" data-id="${note.id}">
+        ${note.isFavorite ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'}
+        </button>
+        <button class="delete-button" data-id="${note.id}"><i class="fa-solid fa-x"></i></button>
         </div>`;
 
 
@@ -174,12 +176,6 @@ function createNoteCard(note: Note): HTMLDivElement {
             navContainer?.classList.toggle("nav-container-show");
             navOutputContainer?.classList.toggle("nav-output-container-show");
             const moreBtn = document.getElementById("more-button") as HTMLButtonElement;
-            // Toggle text between "More" and "Hide"
-            if (moreBtn.textContent === "More") {
-                moreBtn.textContent = "Hide";
-            } else {
-                moreBtn.textContent = "More";
-            }
         }
 
         if  (window.innerWidth > 760 && window.innerWidth < 1020){

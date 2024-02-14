@@ -9,7 +9,7 @@ showFavoritesBtn.addEventListener('click', function(event) {
 
 function getFavoriteNotes(){
     // tömmer main innan resultat visas
-    navOutputContainer.innerHTML = '';
+    // navOutputContainer.innerHTML = '';
 
     if (navOutputContainer) {
         const savedNotes: Note[] = getSavedNotes();

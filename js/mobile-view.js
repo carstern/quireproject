@@ -10,13 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     moreBtn.addEventListener("click", () => {
         const navContainer = document.getElementById("nav-container");
         navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
-        // Toggle text between "More" and "Hide"
-        if (moreBtn.textContent === "More") {
-            moreBtn.textContent = "Hide";
-        }
-        else {
-            moreBtn.textContent = "More";
-        }
     });
     searchLink.addEventListener("click", () => {
         if (window.innerWidth < 1020) {

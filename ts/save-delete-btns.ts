@@ -16,9 +16,9 @@ function addNotesToFavourites(id: number) {
         if (button) {
             // Toggle button style based on isFavorite property
             if (clickedNote.isFavorite) {
-                button.classList.add('is-favorite');
+                button.innerHTML= '<i class="fa-solid fa-star"></i>';
             } else {
-                button.classList.remove('is-favorite');
+                button.innerHTML= '<i class="fa-regular fa-star"></i>';
             }
         } else {
             console.error('Button not found.');
