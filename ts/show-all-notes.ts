@@ -9,15 +9,18 @@ quireLogo.addEventListener('click', function(){
 const showAllNotesBtn = document.getElementById('all-notes-link') as HTMLAnchorElement;
 
 showAllNotesBtn.addEventListener('click', function(event){
-    const moreBtn = document.getElementById("more-button") as HTMLButtonElement;
-    const navContainer = document.getElementById("nav-container");
-    navContainer?.classList.toggle("nav-container-show");
+    if (window.innerWidth < 760) {
 
-    // Toggle text between "More" and "Hide"
-    if (moreBtn.textContent === "More") {
-        moreBtn.textContent = "Hide";
-    } else {
-        moreBtn.textContent = "More";
+        const navContainer = document.getElementById("nav-container");
+        navContainer?.classList.toggle("nav-container-show");
+        // navOutputContainer?.classList.toggle("nav-output-container-show");
+        const moreBtn = document.getElementById("more-button") as HTMLButtonElement;
+        // Toggle text between "More" and "Hide"
+        if (moreBtn.textContent === "More") {
+            moreBtn.textContent = "Hide";
+        } else {
+            moreBtn.textContent = "More";
+        }
     }
     event.preventDefault(); // förhindrar att sidan laddas om
     allNotesOverview();

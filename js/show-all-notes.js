@@ -7,15 +7,18 @@ quireLogo.addEventListener('click', function () {
 //visa alla anteckningar i mainOutput
 const showAllNotesBtn = document.getElementById('all-notes-link');
 showAllNotesBtn.addEventListener('click', function (event) {
-    const moreBtn = document.getElementById("more-button");
-    const navContainer = document.getElementById("nav-container");
-    navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
-    // Toggle text between "More" and "Hide"
-    if (moreBtn.textContent === "More") {
-        moreBtn.textContent = "Hide";
-    }
-    else {
-        moreBtn.textContent = "More";
+    if (window.innerWidth < 760) {
+        const navContainer = document.getElementById("nav-container");
+        navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
+        // navOutputContainer?.classList.toggle("nav-output-container-show");
+        const moreBtn = document.getElementById("more-button");
+        // Toggle text between "More" and "Hide"
+        if (moreBtn.textContent === "More") {
+            moreBtn.textContent = "Hide";
+        }
+        else {
+            moreBtn.textContent = "More";
+        }
     }
     event.preventDefault(); // förhindrar att sidan laddas om
     allNotesOverview();

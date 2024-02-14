@@ -137,16 +137,21 @@ function createNoteCard(note) {
             mainOutputContainer.removeChild(template);
         }
         //placera i if (window.innerWidth < 768) - mobilvy
-        const navContainer = document.getElementById("nav-container");
-        navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
-        navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
-        const moreBtn = document.getElementById("more-button");
-        // Toggle text between "More" and "Hide"
-        if (moreBtn.textContent === "More") {
-            moreBtn.textContent = "Hide";
+        if (window.innerWidth < 760) {
+            const navContainer = document.getElementById("nav-container");
+            navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
+            navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
+            const moreBtn = document.getElementById("more-button");
+            // Toggle text between "More" and "Hide"
+            if (moreBtn.textContent === "More") {
+                moreBtn.textContent = "Hide";
+            }
+            else {
+                moreBtn.textContent = "More";
+            }
         }
-        else {
-            moreBtn.textContent = "More";
+        if (window.innerWidth > 760 && window.innerWidth < 1020) {
+            navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
         }
         if (document.getElementById('template')) {
             const template = document.getElementById('template');

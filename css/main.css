@@ -30,7 +30,7 @@ main {
   .main-output-container {
     display: flex;
     flex-direction: row;
-    width: 100%; /* Take up full width of the screen */
+    width: 90%; /* Take up full width of the screen */
     flex-grow: 1; /*Allow the container to grow and take up remaining space*/
     overflow-x: hidden; /* Hide horizontal overflow */
 }
@@ -57,7 +57,7 @@ nav {
 .nav-container {
     display: none;
     background-color: var(--primary-color);
-    width: 40%; /* 30% of screen width */
+    width: 30vw; /* 30% of screen width */
     height: 100%; /* Full height */
     animation: slideOut 0.8s ease forwards; /* Use the slideOut animation */
     transform: translateX(-100%); /* Initially hide off-screen */
@@ -67,7 +67,7 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: 40%; /* 30% of screen width */
+    width: 30vw; /* 30% of screen width */
     height: 100%; /* Full height */
     animation: slideIn 0.8s ease forwards; /* Use the slideIn animation */
     transform: translateX(0); /* Show nav container by translating it into view */
@@ -100,7 +100,7 @@ nav {
 
 .nav-link > i {
     color: var(--darker-contrast-color);
-    font-size: 1rem;
+    font-size: 0.7rem;
     margin: 0.3rem;
     letter-spacing: 1px;
 }
@@ -133,6 +133,7 @@ nav {
     display: flex;
     flex-direction: row;
     gap: 1rem;
+    max-width: 10%;
     /* max-width: 3rem; */
     min-height: 3rem;
     /* border-radius: */
@@ -140,7 +141,7 @@ nav {
 }
 
 .note-div {
-    min-width: 60vw;
+    min-width: 100%;
     min-height: 80vh;
     margin-top: 0.5rem;
     border: 1px dotted var(--darker-contrast-color);
@@ -225,3 +226,69 @@ input {
   .is-favorite{
     background-color: yellow;
   }
+
+  /* Tablet breakpoint media query */
+  @media (min-width: 768px) {
+    .more-button {
+        display: none;
+    }
+
+    .main-output-container{
+        min-width: 100%;
+    }
+
+    .nav-container {
+        position: initial; /* Change position to initial */
+        top: auto; /* Reset top property */
+        bottom: auto; /* Reset bottom property */
+        overflow-y: auto; /* Allow vertical scrolling if needed */
+    }
+
+    .nav-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 12vh; /* 30% of screen width */
+        height: 100%; /* Full height */
+        animation: slideIn 0.8s ease forwards; /* Use the slideIn animation */
+        transform: translateX(0); /* Show nav container by translating it into view */
+    }
+
+    .nav-output-container-show {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 20vw; /* 30% of screen width */
+        height: 100%; /* Full height */
+        animation: slideIn 0.8s ease forwards; /* Use the slideIn animation */
+        transform: translateX(0); /* Show nav container by translating it into view */
+    }
+}
+
+/* desktop */
+@media (min-width: 1020px) {
+    main{
+        width: 88vw;
+    }
+
+    .nav-container {
+        width: 12vw;
+    }
+
+    .nav-output-container, .nav-output-container-show {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background-color: var(--primary-color);
+        min-width: 20%; /* 30% of screen width */
+        height: 100%; /* Full height */
+        animation: slideIn 0.8s ease forwards; /* Use the slideIn animation */
+        transform: translateX(0); /* Show nav container by translating it into view */
+        margin-right: 1rem;
+        padding: 0.2rem;
+    }
+
+    /* .floating-control-menu{
+        margin-left: 2px;
+    } */
+}

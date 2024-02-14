@@ -168,15 +168,22 @@ function createNoteCard(note: Note): HTMLDivElement {
         }
 
         //placera i if (window.innerWidth < 768) - mobilvy
-        const navContainer = document.getElementById("nav-container");
-        navContainer?.classList.toggle("nav-container-show");
-        navOutputContainer?.classList.toggle("nav-output-container-show");
-        const moreBtn = document.getElementById("more-button") as HTMLButtonElement;
-        // Toggle text between "More" and "Hide"
-        if (moreBtn.textContent === "More") {
-            moreBtn.textContent = "Hide";
-        } else {
-            moreBtn.textContent = "More";
+        if (window.innerWidth < 760) {
+
+            const navContainer = document.getElementById("nav-container");
+            navContainer?.classList.toggle("nav-container-show");
+            navOutputContainer?.classList.toggle("nav-output-container-show");
+            const moreBtn = document.getElementById("more-button") as HTMLButtonElement;
+            // Toggle text between "More" and "Hide"
+            if (moreBtn.textContent === "More") {
+                moreBtn.textContent = "Hide";
+            } else {
+                moreBtn.textContent = "More";
+            }
+        }
+
+        if  (window.innerWidth > 760 && window.innerWidth < 1020){
+            navOutputContainer?.classList.toggle("nav-output-container-show");
         }
 
         if(document.getElementById('template') as HTMLDivElement){
@@ -364,4 +371,3 @@ function loadScript(scriptSrc: string, callback: () => void): void {
     // placerar scriptet i <head>
     document.head.appendChild(script);
 }
-  

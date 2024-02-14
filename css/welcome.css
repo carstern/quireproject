@@ -22,6 +22,7 @@ so the animation and closing of modal stays synced */
   clip-path: circle(0% at calc(100% - 1rem) calc(0% + 1.5rem));
   transition: clip-path 1.2s ease-in-out;
   position: relative;
+  z-index: 2;
 }
 
 .welcome-close {
