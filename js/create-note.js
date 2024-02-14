@@ -299,17 +299,3 @@ function loadScript(scriptSrc, callback) {
     // placerar scriptet i <head>
     document.head.appendChild(script);
 }
-function loadShowdownScript(scriptSrc, callback) {
-    var _a;
-    // undersöker om srciptet redan finns
-    const existingScript = document.querySelector(`script[src="${scriptSrc}"]`);
-    if (existingScript) {
-        //om sant - tar bort det innan det läggs till igen
-        (_a = existingScript.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(existingScript);
-    }
-    const script = document.createElement("script");
-    script.src = scriptSrc;
-    script.onload = callback;
-    // placerar scriptet i <head>
-    document.head.appendChild(script);
-}
