@@ -15,11 +15,13 @@ function setupMarkdownToggle() {
             // Switch to Markdown view
             noteInput.innerHTML = showdownConverter.makeMarkdown(content);
             markdownButton.textContent = "MD";
+            markdownButton.style.width = "30px";
         }
         else {
             // Switch to HTML view
             noteInput.innerHTML = showdownConverter.makeHtml(content);
             markdownButton.textContent = "HTML";
+            markdownButton.style.width = "42px";
         }
         isHtmlView = !isHtmlView;
     });
