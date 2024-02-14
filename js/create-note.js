@@ -48,7 +48,7 @@ function createNewNote() {
     loadScript("./js/markdown.js", () => {
         console.log("Script loaded successfully!");
     });
-    loadShowdownScript("./node_modules/showdown/dist/showdown.min.js", () => {
+    loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
         console.log("Script loaded successfully!");
     });
     loadScript("./js/add-image.js", () => {
@@ -228,7 +228,7 @@ function editMode(clickedNote, event) {
     loadScript("./js/markdown.js", () => {
         console.log("Script loaded successfully!");
     });
-    loadShowdownScript("./node_modules/showdown/dist/showdown.min.js", () => {
+    loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
         console.log("Script loaded successfully!");
     });
     loadScript("./js/add-image.js", () => {

@@ -69,7 +69,7 @@ function createNewNote() {
     console.log("Script loaded successfully!");
   });
 
-  loadShowdownScript("./node_modules/showdown/dist/showdown.min.js", () => {
+  loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
     console.log("Script loaded successfully!");
   });
 
@@ -292,7 +292,7 @@ function editMode(clickedNote: Note, event: MouseEvent) {
     console.log("Script loaded successfully!");
   });
 
-  loadShowdownScript("./node_modules/showdown/dist/showdown.min.js", () => {
+  loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
     console.log("Script loaded successfully!");
   });
 
