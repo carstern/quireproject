@@ -1,88 +1,169 @@
 /* Space Grotesk font  */
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-  :root {
-    --primary-color:#A7D7FF; 
-    --light-color: #F5F5F5;
-    --darker-contrast-color:#375F80;
-    --dark-color: #333333  ;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-  body {
+:root {
+    --primary-color: #A7D7FF; 
+    --light-color: #F5F5F5;
+    --darker-contrast-color: #375F80;
+    --dark-color: #333333;
+}
+
+body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Space Grotesk', sans-serif;
-        display: flex;
-      flex-direction: row;
-      width: 100vw;
-      height: 100vh;
-      background-color: var(--dark-color);
-      color: white;
-  }
-
-  /* Mobile first */
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--dark-color);
+    color: #F5F5F5;
+    overflow-x: hidden;
+}
 
 main {
-  display: flex;
-  flex-direction: row;
-}
-#quire-logo{
-  width: 50px;
-}
-  nav {
-    /* display: flex;
-    flex-direction: column; */
-  }
-  
-  .nav-container {
-    /* display: flex;
-    flex-direction: column; */
-display: none;
-background-color: var(--primary-color);
+    display: flex;
+    flex-direction: row;
   }
 
-  .nav-container-show {
+  .main-output-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%; /* Take up full width of the screen */
+    flex-grow: 1; /*Allow the container to grow and take up remaining space*/
+    overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+
+#quire-logo {
+    width: 50px;
+}
+
+nav {
     display: flex;
     flex-direction: column;
-  }
-  .nav-link {
+    gap: 1rem;
+}
+
+.nav-container,
+.nav-output-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto; /* Allow vertical scrolling if needed */
+}
+
+.nav-container {
+    display: none;
+    background-color: var(--primary-color);
+    width: 40%; /* 30% of screen width */
+    height: 100%; /* Full height */
+    animation: slideOut 0.8s ease forwards; /* Use the slideOut animation */
+    transform: translateX(-100%); /* Initially hide off-screen */
+}
+
+.nav-container-show {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+    width: 40%; /* 30% of screen width */
+    height: 100%; /* Full height */
+    animation: slideIn 0.8s ease forwards; /* Use the slideIn animation */
+    transform: translateX(0); /* Show nav container by translating it into view */
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0); /* Start from current position */
+    }
+    to {
+        transform: translateX(-100%); /* Slide out to the left */
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%); /* Start from off-screen to the left */
+    }
+    to {
+        transform: translateX(0); /* Slide in to the current position */
+    }
+}
+
+
+
+.nav-link {
     text-decoration: none;
     color: var(--darker-contrast-color);
-  }
+}
 
-
-  .nav-link > i {
+.nav-link > i {
     color: var(--darker-contrast-color);
     font-size: 1rem;
     margin: 0.3rem;
+    letter-spacing: 1px;
+}
 
-  }
-  .nav-output-container {
-    /* display: flex;
-    flex-direction: column; */
-    /* display: none; */
+.nav-link > i:hover {
+    color: var(--light-color);
+}
+
+.nav-output-container {
+    display: none;
     background-color: var(--primary-color);
-  }
+    width: 40%; /* 30% of screen width */
+    height: 100%; /* Full height */
+    animation: slideOut 0.8s ease forwards; /* Use the slideOut animation */
+    transform: translateX(-100%); /* Initially hide off-screen */
+}
 
-  .nav-output-container-show{
+.nav-output-container-show {
     display: flex;
     flex-direction: column;
-    max-width: 40%;
-    min-width: 40%;
-  }
-  
-  /* i {
-    color: var(--darker-contrast-color);
-    height: 20px;
+    gap: 1rem;
+    width: 40%; /* 40% of screen width */
+    height: 100%; /* Full height */
+    animation: slideIn 0.8s ease forwards; /* Use the slideIn animation */
+    transform: translateX(0); /* Show nav container by translating it into view */
+}
 
-  } */
- 
-  .main-output-container {
-    height: 100vh;
-    width: auto;
-  }
+
+.floating-control-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    /* max-width: 3rem; */
+    min-height: 3rem;
+    /* border-radius: */
+    border: solid black;
+}
+
+.note-div {
+    min-width: 60vw;
+    min-height: 80vh;
+    margin-top: 0.5rem;
+    border: 1px dotted var(--darker-contrast-color);
+    padding: 0.5rem;
+}
+
+.button {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0.5rem;
+}
+
+.is-favorite {
+    background-color: yellow;
+}
+
+input {
+    border: none;
+    background-color: var(--dark-color);
+    color: #F5F5F5;
+    font-size: 2rem;
+    font-weight: 600;
+}
 
   /* Floating control */
 
@@ -108,10 +189,13 @@ background-color: var(--primary-color);
     font-size: 1rem;
     color: var(--darker-contrast-color);
     margin: 0;
+    text-decoration: none;
+    text-emphasis: none;
+    font-style: none;
   }
 
   .note-card {
-    max-width: 100% ;
+    width: 100% ;
     border-bottom: 2px solid var(--darker-contrast-color);
     height: 5rem;
     padding: 0.4rem;

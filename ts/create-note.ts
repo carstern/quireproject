@@ -161,9 +161,23 @@ function createNoteCard(note: Note): HTMLDivElement {
 
     // varje kort som klickas visas i mainOutput
     card.addEventListener('click', function () {
+        
+        if(document.getElementById('template') as HTMLDivElement){
+            const template = document.getElementById('template') as HTMLDivElement
+            mainOutputContainer.removeChild(template);
+        }
+
+        //placera i if (window.innerWidth < 768) - mobilvy
         const navContainer = document.getElementById("nav-container");
         navContainer?.classList.toggle("nav-container-show");
         navOutputContainer?.classList.toggle("nav-output-container-show");
+        const moreBtn = document.getElementById("more-button") as HTMLButtonElement;
+        // Toggle text between "More" and "Hide"
+        if (moreBtn.textContent === "More") {
+            moreBtn.textContent = "Hide";
+        } else {
+            moreBtn.textContent = "More";
+        }
 
         if(document.getElementById('template') as HTMLDivElement){
             const template = document.getElementById('template') as HTMLDivElement
