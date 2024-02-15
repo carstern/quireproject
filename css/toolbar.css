@@ -4,6 +4,7 @@ towards the right edge of the screen, rest is styling */
 .toolbar {
   display: flex;
   flex-wrap: nowrap;
+  width: 200px;
   background-color: rgba(59, 59, 59, 0.879);
   padding: 3px 5px;
   border-radius: 3px;
@@ -24,7 +25,7 @@ everything underneath */
 
 /* Pure styling*/
 .toolbar>button {
-  width: 30px;
+  width: auto;
   text-align: center;
   padding: 0 5px;
 }

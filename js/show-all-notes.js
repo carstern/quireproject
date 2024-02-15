@@ -11,14 +11,13 @@ showAllNotesBtn.addEventListener('click', function (event) {
         const navContainer = document.getElementById("nav-container");
         navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
         // navOutputContainer?.classList.toggle("nav-output-container-show");
-        const moreBtn = document.getElementById("more-button");
-        // Toggle text between "More" and "Hide"
-        if (moreBtn.textContent === "More") {
-            moreBtn.textContent = "Hide";
-        }
-        else {
-            moreBtn.textContent = "More";
-        }
+        // const moreBtn = document.getElementById("more-button") as HTMLButtonElement;
+        // // Toggle text between "More" and "Hide"
+        // if (moreBtn.textContent === "More") {
+        //     moreBtn.textContent = "Hide";
+        // } else {
+        //     moreBtn.textContent = "More";
+        // }
     }
     event.preventDefault(); // förhindrar att sidan laddas om
     allNotesOverview();
@@ -33,6 +32,7 @@ function allNotesOverview() {
     // tömmer main innan resultat visas
     // mainOutputContainer.innerHTML = '';
     const template = document.createElement('div');
+    template.classList.add('all-notes');
     template.id = 'template';
     if (navOutputContainer && mainOutputContainer) {
         const savedNotes = getSavedNotes();

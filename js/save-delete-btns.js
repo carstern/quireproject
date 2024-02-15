@@ -61,12 +61,12 @@ function getSavedNotes() {
 function saveNotesToLocalStorage(notes) {
     localStorage.setItem('savedNotes', JSON.stringify(notes));
 }
-function createButtons() {
-    mainOutputContainer.innerHTML = `
-        <button class="more-button" id="more-button">More</button>
-        <div class="floating-control-menu" id="floating-control-container">
-            <button class="new-note-button" id="new-note-button">New</button>
-            <button class="print-button" id="print-button">Print</button>
-            <button class="fav-button" id="fav-button">Star</button>
-        </div>`;
-}
+// function createButtons() {
+//     mainOutputContainer.innerHTML = `
+//         <button class="more-button" id="more-button">More</button>
+//         <div class="floating-control-menu" id="floating-control-container">
+//             <button class="new-note-button" id="new-note-button">New</button>
+//             <button class="print-button" id="print-button">Print</button>
+//             <button class="fav-button" id="fav-button">Star</button>
+//         </div>`;
+// }

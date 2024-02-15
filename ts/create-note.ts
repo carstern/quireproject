@@ -35,7 +35,7 @@ if(document.getElementById('template') as HTMLDivElement){
     mainOutputContainer.innerHTML += `
         <div id="template">
             <input placeholder="Add your title" id="notesTitle">
-            <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
+            <p class="time-stamp"> Date created: ${formattedDate} <br> Last Edited: ${formattedDate} </p>
             <div class="contain-toolbar">
                 <div class="keep-height"></div>
                 <div class="toolbar" id="toolbar">
@@ -205,7 +205,7 @@ function createNoteCard(note: Note): HTMLDivElement {
             }
             mainOutputContainer.innerHTML += `
                 <div id="template"><input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
-                <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+                <p class="time-stamp"> Date created: ${clickedNote.date} <br> Last Edited: ${clickedNote.edit}</p>
               <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
 
             //hämtar element - ger funktionalitet
@@ -257,7 +257,7 @@ function createNoteCard(note: Note): HTMLDivElement {
     }
     mainOutputContainer.innerHTML += `
         <div id="template"><input id="notesTitle" value="${clickedNote.title}">
-        <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+        <p class="time-stamp"> Date created: ${clickedNote.date} <br> Last Edited: ${clickedNote.edit}</p>
         <div class="contain-toolbar">
         <div class="keep-height"></div>
         <div class="toolbar" id="toolbar">
