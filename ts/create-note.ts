@@ -288,11 +288,11 @@ function editMode(clickedNote: Note, event: MouseEvent) {
     console.log("Script loaded successfully!");
   });
 
-  loadScript("./js/markdown.js", () => {
+  loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
     console.log("Script loaded successfully!");
   });
 
-  loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
+  loadScript("./js/markdown.js", () => {
     console.log("Script loaded successfully!");
   });
 

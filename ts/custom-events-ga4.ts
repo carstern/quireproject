@@ -53,7 +53,7 @@ window.onload = function () {
   }
 };
 // Mirza gtag start
-window.onload = function () {
+window.onload = function (): void {
   if (typeof (window as any).gtag === "function") {
     const createNote = document.querySelector("new-note-button");
     if (createNote) {
