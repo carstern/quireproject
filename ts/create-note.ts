@@ -39,20 +39,20 @@ if(document.getElementById('template') as HTMLDivElement){
             <div class="contain-toolbar">
                 <div class="keep-height"></div>
                 <div class="toolbar" id="toolbar">
-                    <button id="bold">B</button>
-                    <button id="italic">I</button>
-                    <button id="underline">U</button>
-                    <button id="unordered-list">UL</button>
-                    <button id="ordered-list">OL</button>
+                    <button id="bold"><i class="fa-solid fa-bold"></i></button>
+                    <button id="italic"><i class="fa-solid fa-italic"></i></button>
+                    <button id="underline"><i class="fa-solid fa-underline"></i></button>
+                    <button id="unordered-list"><i class="fa-solid fa-list"></i></button>
+                    <button id="ordered-list"><i class="fa-solid fa-list-ol"></i></button>
                     <select id="header-choice">
-                        <option value="h1">H1</option>
-                        <option value="h2">H2</option>
-                        <option value="h3">H3</option>
-                        <option value="h4">H4</option>
-                        <option value="h5">H5</option>
-                        <option value="h6">H6</option>
+                        <option value="h1">32</option>
+                        <option value="h2">24</option>
+                        <option value="h3">21</option>
+                        <option value="h4">16</option>
+                        <option value="h5">13</option>
+                        <option value="h6">11</option>
                     </select>
-                    <button id="uploadBtn">Välj fil</button>
+                    <button id="uploadBtn"><i class="fa-solid fa-images"></i></button>
                     <span id="fileName"></span>
                     <input type="file" id="fileInput" accept="image/*" style="display: none" />
                     <button id="toggle-toolbar">⇆</button>
@@ -261,24 +261,24 @@ function createNoteCard(note: Note): HTMLDivElement {
         <div class="contain-toolbar">
         <div class="keep-height"></div>
         <div class="toolbar" id="toolbar">
-        <button id="bold">B</button>
-        <button id="italic">I</button>
-        <button id="underline">U</button>
-        <button id="unordered-list">UL</button>
-        <button id="ordered-list">OL</button>
+        <button id="bold"><i class="fa-solid fa-bold"></i></button>
+        <button id="italic"><i class="fa-solid fa-italic"></i></button>
+        <button id="underline"><i class="fa-solid fa-underline"></i></button>
+        <button id="unordered-list"><i class="fa-solid fa-list"></i></button>
+        <button id="ordered-list"><i class="fa-solid fa-list-ol"></i></button>
         <select id="header-choice">
-            <option value="h1">H1</option>
-            <option value="h2">H2</option>
-            <option value="h3">H3</option>
-            <option value="h4">H4</option>
-            <option value="h5">H5</option>
-            <option value="h6">H6</option>
+            <option value="h1">32</option>
+            <option value="h2">24</option>
+            <option value="h3">21</option>
+            <option value="h4">16</option>
+            <option value="h5">13</option>
+            <option value="h6">11</option>
         </select>
-        <button id="uploadBtn">Välj fil</button>
+        <button id="uploadBtn"><i class="fa-solid fa-images"></i></button>
         <span id="fileName"></span>
         <input type="file" id="fileInput" accept="image/*" style="display: none" />
         <button id="toggle-toolbar">⇆</button>
-        </div>
+    </div>
     </div>
     <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
 

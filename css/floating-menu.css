@@ -1,0 +1,49 @@
+:root {
+    --primary-color: #A7D7FF; 
+    --light-color: #F5F5F5;
+    --darker-contrast-color: #375F80;
+    --dark-color: #333333;
+}
+.floating-control-menu {
+    position: fixed;
+    bottom: 50px; /* Adjust as per your requirement */
+    right: 50px; /* Adjust as per your requirement */
+    background-color: var(--darker-contrast-color); /* Adjust as per your requirement */
+    /* border: 1px solid #ccc; Adjust as per your requirement */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    display: block;
+    cursor: move;
+}
+
+.floating-control-menu i {
+    color: var(--primary-color);
+}
+
+.floating-control-menu.show-buttons .control-button {
+    display: inline-block;
+}
+
+.control-button {
+    display: none;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.fa-solid {
+    font-family: "Font Awesome 5 Free";
+}
+
+.more-button {
+    align-self:first baseline;
+    margin-left: 0.5rem;
+    margin-top: 1rem;
+    background-color: transparent;
+    border: 2px solid var(--darker-contrast-color);
+    border-radius: 0.2rem;
+    font-size: medium;
+}
