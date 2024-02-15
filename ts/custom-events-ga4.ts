@@ -17,6 +17,7 @@ function trackSearchLinkClick() {
 }
  */
 
+
 // undersöker att g-tagen har laddats in innan våra spårningar börjar
 window.onload = function () {
     // undersöker att g-tagen är tillgänglig
@@ -52,3 +53,40 @@ window.onload = function () {
         }, 1000); // Adjust the delay time as needed
     }
 };
+
+
+// Aleksei kod
+function favoriteClicked() {
+    // skickar event till GA4
+    // BYT UT ALLA NAMN
+    (window as any).gtag('event', 'favorite_btn_clicked', {
+        'event_category': 'favorite',
+        'event_label': 'klicka på favorite knapp'
+    });
+}
+
+window.onload = function () {
+    // undersöker att g-tagen är tillgänglig
+    if (typeof (window as any).gtag === "function") {
+      // definera/deklarera elementet att spåra
+      const favBtn = document.getElementById("fav-link");
+      //om det finns - länka en eventListener
+      if (favBtn) {
+        favBtn.addEventListener("click", favoriteClicked);
+      }
+    } else {
+      // om gtag inte hittas - letar den igen efter en delay
+      setTimeout(function () {
+        if (typeof (window as any).gtag === "function") {
+          const favBtn = document.getElementById("fav-link");
+          if (favBtn) {
+            favBtn.addEventListener("click", favoriteClicked);
+          }
+        }
+      }, 1000); // Adjust the delay time as needed
+    }
+  };
+//   Aleksei kod slutar här
+
+
+
