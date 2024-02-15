@@ -1,0 +1,65 @@
+.welcome-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* If you wish to change the animation time on clip path, 
+you must also change the setTimeout timers inside welcome.ts 
+so the animation and closing of modal stays synced */
+.welcome-container {
+  background-color: #375F80;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 60%;
+  clip-path: circle(0% at calc(100% - 1rem) calc(0% + 1.5rem));
+  transition: clip-path 1s ease-in-out;
+  position: relative;
+}
+
+.welcome-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+  transition: color .5s ease;
+}
+
+.welcome-close:hover {
+  color: white;
+}
+
+.welcome-animate {
+  clip-path: circle(75%);
+}
+
+.welcome-container>h4 {
+  padding: 0;
+  margin: 0;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.welcome-container>p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: white;
+}
+
+@media (max-width: 1023px) {
+  .welcome-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 767px) {
+  .welcome-container {
+    width: 90%;
+  }
+}

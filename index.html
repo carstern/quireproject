@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBYC9C7HL6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZBYC9C7HL6', { 'debug_mode': true });
+</script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quire</title>
     <!-- meta data here -->
     <!-- google font links here -->
     <!-- Här länkar vi vår css eva.css, jason.css....-->
-    <title>Quire</title>
+    <link rel="stylesheet" href="./css/create-note.css">
+    <link rel="stylesheet" href="./css/welcome.css">
+    <link rel="stylesheet" href="./css/toolbar.css">
 </head>
+
 <body>
-    <!-- behövs en header? -->
-    <section class="nav-container" id="nav-container">
-        <nav>
+    <!-- byttes från section - för semantikens skull (viktigt med header säger Aldor, vi litar på honom :) -->
+    <header class="nav-container" id="nav-container">
+        <section>
             <!-- img = quire logo -->
-            <img src="" alt="quire-logo"> 
+            <img src="" alt="quire-logo" id="quire-logo">
+        </section>
+        <nav>
             <a href="" class="nav-link" id="search-link">Search</a>
+            <a href="" class="nav-link" id="all-notes-link">All Notes</a>
             <a href="" class="nav-link" id="fav-link">Stared</a>
             <a href="" class="nav-link" id="statistics-link">Statistics</a>
             <a href="" class="nav-link" id="templates-link">Templates</a>
             <a href="" class="nav-link" id="setting-link">Settings</a>
-            
+            <a href="" class="nav-link" id="welcome-link">Welcome</a>
         </nav>
-    </section>
+    </header>
 
-   
+
     <main>
+        <!-- aside istället för div? -->
         <div class="nav-output-container" id="nav-output-container">
             <!-- innehåll skapas dynamiskt i js? beronde på default view = alla anteckingar -->
             <!-- stared view = alla stjärnmarkerade anteckningar -->
@@ -39,6 +58,7 @@
                 || ... i mobile view ==> statiska knappar tilll en början - sen swipe funktion
             </section> -->
         </div>
+        <!-- section ist för div? - semantik -->
         <div class="main-output-container" id="main-output-container">
             <button class="more-button" id="more-button">More</button>
             <!-- information hur amn änvänder sidan - visas först ==> ens senaste anteckning-->
@@ -52,7 +72,18 @@
             <!--  -->
         </div>
     </main>
+    <script src="./js/limit-note.js"></script>
+    <script src="./js/welcome.js"></script>
+    <script src="./js/dynamic-save.js"></script>
+    <script src="./js/create-note.js"></script>
+    <script src="./js/save-delete-btns.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/filter-notes.js"></script>
+    <script src="./js/show-all-notes.js"></script>
+    <script src="./js/custom-events-ga4.js"></script>
+    <!-- <script src="./js/toolbar.js"></script> -->
     <!-- scripts here 
     eva.js, jumi.js, jason.js....-->
 </body>
-</html>                   
+
+</html>
