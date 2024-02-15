@@ -52,3 +52,24 @@ window.onload = function () {
         }, 1000); // Adjust the delay time as needed
     }
 };
+
+// Jumi 
+// Track note delete 
+function noteDeletion(id) {
+    // Send to Google Analytics 
+    (window as any).gtag("event", "note_deleted", {
+        "event_category": "User Interactions",
+        "event_label": "Note deleted",
+        "value": id
+    });
+}
+
+// Listen for note delete
+document.addEventListener("noteDeleted", function(event) {
+    const id = (<any>event).detail.id;
+    deleteNoteFromLocalStorage(id);
+
+    // call the tracking 
+    noteDeletion(id); 
+}); 
+
