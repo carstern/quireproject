@@ -55,7 +55,7 @@ window.onload = function () {
 
 // Jumi 
 // Track note delete 
-function noteDeletion(id) {
+function noteDeletion(id: any) {
     // Send to Google Analytics 
     (window as any).gtag("event", "note_deleted", {
         "event_category": "User Interactions",
