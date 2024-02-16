@@ -120,19 +120,21 @@ window.onload = function (): void {
         const createNote = document.getElementById("new-note-button");
         if (createNote) {
             createNote.addEventListener("click", trackCreatedNotes);
-            // Define element to track
-            const welcomeOverlay = document.getElementById('welcome-link');
-            // If it exists, link an event listener
-            if (welcomeOverlay) {
-                welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
-            }
-            // Start edit mode timer
-            const noteInputDiv = document.getElementById('noteInput');
-            if (noteInputDiv) {
-                noteInputDiv.addEventListener('focus', startEditModeTimer);
-                // Stop edit mode timer when clicking outside the note input field
-                document.body.addEventListener('click', handleClickOutside);
-            }
         }
+
+        // Define element to track
+        const welcomeOverlay = document.getElementById('welcome-link');
+        // If it exists, link an event listener
+        if (welcomeOverlay) {
+            welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
+         }
+
+         // Start edit mode timer
+        const noteInputDiv = document.getElementById('noteInput');
+        if (noteInputDiv) {
+             noteInputDiv.addEventListener('focus', startEditModeTimer);
+             // Stop edit mode timer when clicking outside the note input field
+             document.body.addEventListener('click', handleClickOutside);
+         }
     }, 1000); // Increase timeout if needed
 };
