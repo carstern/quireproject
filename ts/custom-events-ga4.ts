@@ -79,27 +79,21 @@ window.onload = function (): void {
                 event_label: "New Note Clicked",
             });
         };
-        // Function to track deletion of notes
-        const noteDeletion = (id: number) => {
+        
+        const googleAnalyticsClicked = () => {
             // Send event to Google Analytics
-            (window as any).gtag("event", "note_deleted", {
-                "event_category": "User Interactions",
-                "event_label": "Note deleted",
-                "value": id
+            (window as any).gtag('event', 'google_analytics_clicked', {
+                'event_category': 'User Interaction',
+                'event_label': 'analytics clicked'
             });
         };
-        
-        const deleteBtnTrack = document.querySelector('delete-button') as HTMLElement;
-        // Function to handle note deletion event
-        deleteBtnTrack.addEventListener("click", function(event) {
-            const id = deleteBtnTrack?.getAttribute('data-id');
-            if (id) {
-                // Call the tracking function
-                noteDeletion(Number(id));
-            } else {
-                console.error("No data-id attribute found on delete button.");
-            }
-        });
+
+
+         // Track statistic link clicked
+        const googleAnalytic = document.getElementById('statistics-link');
+        if (googleAnalytic) {
+            googleAnalytic.addEventListener("click", googleAnalyticsClicked);
+        }
         
         // Track search button click
         const searchBtn = document.getElementById("search-link");
