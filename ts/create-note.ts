@@ -27,11 +27,26 @@ function createNewNote() {
     const uniqueId: number = today.getTime();
     
     //grundmallen skapas
+
+    const printBtn = document.getElementById('print-button') as HTMLButtonElement;
+
+    // Add event listener to the print button
+printBtn.addEventListener('click', () => {
+    printDocument();
+});
+
+// Function to print the document
+function printDocument() {
+    // Use window.print() to initiate the print dialog
+    window.print();
+    
+} 
     // createButtons(); //skapar knappar floating menu control
 if(document.getElementById('template') as HTMLDivElement){
     const template = document.getElementById('template') as HTMLDivElement
     mainOutputContainer.removeChild(template);
 }
+
 
     mainOutputContainer.innerHTML += `
         <div id="template">
@@ -199,6 +214,7 @@ function createNoteCard(note: Note): HTMLDivElement {
 
         if (clickedNote) {
             //Skapar vår vy för VIEW MODE
+
             // createButtons();
             if(document.getElementById('template') as HTMLDivElement){
                 const template = document.getElementById('template') as HTMLDivElement
@@ -254,6 +270,7 @@ function createNoteCard(note: Note): HTMLDivElement {
     const today: Date = new Date();
     clickedNote.edit = formatDate(today)
     //skapar editMode-mall (med uppdaterad last edited)
+
     // createButtons();
     if(document.getElementById('template') as HTMLDivElement){
         const template = document.getElementById('template') as HTMLDivElement

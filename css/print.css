@@ -1,0 +1,12 @@
+@media print {
+    body, #floating-control-menu, .contain-toolbar, button{
+      visibility: hidden;
+    }
+    #main-output-container{
+      visibility: visible;
+      position: absolute;
+    }
+    #notesTitle {
+        border: none;
+      }
+  }
