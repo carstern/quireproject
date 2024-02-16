@@ -53,6 +53,32 @@ window.onload = function () {
         }, 1000); // Adjust the delay time as needed
     }
 };
+// Mirza gtag start
+window.onload = function () {
+    if (typeof window.gtag === "function") {
+        const createNote = document.querySelector("new-note-button");
+        if (createNote) {
+            createNote.addEventListener("click", trackCreatedNotes);
+        }
+    }
+    else {
+        setTimeout(function () {
+            if (typeof window.gtag === "function") {
+                const createNote = document.querySelector("new-note-button");
+                if (createNote) {
+                    createNote.addEventListener("click", trackCreatedNotes);
+                }
+            }
+        }, 1000);
+    }
+};
+function trackCreatedNotes() {
+    window.gtag("event", "create_new_note", {
+        event_category: "Note Interaction",
+        event_label: "New Note Clicked",
+    });
+}
+// Mirza gtag end
 //Linus Kod
 // funktion som spårar sökfunktionen
 function trackAllNotesClicked() {
@@ -215,3 +241,4 @@ window.onload = function () {
     }
 };
 // Jason kod slutar här
+

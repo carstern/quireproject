@@ -207,6 +207,46 @@ function trackSearchWelcomeClick() {
 
 // undersöker att g-tagen har laddats in innan våra spårningar börjar
 window.onload = function () {
+  // undersöker att g-tagen är tillgänglig
+  if (typeof (window as any).gtag === "function") {
+    // definera/deklarera elementet att spåra
+    const searchLink = document.getElementById("search-link");
+    //om det finns - länka en eventListener
+    if (searchLink) {
+      searchLink.addEventListener("click", trackSearchLinkClick);
+    }
+    /******MALL FÖR CUSTOM EVENT******* */
+    // if (typeof (window as any).gtag === 'function') {
+    //     const DITT-ELEMENT = document.getElementById('ID PÅ DITT ELEMENT');
+    //     if (DITT ELEMENT) {
+    //         DITT ELEMENT.addEventListener('click', DIN FUNKTION);
+    //     }
+    // }
+  } else {
+    // om gtag inte hittas - letar den igen efter en delay
+    setTimeout(function () {
+      if (typeof (window as any).gtag === "function") {
+        const searchLink = document.getElementById("search-link");
+        if (searchLink) {
+          searchLink.addEventListener("click", trackSearchLinkClick);
+        }
+      }
+      // if (typeof (window as any).gtag === 'function') {
+      //     const DITT-ELEMENT = document.getElementById('ID PÅ DITT ELEMENT');
+      //     if (DITT ELEMENT) {
+      //         DITT ELEMENT.addEventListener('click', DIN FUNKTION);
+      //     }
+      // }
+    }, 1000); // Adjust the delay time as needed
+  }
+};
+// Mirza gtag start
+window.onload = function (): void {
+  if (typeof (window as any).gtag === "function") {
+    const createNote = document.querySelector("new-note-button");
+    if (createNote) {
+      createNote.addEventListener("click", trackCreatedNotes);
+
     // undersöker att g-tagen är tillgänglig
     if (typeof (window as any).gtag === 'function') {
         // definera/deklarera elementet att spåra
@@ -227,7 +267,26 @@ window.onload = function () {
 
         }, 1000); // Adjust the delay time as needed
     }
+  } else {
+    setTimeout(function () {
+      if (typeof (window as any).gtag === "function") {
+        const createNote = document.querySelector("new-note-button");
+        if (createNote) {
+          createNote.addEventListener("click", trackCreatedNotes);
+        }
+      }
+    }, 1000);
+  }
 };
+
+function trackCreatedNotes(): void {
+  (window as any).gtag("event", "create_new_note", {
+    event_category: "Note Interaction",
+    event_label: "New Note Clicked",
+  });
+}
+// Mirza gtag end
+
 
 // Jason kod slutar här
 

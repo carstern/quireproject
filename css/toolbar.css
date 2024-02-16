@@ -36,9 +36,9 @@ div on the same line */
   display: flex;
 }
 
-/* This divs function is so that the space left behind the toolbar when it
-get undocked does not collapse, resulting in hideous moving of 
-everything underneath */
+/* This divs function is so that the space left behind the toolbar 
+when it get undocked does not collapse, resulting in hideous moving 
+of everything underneath */
 .keep-height {
   height: 27px;
 }
@@ -52,8 +52,8 @@ everything underneath */
   border: none;
 }
 
-/* Necessary class used to check whether or not toolbar is docked or not. 
-However any styling has no effect on the function */
+/* Necessary class used to check whether or not toolbar is docked or 
+not. However any styling has no effect on the function */
 .pressed {
   background-color: greenyellow;
 }
