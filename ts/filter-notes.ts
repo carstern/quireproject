@@ -2,6 +2,7 @@
 const showFavoritesBtn = document.getElementById('fav-link') as HTMLButtonElement;
 
 showFavoritesBtn.addEventListener('click', function(event) {
+    navOutputContainer?.classList.toggle("nav-output-container-show");
     event.preventDefault(); // förhindrar att sidan laddas om
     navOutputContainer.innerHTML = ''; // tömmer navoutput
     getFavoriteNotes();

@@ -8,6 +8,7 @@ type Note = {
     isFavorite: boolean;
 };
 
+
 //hämtar HTML element
 const mainOutputContainer = document.getElementById('main-output-container') as HTMLDivElement;
 const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
