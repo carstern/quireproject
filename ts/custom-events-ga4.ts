@@ -194,3 +194,41 @@ window.onload = function () {
 //   Aleksei kod slutar här
 
 
+// Jason kod börjar här
+
+// funktion som spårar sökfunktionen
+function trackSearchWelcomeClick() {
+    // skickar event till GA4
+    (window as any).gtag('event', 'welcome_link_clicked', {
+        'event_category': 'User Interaction',
+        'event_label': 'Welcome Link Clicked'
+    });
+}
+
+// undersöker att g-tagen har laddats in innan våra spårningar börjar
+window.onload = function () {
+    // undersöker att g-tagen är tillgänglig
+    if (typeof (window as any).gtag === 'function') {
+        // definera/deklarera elementet att spåra
+        const welcomeOverlay = document.getElementById('welcome-link');
+        //om det finns - länka en eventListener
+        if (welcomeOverlay) {
+            welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
+        }
+    } else {
+        // om gtag inte hittas - letar den igen efter en delay
+        setTimeout(function () {
+            if (typeof (window as any).gtag === 'function') {
+                const welcomeOverlay = document.getElementById('welcome-link');
+                if (welcomeOverlay) {
+                    welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
+                }
+            }
+
+        }, 1000); // Adjust the delay time as needed
+    }
+};
+
+// Jason kod slutar här
+
+
