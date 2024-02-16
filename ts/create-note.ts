@@ -27,20 +27,6 @@ function createNewNote() {
     const uniqueId: number = today.getTime();
     
     //grundmallen skapas
-
-    const printBtn = document.getElementById('print-button') as HTMLButtonElement;
-
-    // Add event listener to the print button
-printBtn.addEventListener('click', () => {
-    printDocument();
-});
-
-// Function to print the document
-function printDocument() {
-    // Use window.print() to initiate the print dialog
-    window.print();
-    
-} 
     // createButtons(); //skapar knappar floating menu control
 if(document.getElementById('template') as HTMLDivElement){
     const template = document.getElementById('template') as HTMLDivElement

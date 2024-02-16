@@ -1,5 +1,10 @@
 
+const printBtn = document.getElementById('print-button') as HTMLButtonElement;
 
+// Add event listener to the print button
+printBtn.addEventListener('click', () => {
+printDocument();
+});
 
 
 // Define a function to handle the print action

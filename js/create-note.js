@@ -13,26 +13,11 @@ function createNewNote() {
     const formattedDate = formatDate(today);
     const uniqueId = today.getTime();
     //grundmallen skapas
-
-    const printBtn = document.getElementById('print-button') as HTMLButtonElement;
-
-    // Add event listener to the print button
-printBtn.addEventListener('click', () => {
-    printDocument();
-});
-
-// Function to print the document
-function printDocument() {
-    // Use window.print() to initiate the print dialog
-    window.print();
-    
-} 
     // createButtons(); //skapar knappar floating menu control
     if (document.getElementById('template')) {
         const template = document.getElementById('template');
         mainOutputContainer.removeChild(template);
     }
-  
     mainOutputContainer.innerHTML += `
         <div id="template">
             <input placeholder="Add your title" id="notesTitle">
@@ -66,9 +51,6 @@ function printDocument() {
         console.log('Script loaded successfully!');
     });
     loadScript('./js/add-image.js', () => {
-        console.log('Script loaded successfully!');
-    });
-    loadScript('./js/print.js', () => {
         console.log('Script loaded successfully!');
     });
     //skapar en tom note - visas i nav med getNotesFromLocalStorage();
@@ -184,7 +166,6 @@ function createNoteCard(note) {
                 const template = document.getElementById('template');
                 mainOutputContainer.removeChild(template);
             }
-
             mainOutputContainer.innerHTML += `
                 <div id="template"><input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
                 <p class="time-stamp"> Date created: ${clickedNote.date} <br> Last Edited: ${clickedNote.edit}</p>
@@ -230,13 +211,11 @@ function editMode(clickedNote, event) {
     const today = new Date();
     clickedNote.edit = formatDate(today);
     //skapar editMode-mall (med uppdaterad last edited)
-
     // createButtons();
     if (document.getElementById('template')) {
         const template = document.getElementById('template');
         mainOutputContainer.removeChild(template);
     }
-
     mainOutputContainer.innerHTML += `
         <div id="template"><input id="notesTitle" value="${clickedNote.title}">
         <p class="time-stamp"> Date created: ${clickedNote.date} <br> Last Edited: ${clickedNote.edit}</p>
