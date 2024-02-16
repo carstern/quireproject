@@ -41,7 +41,7 @@ function createNewNote() {
                     <button id="uploadBtn"><i class="fa-solid fa-images"></i></button>
                     <span id="fileName"></span>
                     <input type="file" id="fileInput" accept="image/*" style="display: none" />
-                    <button id="markdown-button">MD</button>
+                    <button id="markdown-button"><i class="fa-brands fa-markdown"></i></button>
                     <button id="toggle-toolbar">⇆</button>
                 </div>
             </div>
@@ -252,7 +252,7 @@ function editMode(clickedNote, event) {
         <button id="uploadBtn"><i class="fa-solid fa-images"></i></button>
         <span id="fileName"></span>
         <input type="file" id="fileInput" accept="image/*" style="display: none" />
-        <button id="markdown-button">MD</button>
+        <button id="markdown-button"><i class="fa-brands fa-markdown"></i></button>
         <button id="toggle-toolbar">⇆</button>
     </div>
     </div>
