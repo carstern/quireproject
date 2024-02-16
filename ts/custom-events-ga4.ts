@@ -117,7 +117,7 @@ window.onload = function (): void {
             favLink.addEventListener("click", favoriteClicked);
         }
         // Track creation of new notes
-        const createNote = document.querySelector("new-note-button");
+        const createNote = document.getElementById("new-note-button");
         if (createNote) {
             createNote.addEventListener("click", trackCreatedNotes);
             // Define element to track
