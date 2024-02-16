@@ -1,22 +1,19 @@
 "use strict";
 const favBtn = document.getElementById('fav-button');
 favBtn.addEventListener('click', function () {
-    // Find the main output container
     const mainOutputContainer = document.getElementById('main-output-container');
-    // Find the currently displayed note within the main output container
+    // hittar noten som visas i main
     const displayedNote = mainOutputContainer.querySelector('#template');
-    // Ensure a note is displayed
+    // säkerställer att det finns en note
     if (displayedNote) {
-        // Extract the ID of the displayed note
+        // hämtar dess id
         const displayNoteId = displayedNote.getAttribute('data-id');
         if (displayNoteId) {
-            // Convert the ID to a number
+            // konverterar till number
             const noteId = parseInt(displayNoteId, 10);
-            // Ensure the conversion is successful
+            // säkerställer att konverteringen fungerade
             if (!isNaN(noteId)) {
-                // Save the ID in the displayNoteId variable
-                // Here, you can perform any additional actions with the ID, such as adding the note to favorites
-                console.log('Display Note ID:', noteId);
+                //anropar rätt metod för att favoritmarkera
                 addNotesToFavourites(noteId);
             }
             else {
