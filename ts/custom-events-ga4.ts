@@ -80,7 +80,7 @@ window.onload = function (): void {
             });
         };
         // Function to track deletion of notes
-        const noteDeletion = (id: any) => {
+        const noteDeletion = (id: number) => {
             // Send event to Google Analytics
             (window as any).gtag("event", "note_deleted", {
                 "event_category": "User Interactions",
@@ -89,13 +89,18 @@ window.onload = function (): void {
             });
         };
         
-        
+        const deleteBtnTrack = document.querySelector('delete-button') as HTMLElement;
         // Function to handle note deletion event
-        document.addEventListener("noteDeleted", function(event) {
-            const id = (<any>event).detail.id;
-            // Call the tracking function
-            noteDeletion(id);
+        deleteBtnTrack.addEventListener("click", function(event) {
+            const id = deleteBtnTrack?.getAttribute('data-id');
+            if (id) {
+                // Call the tracking function
+                noteDeletion(Number(id));
+            } else {
+                console.error("No data-id attribute found on delete button.");
+            }
         });
+        
         // Track search button click
         const searchBtn = document.getElementById("search-link");
         if (searchBtn) {

@@ -88,11 +88,17 @@ window.onload = function () {
                 "value": id
             });
         };
+        const deleteBtnTrack = document.querySelector('delete-button');
         // Function to handle note deletion event
-        document.addEventListener("noteDeleted", function (event) {
-            const id = event.detail.id;
-            // Call the tracking function
-            noteDeletion(id);
+        deleteBtnTrack.addEventListener("click", function (event) {
+            const id = deleteBtnTrack === null || deleteBtnTrack === void 0 ? void 0 : deleteBtnTrack.getAttribute('data-id');
+            if (id) {
+                // Call the tracking function
+                noteDeletion(Number(id));
+            }
+            else {
+                console.error("No data-id attribute found on delete button.");
+            }
         });
         // Track search button click
         const searchBtn = document.getElementById("search-link");
