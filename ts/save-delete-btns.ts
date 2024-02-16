@@ -7,8 +7,22 @@ function addNotesToFavourites(id: number) {
         // Toggle isFavorite to the opposite value
         clickedNote.isFavorite = !clickedNote.isFavorite;
 
-        // sparar och uppdaterar array i localStorage
+        // Sparar och uppdaterar array i localStorage
         localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+
+        // Hämta star-button elementet med id
+        const button = document.querySelector(`.star-button[data-id="${id}"]`);
+
+        if (button) {
+            // Toggle button style based on isFavorite property
+            if (clickedNote.isFavorite) {
+                button.innerHTML= '<i class="fa-solid fa-star"></i>';
+            } else {
+                button.innerHTML= '<i class="fa-regular fa-star"></i>';
+            }
+        } else {
+            console.error('Button not found.');
+        }
     }
 }
 
@@ -59,13 +73,13 @@ function saveNotesToLocalStorage(notes: Note[]) {
     localStorage.setItem('savedNotes', JSON.stringify(notes));
 }
 
-function createButtons() {
-    mainOutputContainer.innerHTML = `
-        <button class="more-button" id="more-button">More</button>
-        <div class="floating-control-menu" id="floating-control-container">
-            <button class="new-note-button" id="new-note-button">New</button>
-            <button class="print-button" id="print-button">Print</button>
-            <button class="fav-button" id="fav-button">Star</button>
-        </div>`;
-}
+// function createButtons() {
+//     mainOutputContainer.innerHTML = `
+//         <button class="more-button" id="more-button">More</button>
+//         <div class="floating-control-menu" id="floating-control-container">
+//             <button class="new-note-button" id="new-note-button">New</button>
+//             <button class="print-button" id="print-button">Print</button>
+//             <button class="fav-button" id="fav-button">Star</button>
+//         </div>`;
+// }
 

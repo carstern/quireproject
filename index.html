@@ -17,10 +17,13 @@
     <title>Quire</title>
     <!-- meta data here -->
     <!-- google font links here -->
-    <!-- Här länkar vi vår css eva.css, jason.css....-->
-    <link rel="stylesheet" href="./css/create-note.css">
+    <!-- Font Awesome stylesheet -->
+    <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
+    <script src="https://kit.fontawesome.com/ad20af66a9.js" crossorigin="anonymous"></script>    <!-- Här länkar vi vår css eva.css, jason.css....-->
+    <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/welcome.css">
     <link rel="stylesheet" href="./css/toolbar.css">
+    <link rel="stylesheet" href="./css/floating-menu.css">
 </head>
 
 <body>
@@ -28,17 +31,17 @@
     <header class="nav-container" id="nav-container">
         <section>
             <!-- img = quire logo -->
-            <img src="" alt="quire-logo" id="quire-logo">
+            <img src="logo.png" alt="quire-logo" id="quire-logo">
         </section>
         <nav>
-            <a href="" class="nav-link" id="search-link">Search</a>
-            <a href="" class="nav-link" id="all-notes-link">All Notes</a>
-            <a href="" class="nav-link" id="fav-link">Stared</a>
-            <a href="" class="nav-link" id="statistics-link">Statistics</a>
-            <a href="" class="nav-link" id="templates-link">Templates</a>
-            <a href="" class="nav-link" id="setting-link">Settings</a>
-            <a href="" class="nav-link" id="welcome-link">Welcome</a>
+            <a href="#" class="nav-link" id="search-link"><i class="fas fa-search"> Search</i> </a>
+            <a href="#" class="nav-link" id="all-notes-link"><i class="fas fa-list"> all notes</i> </a>
+            <a href="#" class="nav-link" id="fav-link"><i class="fas fa-star"> Favorites</i></a>
+            <a href="#" class="nav-link" id="statistics-link"><i class="fas fa-chart-bar"> GA4</i> </a>
+            <a href="#" class="nav-link" id="welcome-link"><i class="fas fa-info-circle"> info</i> </a>
+
         </nav>
+        
     </header>
 
 
@@ -58,17 +61,23 @@
                 || ... i mobile view ==> statiska knappar tilll en början - sen swipe funktion
             </section> -->
         </div>
+        <button class="more-button" id="more-button"><i class="fa-solid fa-bars"></i></button>
+        <div class="floating-control-menu" id="floating-control-menu">
+            <i class="fa-solid fa-shapes"></i>
+            <button class="control-button new-note-button" id="new-note-button"><i class="fa-solid fa-plus"></i></button>
+            <button class="control-button print-button" id="print-button"><i class="fa-solid fa-print"></i></button>
+            <button class="control-button fav-button" id="fav-button"><i class="fa-solid fa-star"></i></button>
+        </div>
         <!-- section ist för div? - semantik -->
         <div class="main-output-container" id="main-output-container">
-            <button class="more-button" id="more-button">More</button>
             <!-- information hur amn änvänder sidan - visas först ==> ens senaste anteckning-->
             <!-- skapa-anteckning ==> en notepad med titel + text area? -->
             <!-- tool bar skapas dynamiskt? -->
-            <div class="floating-control-menu" id="floating-control-container">
-                <button class="new-note-button" id="new-note-button">New</button>
-                <button class="print-button" id="print-button">Print</button>
-                <button class="fav-button" id="fav-button">Star</button>
-            </div>
+            <!-- <div class="floating-control-menu" id="floating-control-container"> -->
+                <!-- <button class="control-button new-note-button" id="new-note-button">New</button>
+                <button class="control-button print-button" id="print-button">Print</button>
+                <button class="control-button fav-button" id="fav-button">Star</button> -->
+            <!-- </div> -->
             <!--  -->
         </div>
     </main>
@@ -81,6 +90,10 @@
     <script src="./js/filter-notes.js"></script>
     <script src="./js/show-all-notes.js"></script>
     <script src="./js/custom-events-ga4.js"></script>
+    <script src="./js/mobile-view.js"></script>
+    <script src="./js/floating-menu.js"></script>
+
+   
     <!-- <script src="./js/toolbar.js"></script> -->
     <!-- scripts here 
     eva.js, jumi.js, jason.js....-->
