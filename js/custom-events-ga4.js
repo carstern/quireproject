@@ -2,9 +2,9 @@
 // funktion som spårar sökfunktionen
 function trackSearchLinkClick() {
     // skickar event till GA4
-    window.gtag('event', 'search_link_clicked', {
-        'event_category': 'Navigation',
-        'event_label': 'Search Link Clicked'
+    window.gtag("event", "search_link_clicked", {
+        event_category: "Navigation",
+        event_label: "Search Link Clicked",
     });
 }
 /*** MALL FÖR FUNCTION
@@ -20,12 +20,12 @@ function trackSearchLinkClick() {
 // undersöker att g-tagen har laddats in innan våra spårningar börjar
 window.onload = function () {
     // undersöker att g-tagen är tillgänglig
-    if (typeof window.gtag === 'function') {
+    if (typeof window.gtag === "function") {
         // definera/deklarera elementet att spåra
-        const searchLink = document.getElementById('search-link');
+        const searchLink = document.getElementById("search-link");
         //om det finns - länka en eventListener
         if (searchLink) {
-            searchLink.addEventListener('click', trackSearchLinkClick);
+            searchLink.addEventListener("click", trackSearchLinkClick);
         }
         /******MALL FÖR CUSTOM EVENT******* */
         // if (typeof (window as any).gtag === 'function') {
@@ -38,10 +38,10 @@ window.onload = function () {
     else {
         // om gtag inte hittas - letar den igen efter en delay
         setTimeout(function () {
-            if (typeof window.gtag === 'function') {
-                const searchLink = document.getElementById('search-link');
+            if (typeof window.gtag === "function") {
+                const searchLink = document.getElementById("search-link");
                 if (searchLink) {
-                    searchLink.addEventListener('click', trackSearchLinkClick);
+                    searchLink.addEventListener("click", trackSearchLinkClick);
                 }
             }
             // if (typeof (window as any).gtag === 'function') {
@@ -53,8 +53,39 @@ window.onload = function () {
         }, 1000); // Adjust the delay time as needed
     }
 };
-
-
+//Linus Kod
+// funktion som spårar sökfunktionen
+function trackAllNotesClicked() {
+    // skickar event till GA4
+    window.gtag("event", "all_Notes_link_clicked", {
+        event_category: "Anteckningar",
+        event_label: "Se alla anteckningar",
+    });
+}
+// undersöker att g-tagen har laddats in innan våra spårningar börjar
+window.onload = function () {
+    // undersöker att g-tagen är tillgänglig
+    if (typeof window.gtag === "function") {
+        // definera/deklarera elementet att spåra
+        const allNotesLink = document.getElementById("all-notes-link");
+        //om det finns - länka en eventListener
+        if (allNotesLink) {
+            allNotesLink.addEventListener("click", trackAllNotesClicked);
+        }
+    }
+    else {
+        // om gtag inte hittas - letar den igen efter en delay
+        setTimeout(function () {
+            if (typeof window.gtag === "function") {
+                const allNotesLink = document.getElementById("all-notes-link");
+                if (allNotesLink) {
+                    allNotesLink.addEventListener("click", trackAllNotesClicked);
+                }
+            }
+        }, 1000); // Adjust the delay time as needed
+    }
+};
+// Linus kod slutar här
 // --- CAROLINE --- \\
 // function som spårar användning av knapp för att bifoga bilder
 function trackFileUpload() {
@@ -81,13 +112,11 @@ window.onload = function () {
                 const fileInput = document.getElementById('uploadBtn');
                 if (fileInput) {
                     fileInput.addEventListener('change', trackFileUpload);
-
                 }
             }
         }, 1000); // Adjust the delay time as needed
     }
 };
-
 // Funktion som tittar på hur länge en användare stannar i edit-mote (alltså hur lång tid man spenderar på att skriva sina notes)
 // Lagra starttiden och starta timer
 let editModeStartTime = null;
@@ -147,4 +176,9 @@ window.onload = function () {
                 const favBtn = document.getElementById("fav-link");
                 if (favBtn) {
                     favBtn.addEventListener("click", favoriteClicked);
-// Alekseis kod slut
+                }
+            }
+        }, 1000); // Adjust the delay time as needed
+    }
+};
+//   Aleksei kod slutar här
