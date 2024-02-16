@@ -1,9 +1,9 @@
 # The Quire project
 Published site
-(Welcome to Quire) [https://quireteammalmo.netlify.app/]
+[Welcome to Quire] - (https://quireteammalmo.netlify.app/)
 
 ## Scrum Board
-(Trello Board)[https://trello.com/invite/b/T7YcfXdJ/ATTI6de5c118d6400a1533ed1aef97190fe8AF28A138/quire-notebook-in-the-browser]
+[Trello Board] - (https://trello.com/invite/b/T7YcfXdJ/ATTI6de5c118d6400a1533ed1aef97190fe8AF28A138/quire-notebook-in-the-browser)
 
 ## Figma Layout
 (Figma layout)[https://www.figma.com/file/x2n0vfuIxpWrGGY26WgWON/Quire?type=design&node-id=37%3A1041&mode=design&t=15Y83JmQzb7mVD3J-1]
