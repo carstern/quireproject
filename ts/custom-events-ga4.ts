@@ -1,5 +1,5 @@
 // funktion som spårar sökfunktionen
-function trackSearchLinkClick() {
+function tracksearchBtnClick() {
     // skickar event till GA4
     (window as any).gtag("event", "search_link_clicked", {
       event_category: "Navigation",
@@ -96,44 +96,37 @@ function trackSearchLinkClick() {
   }
   
   // säkerställer att allt har laddats innan eventhandlers defineras
-  window.onload = function (): void {
-    //lyssnar till create new note
-    if (typeof (window as any).gtag === "function") {
-      const createNote = document.querySelector("new-note-button");
-      if (createNote) {
-        createNote.addEventListener("click", trackCreatedNotes);
+//   window.onload = function (): void {
+//     //lyssnar till create new note
+//     if (typeof (window as any).gtag === "function") {
+     
   
-      // undersöker att g-tagen är tillgänglig
-      if (typeof (window as any).gtag === 'function') {
-          // definera/deklarera elementet att spåra
-          const welcomeOverlay = document.getElementById('welcome-link');
-          //om det finns - länka en eventListener
-          if (welcomeOverlay) {
-              welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
-          }
-      } else {
-          // om gtag inte hittas - letar den igen efter en delay
-          setTimeout(function () {
-              if (typeof (window as any).gtag === 'function') {
-                  const welcomeOverlay = document.getElementById('welcome-link');
-                  if (welcomeOverlay) {
-                      welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
-                  }
-              }
+//       // undersöker att g-tagen är tillgänglig
+//       if (typeof (window as any).gtag === 'function') {
+          
+//       } else {
+//           // om gtag inte hittas - letar den igen efter en delay
+//           setTimeout(function () {
+//               if (typeof (window as any).gtag === 'function') {
+//                   const welcomeOverlay = document.getElementById('welcome-link');
+//                   if (welcomeOverlay) {
+//                       welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
+//                   }
+//               }
   
-          }, 1000); 
-      }
-    } else {
-      setTimeout(function () {
-        if (typeof (window as any).gtag === "function") {
-          const createNote = document.querySelector("new-note-button");
-          if (createNote) {
-            createNote.addEventListener("click", trackCreatedNotes);
-          }
-        }
-      }, 1000);
-    }
-  };
+//           }, 1000); 
+//       }
+//     } else {
+//       setTimeout(function () {
+//         if (typeof (window as any).gtag === "function") {
+//           const createNote = document.querySelector("new-note-button");
+//           if (createNote) {
+//             createNote.addEventListener("click", trackCreatedNotes);
+//           }
+//         }
+//       }, 1000);
+//     }
+//   };
   
   // //lyssnar till radera knappen
   document.addEventListener("noteDeleted", function(event) {
@@ -145,9 +138,9 @@ function trackSearchLinkClick() {
   }); 
   
   // //lyssnar till sökknappen
-  const searchLink = document.getElementById("search-link");
-  if (searchLink) {
-      searchLink.addEventListener("click", trackSearchLinkClick);
+  const searchBtn = document.getElementById("search-link");
+  if (searchBtn) {
+      searchBtn.addEventListener("click", tracksearchBtnClick);
   }
   
   // //lyssnar till all notes knappen
@@ -159,14 +152,25 @@ function trackSearchLinkClick() {
   // //lyssnar till bild knappen
   const fileInput = document.getElementById('uploadBtn');
   if (fileInput) {
-      fileInput.addEventListener('change', trackFileUpload);
+      fileInput.addEventListener('click', trackFileUpload);
   }
   
   // //lyssnar till fav-btn
-  const favBtn = document.getElementById("fav-link");
-  if (favBtn) {
-      favBtn.addEventListener("click", favoriteClicked);
+  const favLink = document.getElementById("fav-link");
+  if (favLink) {
+      favLink.addEventListener("click", favoriteClicked);
   }
+
+  const createNote = document.querySelector("new-note-button");
+  if (createNote) {
+    createNote.addEventListener("click", trackCreatedNotes);
+
+    // definera/deklarera elementet att spåra
+    const welcomeOverlay = document.getElementById('welcome-link');
+    //om det finns - länka en eventListener
+    if (welcomeOverlay) {
+        welcomeOverlay.addEventListener('click', trackSearchWelcomeClick);
+    }
   
   // Start edit mode timer
   const noteInputDiv = document.getElementById('noteInput');
