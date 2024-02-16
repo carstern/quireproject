@@ -16,8 +16,8 @@ Published site
 - Aleksei Nilsson 🏋️
 - Linus Fridberg 💃
 - Jason Lin 🎮
-- Abdirahman Mohamud 🌛
-- Moutasem Abou Arshid 🐦
+- Abdirahman Mohamud 🌛 - Not contributing/participaring
+- Moutasem Abou Arshid 🐦 - Not contributing/participaring (Meddelat att han är sjuk/ska opereras)
 
 
 --------
