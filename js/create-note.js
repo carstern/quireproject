@@ -3,36 +3,42 @@
 const mainOutputContainer = document.getElementById("main-output-container");
 const createNoteBtn = document.getElementById("new-note-button");
 //hämtar sparade notes när sidan laddas - visas i NavOutput
-window.addEventListener("load", getNotesFromLocalStorage);
-createNoteBtn.addEventListener("click", createNewNote); //får sin funktionalitet
+window.addEventListener('load', getNotesFromLocalStorage);
+document.addEventListener("DOMContentLoaded", () => {
+    createNoteBtn.addEventListener('click', createNewNote); //får sin funktionalitet
+});
 function createNewNote() {
     //hämtar datum för created och edit
     const today = new Date();
     const formattedDate = formatDate(today);
     const uniqueId = today.getTime();
     //grundmallen skapas
-    createButtons(); //skapar knappar floating menu control
+    // createButtons(); //skapar knappar floating menu control
+    if (document.getElementById('template')) {
+        const template = document.getElementById('template');
+        mainOutputContainer.removeChild(template);
+    }
     mainOutputContainer.innerHTML += `
-        <div>
+        <div id="template">
             <input placeholder="Add your title" id="notesTitle">
-            <p> Date created: ${formattedDate} | Last Edited: ${formattedDate} </p>
+            <p class="time-stamp"> Date created: ${formattedDate} <br> Last Edited: ${formattedDate} </p>
             <div class="contain-toolbar">
                 <div class="keep-height"></div>
                 <div class="toolbar" id="toolbar">
-                    <button id="bold">B</button>
-                    <button id="italic">I</button>
-                    <button id="underline">U</button>
-                    <button id="unordered-list">UL</button>
-                    <button id="ordered-list">OL</button>
+                    <button id="bold"><i class="fa-solid fa-bold"></i></button>
+                    <button id="italic"><i class="fa-solid fa-italic"></i></button>
+                    <button id="underline"><i class="fa-solid fa-underline"></i></button>
+                    <button id="unordered-list"><i class="fa-solid fa-list"></i></button>
+                    <button id="ordered-list"><i class="fa-solid fa-list-ol"></i></button>
                     <select id="header-choice">
-                        <option value="h1">H1</option>
-                        <option value="h2">H2</option>
-                        <option value="h3">H3</option>
-                        <option value="h4">H4</option>
-                        <option value="h5">H5</option>
-                        <option value="h6">H6</option>
+                        <option value="h1">32</option>
+                        <option value="h2">24</option>
+                        <option value="h3">21</option>
+                        <option value="h4">16</option>
+                        <option value="h5">13</option>
+                        <option value="h6">11</option>
                     </select>
-                    <button id="uploadBtn">Img</button>
+                    <button id="uploadBtn"><i class="fa-solid fa-images"></i></button>
                     <span id="fileName"></span>
                     <input type="file" id="fileInput" accept="image/*" style="display: none" />
                     <button id="markdown-button">MD</button>
@@ -54,6 +60,11 @@ function createNewNote() {
     loadScript("./js/add-image.js", () => {
         console.log("Script loaded successfully!");
     });
+    //get noten unikt id i the template - för att fav-btn ska hitta den
+    const templateDiv = document.getElementById('template');
+    if (templateDiv) {
+        templateDiv.setAttribute('data-id', uniqueId.toString());
+    }
     //skapar en tom note - visas i nav med getNotesFromLocalStorage();
     const savedNotes = getSavedNotes();
     savedNotes.push({
@@ -67,10 +78,10 @@ function createNewNote() {
     saveNotesToLocalStorage(savedNotes);
     getNotesFromLocalStorage();
     //dynamiskt skapade element hämtas
-    const noteDiv = document.getElementById("noteInput");
-    const titleInput = document.getElementById("notesTitle");
-    const createNoteBtn = document.getElementById("new-note-button");
-    createNoteBtn.addEventListener("click", createNewNote); //får sin funktionalitet
+    const noteDiv = document.getElementById('noteInput');
+    const titleInput = document.getElementById('notesTitle');
+    // const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
+    // createNoteBtn.addEventListener('click', createNewNote);//får sin funktionalitet
     //får eventListeners för dynamicSave();
     if (noteDiv && titleInput) {
         noteDiv.addEventListener("input", function () {
@@ -117,12 +128,18 @@ function createNoteCard(note) {
     const limitedNote = limitNoteLength(note.note);
     //kortet får innehåll - knapparna får unikt id
     card.innerHTML = `
-        <h3>${note.title}</h3>
+        <div class= card-content>
+        <h3>${note.title}</h3><br>
         <p>${limitedNote}</p> 
-        <button class="button star-button" data-id="${note.id}">⭐</button>
-        <button class="button delete-button" data-id="${note.id}">❌</button>`;
-    const starBtn = card.querySelector(".star-button");
-    const deleteBtn = card.querySelector(".delete-button");
+        </div>
+        <div class="button-div">
+        <button class="star-button ${note.isFavorite ? 'is-favorite' : ''}" data-id="${note.id}">
+        ${note.isFavorite ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'}
+        </button>
+        <button class="delete-button" data-id="${note.id}"><i class="fa-solid fa-x"></i></button>
+        </div>`;
+    const starBtn = card.querySelector('.star-button');
+    const deleteBtn = card.querySelector('.delete-button');
     //gör knapparna funktionella - anropar functions onclick baserat på id
     if (starBtn) {
         starBtn.addEventListener("click", function () {
@@ -135,8 +152,26 @@ function createNoteCard(note) {
         });
     }
     // varje kort som klickas visas i mainOutput
-    card.addEventListener("click", function () {
-        const existingViewNoteCard = document.getElementById("view-note-card");
+    card.addEventListener('click', function () {
+        if (document.getElementById('template')) {
+            const template = document.getElementById('template');
+            mainOutputContainer.removeChild(template);
+        }
+        //placera i if (window.innerWidth < 768) - mobilvy
+        if (window.innerWidth < 760) {
+            const navContainer = document.getElementById("nav-container");
+            navContainer === null || navContainer === void 0 ? void 0 : navContainer.classList.toggle("nav-container-show");
+            navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
+            const moreBtn = document.getElementById("more-button");
+        }
+        if (window.innerWidth > 760 && window.innerWidth < 1020) {
+            navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
+        }
+        if (document.getElementById('template')) {
+            const template = document.getElementById('template');
+            mainOutputContainer.removeChild(template);
+        }
+        const existingViewNoteCard = document.getElementById('view-note-card');
         // - tar bort befintligt kort som visas
         if (existingViewNoteCard) {
             mainOutputContainer.removeChild(existingViewNoteCard);
@@ -145,16 +180,22 @@ function createNoteCard(note) {
         const clickedNote = getSavedNotes().find((n) => n.id === note.id);
         if (clickedNote) {
             //Skapar vår vy för VIEW MODE
-            createButtons();
+            // createButtons();
+            if (document.getElementById('template')) {
+                const template = document.getElementById('template');
+                mainOutputContainer.removeChild(template);
+            }
             mainOutputContainer.innerHTML += `
-                <input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
-                <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
-              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
-            //hämtar element - ger funktionalitet
-            const createNoteBtn = document.getElementById("new-note-button");
-            createNoteBtn.addEventListener("click", createNewNote);
-            const noteDiv = document.getElementById("noteInput");
-            const titleInput = document.getElementById("notesTitle");
+                <div id="template"><input placeholder="Add your title" id="notesTitle" value="${clickedNote.title}">
+                <p class="time-stamp"> Date created: ${clickedNote.date} <br> Last Edited: ${clickedNote.edit}</p>
+              <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
+            //ger template notens id för att fav-btn ska hitta den
+            const templateDiv = document.getElementById('template');
+            if (templateDiv) {
+                templateDiv.setAttribute('data-id', note.id.toString());
+            }
+            const noteDiv = document.getElementById('noteInput');
+            const titleInput = document.getElementById('notesTitle');
             //Tooglar till EDIT MODE när inputs klickas
             if (noteDiv) {
                 noteDiv.addEventListener("click", function (event) {
@@ -185,42 +226,53 @@ function createNoteCard(note) {
     return card;
 }
 function editMode(clickedNote, event) {
+    // startar timer för spårning
+    startEditModeTimer();
     //hämtar nytt datum för last edited
     const today = new Date();
     clickedNote.edit = formatDate(today);
     //skapar editMode-mall (med uppdaterad last edited)
-    createButtons();
+    // createButtons();
+    if (document.getElementById('template')) {
+        const template = document.getElementById('template');
+        mainOutputContainer.removeChild(template);
+    }
     mainOutputContainer.innerHTML += `
-        <input id="notesTitle" value="${clickedNote.title}">
-        <p> Date created: ${clickedNote.date} | Last Edited: ${clickedNote.edit}</p>
+        <div id="template"><input id="notesTitle" value="${clickedNote.title}">
+        <p class="time-stamp"> Date created: ${clickedNote.date} <br> Last Edited: ${clickedNote.edit}</p>
         <div class="contain-toolbar">
         <div class="keep-height"></div>
         <div class="toolbar" id="toolbar">
-        <button id="bold">B</button>
-        <button id="italic">I</button>
-        <button id="underline">U</button>
-        <button id="unordered-list">UL</button>
-        <button id="ordered-list">OL</button>
+        <button id="bold"><i class="fa-solid fa-bold"></i></button>
+        <button id="italic"><i class="fa-solid fa-italic"></i></button>
+        <button id="underline"><i class="fa-solid fa-underline"></i></button>
+        <button id="unordered-list"><i class="fa-solid fa-list"></i></button>
+        <button id="ordered-list"><i class="fa-solid fa-list-ol"></i></button>
         <select id="header-choice">
-            <option value="h1">H1</option>
-            <option value="h2">H2</option>
-            <option value="h3">H3</option>
-            <option value="h4">H4</option>
-            <option value="h5">H5</option>
-            <option value="h6">H6</option>
+            <option value="h1">32</option>
+            <option value="h2">24</option>
+            <option value="h3">21</option>
+            <option value="h4">16</option>
+            <option value="h5">13</option>
+            <option value="h6">11</option>
         </select>
-        <button id="uploadBtn">Img</button>
+        <button id="uploadBtn"><i class="fa-solid fa-images"></i></button>
         <span id="fileName"></span>
         <input type="file" id="fileInput" accept="image/*" style="display: none" />
         <button id="markdown-button">MD</button>
         <button id="toggle-toolbar">⇆</button>
-        </div>
     </div>
-    <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div>`;
-    const createNoteBtn = document.getElementById("new-note-button");
-    const noteDiv = document.getElementById("noteInput");
-    const titleInput = document.getElementById("notesTitle");
-    createNoteBtn.addEventListener("click", createNewNote);
+    </div>
+    <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
+    //get noten unikt id i the template - för att fav-btn ska hitta den
+    const templateDiv = document.getElementById('template');
+    if (templateDiv) {
+        templateDiv.setAttribute('data-id', clickedNote.id.toString());
+    }
+    // const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
+    const noteDiv = document.getElementById('noteInput');
+    const titleInput = document.getElementById('notesTitle');
+    // createNoteBtn.addEventListener('click', createNewNote);
     //hämtar toolbar script
     loadScript("./js/toolbar.js", () => {
         console.log("Script loaded successfully!");
@@ -273,6 +325,8 @@ function editMode(clickedNote, event) {
             titleInput.setSelectionRange(length, length);
         }
     }
+    // Uppmärksamma klick utanför för spårningen
+    document.body.addEventListener('click', handleClickOutside);
 }
 //formaterar datum
 function formatDate(date) {

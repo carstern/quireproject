@@ -1,13 +1,33 @@
+/* Space Grotesk font  */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #A7D7FF; 
+  --light-color: #F5F5F5;
+  --darker-contrast-color: #375F80;
+  --dark-color: #333333;
+}
+
 /* Display flex and nowrap must stay because they are responsible 
 for making the toolbar keep its shape and not collapse when pushed
 towards the right edge of the screen, rest is styling */
 .toolbar {
   display: flex;
   flex-wrap: nowrap;
-  background-color: rgba(59, 59, 59, 0.879);
+  width: fit-content;
+  background-color:  var(--darker-contrast-color); ;
   padding: 3px 5px;
   border-radius: 3px;
-  gap: 1px;
+  gap: 5px;
+  color: var();
+}
+
+.toolbar i {
+  color: var(--primary-color);
+}
+
+#toggle-toolbar{
+  color: var(--primary-color);
 }
 
 /* This is a div that holds toolbar and the invisible keep-height 
@@ -25,9 +45,11 @@ of everything underneath */
 
 /* Pure styling*/
 .toolbar>button {
-  width: 30px;
+  width: auto;
   text-align: center;
-  padding: 0;
+  padding: 0 5px;
+  background-color: transparent;
+  border: none;
 }
 
 /* Necessary class used to check whether or not toolbar is docked or 
@@ -45,4 +67,8 @@ not. However any styling has no effect on the function */
 div[contenteditable="true"] ul,
 div[contenteditable="true"] ol {
   list-style-position: inside;
+}
+
+option {
+  font-family: 'Space Grotesk', sans-serif;
 }
