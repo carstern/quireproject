@@ -131,3 +131,4 @@ window.onload = function () {
         }
     }, 1000); // Increase timeout if needed
 };
+// Dessa gtag är gjorda av Aleksei, Linus, Jumi, Caroline, Eva, Jason, Mirza

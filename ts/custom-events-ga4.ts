@@ -79,7 +79,7 @@ window.onload = function (): void {
                 event_label: "New Note Clicked",
             });
         };
-        
+
         const googleAnalyticsClicked = () => {
             // Send event to Google Analytics
             (window as any).gtag('event', 'google_analytics_clicked', {
@@ -137,3 +137,5 @@ window.onload = function (): void {
          }
     }, 1000); // Increase timeout if needed
 };
+
+// Dessa gtag är gjorda av Aleksei, Linus, Jumi, Caroline, Eva, Jason, Mirza
