@@ -2,6 +2,7 @@
 // star-knappen filterar nav-outputs resultat efter favoriter
 const showFavoritesBtn = document.getElementById('fav-link');
 showFavoritesBtn.addEventListener('click', function (event) {
+    navOutputContainer === null || navOutputContainer === void 0 ? void 0 : navOutputContainer.classList.toggle("nav-output-container-show");
     event.preventDefault(); // förhindrar att sidan laddas om
     navOutputContainer.innerHTML = ''; // tömmer navoutput
     getFavoriteNotes();

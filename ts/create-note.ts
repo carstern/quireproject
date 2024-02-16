@@ -71,6 +71,12 @@ if(document.getElementById('template') as HTMLDivElement){
         console.log('Script loaded successfully!');
     });
 
+    //get noten unikt id i the template - för att fav-btn ska hitta den
+    const templateDiv = document.getElementById('template') as HTMLElement;
+    if (templateDiv){
+        templateDiv.setAttribute('data-id', uniqueId.toString());
+    }
+
     //skapar en tom note - visas i nav med getNotesFromLocalStorage();
     const savedNotes: Note[] = getSavedNotes();
     savedNotes.push({ title: '', note: '', date: formattedDate, edit: formattedDate, id: uniqueId, isFavorite: false });
@@ -209,9 +215,12 @@ function createNoteCard(note: Note): HTMLDivElement {
                 <p class="time-stamp"> Date created: ${clickedNote.date} <br> Last Edited: ${clickedNote.edit}</p>
               <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
 
-            //hämtar element - ger funktionalitet
-            // const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
-            // createNoteBtn.addEventListener('click', createNewNote);
+            //ger template notens id för att fav-btn ska hitta den
+            const templateDiv = document.getElementById('template') as HTMLElement;
+            if (templateDiv){
+                templateDiv.setAttribute('data-id', note.id.toString());
+            }
+
             const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
             const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
 
@@ -283,6 +292,12 @@ function createNoteCard(note: Note): HTMLDivElement {
     </div>
     <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false">${clickedNote.note}</div></div>`;
 
+    //get noten unikt id i the template - för att fav-btn ska hitta den
+    const templateDiv = document.getElementById('template') as HTMLElement;
+    if (templateDiv){
+        templateDiv.setAttribute('data-id', clickedNote.id.toString());
+    }
+    
     // const createNoteBtn = document.getElementById('new-note-button') as HTMLButtonElement;
     const noteDiv = document.getElementById('noteInput') as HTMLDivElement | null;
     const titleInput = document.getElementById('notesTitle') as HTMLInputElement | null;
