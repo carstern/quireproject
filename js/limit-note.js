@@ -1,6 +1,6 @@
 "use strict";
 function limitNoteLength(note) {
-    const maxLength = 30; // max. tecken som visas i kortet
+    const maxLength = 10; // max. tecken som visas i kortet
     // Check if the note length exceeds the maximum length
     if (note.length > maxLength) {
         // om den överstiger - visa maxLength + '...'
