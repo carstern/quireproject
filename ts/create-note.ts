@@ -63,22 +63,25 @@ if(document.getElementById('template') as HTMLDivElement){
             <div class="note-div" id="noteInput" contenteditable="true" spellcheck="false"></div>
         </div>`;
 
-    //hämtar script med funktionalitet för textredigering och bildhantering
-    loadScript('./js/toolbar.js', () => {
-        console.log('Script loaded successfully!');
-      });
+    //hämtar toolbar script
+  loadScript("./js/toolbar.js", () => {
+    console.log("Toolbar.js loaded successfully!");
+  });
 
-      loadScript("./js/markdown.js", () => {
-        console.log("Script loaded successfully!");
-      });
-    
-      loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
-        console.log("Script loaded successfully!");
-      });
+  loadScript(
+    "https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js",
+    () => {
+      console.log("Showdown loaded successfully!");
+    }
+  );
 
-    loadScript('./js/add-image.js', () => {
-        console.log('Script loaded successfully!');
-    });
+  loadScript("./js/markdown.js", () => {
+    console.log("Markdown.js loaded successfully!");
+  });
+
+  loadScript("./js/add-image.js", () => {
+    console.log("Add-image.js loaded successfully!");
+  });
 
     //get noten unikt id i the template - för att fav-btn ska hitta den
     const templateDiv = document.getElementById('template') as HTMLElement;
@@ -316,21 +319,24 @@ function createNoteCard(note: Note): HTMLDivElement {
     // createNoteBtn.addEventListener('click', createNewNote);
 
     //hämtar toolbar script
-    loadScript('./js/toolbar.js', () => {
-        console.log('Script loaded successfully!');
-    });
+  loadScript("./js/toolbar.js", () => {
+    console.log("Toolbar.js loaded successfully!");
+  });
 
-    loadScript("./js/markdown.js", () => {
-        console.log("Script loaded successfully!");
-      });
-    
-      loadScript("./node_modules/showdown/dist/showdown.min.js", () => {
-        console.log("Script loaded successfully!");
-      });
+  loadScript(
+    "https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js",
+    () => {
+      console.log("Showdown loaded successfully!");
+    }
+  );
 
-    loadScript('./js/add-image.js', () => {
-    console.log('Script loaded successfully!');
-    });
+  loadScript("./js/markdown.js", () => {
+    console.log("Markdown.js loaded successfully!");
+  });
+
+  loadScript("./js/add-image.js", () => {
+    console.log("Add-image.js loaded successfully!");
+  });
 
     // uppdaterar innehåll med dynamicSave();
     if (noteDiv && titleInput) {
